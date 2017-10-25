@@ -22,4 +22,4 @@ clear
 alias fucking=sudo
 
 # banner code
-cat ~/banners/current
+cat ~/banners/.current
