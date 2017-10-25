@@ -16,6 +16,7 @@ fi
 
 
 # Put your fun stuff here.
+clear
 
 # aliases
 alias fucking=sudo
