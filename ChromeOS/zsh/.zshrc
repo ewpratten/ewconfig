@@ -14,6 +14,10 @@ unsetopt beep
 bindkey -v
 # End of lines configured by zsh-newuser-install
 
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 # prompt stuff
 autoload -U colors && colors
 NEWLINE=$'\n'
