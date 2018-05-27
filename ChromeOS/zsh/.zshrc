@@ -14,8 +14,8 @@ unsetopt beep
 bindkey -v
 # End of lines configured by zsh-newuser-install
 
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
-echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+#git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+#echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # prompt stuff
@@ -42,17 +42,25 @@ vcs_info_wrapper() {
 export RPROMPT=$'%@ $(vcs_info_wrapper) %?'
 #other stuff
 
-clear
-screenfetch
+# clear
+# screenfetch
 
 #dont mess with this
 alias ls="ls --color=auto"
 
+alias pip="python3 -m pip"
+
 # aliases
+
+#pandoc
+alias docx="pandoc -s -o"
+
+alias school="cd /media/removable/SD\ Card/School"
+alias sdcard="cd /media/removable/SD\ Card/"
 alias ll="ls -l"
 alias la="ls -a"
 alias please='sudo $(history -p !!)'
-alias vi=vim
+# alias vi=vim
 alias :q="exit"
 alias :wq="exit"
 alias cls=clear
@@ -66,6 +74,14 @@ sci(){
         else
                 crew install $1
         fi
+}
+
+search(){
+	if [ $# != 1 ]; then
+		echo "please enter a name to search for"
+	else
+		ls | grep "$1"
+	fi
 }
 
 csearch(){
@@ -133,4 +149,12 @@ extract () {
    else
        echo "'$1' is not a valid file!"
    fi
- }
+}
+#cls
+#screenfetch
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /home/chronos/user/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+eval $(thefuck --alias)
+export PATH=/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/local/share/texlive/2017/bin/x86_64-linux
+export MANPATH=/usr/local/share/man:/usr/share/man:/usr/local/share/texlive/2017/bin/texmf-dist/doc/man
