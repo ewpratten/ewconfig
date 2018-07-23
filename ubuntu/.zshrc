@@ -1,97 +1,160 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# The following lines were added by compinstall
 
-# Path to your oh-my-zsh installation.
-  export ZSH=/home/evan/.oh-my-zsh
+zstyle ':completion:*' completer _complete _ignored
+zstyle :compinstall filename '/home/chronos/user/.zshrc'
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+unsetopt beep
+bindkey -v
+# End of lines configured by zsh-newuser-install
 
-# Set list of themes to load
-# Setting this variable when ZSH_THEME=random
-# cause zsh load theme from this variable instead of
-# looking in ~/.oh-my-zsh/themes/
-# An empty array have no effect
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+#git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+#echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+#source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+# prompt stuff
+autoload -U colors && colors
+NEWLINE=$'\n'
+export PROMPT="%{$fg[green]%}%n@%M %{$fg[cyan]%}%~ $ %{$reset_color%}"
+setopt prompt_subst
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' actionformats \
+    '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
+zstyle ':vcs_info:*' formats       \
+    '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
+zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+zstyle ':vcs_info:*' enable git cvs svn
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+# or use pre_cmd, see man zshcontrib
+vcs_info_wrapper() {
+  vcs_info
+  if [ -n "$vcs_info_msg_0_" ]; then
+    echo "%{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
+  fi
+}
+export RPROMPT=$'%@ $(vcs_info_wrapper) %?'
+#other stuff
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# clear
+# screenfetch
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+#dont mess with this
+alias ls="ls --color=auto"
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+alias pip="python3 -m pip"
 
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+# aliases
 
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+#pandoc
+alias docx="pandoc -s -o"
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+alias school="cd /media/removable/SD\ Card/School"
+alias sdcard="cd /media/removable/SD\ Card/"
+alias ll="ls -l"
+alias la="ls -a"
+alias please='sudo $(history -p !!)'
+# alias vi=vim
+alias :q="exit"
+alias :wq="exit"
+alias cls=clear
+alias zshreload="source ~/.zshrc"
+alias lip="ip addr | grep inet | grep wlan0"
+alias p4='ping 4.2.2.2 -c 4'
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
+sci(){
+	if [ $# != 1 ]; then
+                crew -h
+        else
+                crew install $1
+        fi
+}
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+search(){
+	if [ $# != 1 ]; then
+		echo "please enter a name to search for"
+	else
+		ls | grep "$1"
+	fi
+}
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  git
-)
+csearch(){
+	if [ $# != 1 ]; then
+                echo "Usage: csearch <search term>"
+        else
+        	crew search | grep -e "$1"
+        fi
+}
 
-source $ZSH/oh-my-zsh.sh
+mkcd() {
+        if [ $# != 1 ]; then
+                echo "Usage: mkcd <dir>"
+        else
+                mkdir -p $1 && cd $1
+        fi
+}
 
-# User configuration
+cl()
+{
+        last_dir="$(ls -Frt | grep '/$' | tail -n1)"
+        if [ -d "$last_dir" ]; then
+                cd "$last_dir"
+        fi
+}
 
-# export MANPATH="/usr/local/man:$MANPATH"
+sud() { # do sudo, or sudo the last command if no argument given
+    if [[ $# == 0 ]]; then
+        sudo $(history -p '!!')
+    else
+        sudo "$@"
+    fi
+}
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+up(){
+  local d=""
+  limit=$1
+  for ((i=1 ; i <= limit ; i++))
+    do
+      d=$d/..
+    done
+  d=$(echo $d | sed 's/^\///')
+  if [ -z "$d" ]; then
+    d=..
+  fi
+  cd $d
+}
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+extract () {
+   if [ -f $1 ] ; then
+       case $1 in
+           *.tar.bz2)   tar xvjf $1    ;;
+           *.tar.gz)    tar xvzf $1    ;;
+           *.bz2)       bunzip2 $1     ;;
+           *.rar)       unrar x $1       ;;
+           *.gz)        gunzip $1      ;;
+           *.tar)       tar xvf $1     ;;
+           *.tbz2)      tar xvjf $1    ;;
+           *.tgz)       tar xvzf $1    ;;
+           *.zip)       unzip $1       ;;
+           *.Z)         uncompress $1  ;;
+           *.7z)        7z x $1        ;;
+           *)           echo "don't know how to extract '$1'..." ;;
+       esac
+   else
+       echo "'$1' is not a valid file!"
+   fi
+}
+#cls
+#screenfetch
+#source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+#source /home/chronos/user/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# custom stuff
-screenfetch
+#eval $(thefuck --alias)
+#export PATH=/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/local/share/texlive/2017/bin/x86_64-linux
+#export MANPATH=/usr/local/share/man:/usr/share/man:/usr/local/share/texlive/2017/bin/texmf-dist/doc/man
