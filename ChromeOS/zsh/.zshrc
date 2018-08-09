@@ -16,7 +16,9 @@ bindkey -v
 
 #git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 #echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+alias gitpsswd="cat /media/removable/SD\ Card/gitpsswd"
 
 # prompt stuff
 autoload -U colors && colors
@@ -152,8 +154,8 @@ extract () {
 }
 #cls
 #screenfetch
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /home/chronos/user/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+#source /home/chronos/user/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval $(thefuck --alias)
 export PATH=/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/local/share/texlive/2017/bin/x86_64-linux
