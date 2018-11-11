@@ -160,3 +160,4 @@ extract () {
 eval $(thefuck --alias)
 export PATH=/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/local/share/texlive/2017/bin/x86_64-linux
 export MANPATH=/usr/local/share/man:/usr/share/man:/usr/local/share/texlive/2017/bin/texmf-dist/doc/man
+export MANPATH=/usr/local/man:$MANPATH
