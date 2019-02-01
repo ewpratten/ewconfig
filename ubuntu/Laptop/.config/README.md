@@ -6,3 +6,6 @@ My laptop is using the following programs:
  - compton
  - nitrogen
  - volumeicon-alsa
+
+backlight:
+ - https://www.reddit.com/r/i3wm/comments/ah2s78/tip_enable_keyboard_backlight_keys/
