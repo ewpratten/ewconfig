@@ -11,7 +11,6 @@ general {
 order += "load"
 order += "cpu_temperature 0"
 order += "disk /"
-order += "disk /home"
 order += "ethernet enp1s0"
 order += "wireless wlp2s0"
 order += "volume master"
@@ -20,10 +19,10 @@ order += "battery 1"
 order += "tztime local"
 
 battery 0 {
-        format = "%status %percentage %remaining"
+        format = "<span background='#9759ea'>%status %percentage %remaining</span>"
 }
 battery 1 {
-	format = "%status %percentage %remaining"
+	format = "<span background='#e45f9e'>%status %percentage %remaining</span>"
 }
 
 load {
