@@ -20,9 +20,21 @@ order += "tztime local"
 
 battery 0 {
         format = "<span background='#9759ea'>%status %percentage %remaining</span>"
+	format_down = "No battery"
+        status_chr = "⚡ CHR"
+        status_bat = "🔋 BAT"
+        status_unk = "? UNK"
+        status_full = "☻ FULL"
+        low_threshold = 10
 }
 battery 1 {
 	format = "<span background='#e45f9e'>%status %percentage %remaining</span>"
+	format_down = "No battery"
+        status_chr = "⚡ CHR"
+        status_bat = "🔋 BAT"
+        status_unk = "? UNK"
+        status_full = "☻ FULL"
+        low_threshold = 10
 }
 
 load {
