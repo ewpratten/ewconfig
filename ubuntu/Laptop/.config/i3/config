@@ -40,22 +40,26 @@ bindsym $mod+Shift+q kill
 
 # use rofi instead
 
-bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd"
+bindsym $mod+d exec rofi -show run
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
+# settings
+#byndsym $mod+Control+s exec env XDG_CURRENT_DESKTOP=GNOME gnome-control-center  
+
 exec --no-startup-id nitrogen --restore
 exec_always --no-startup-id compton -f
 exec --no-startup-id nm-applet
 exec --no-startup-id volumeicon
+exec --no-startup-id kdeconnect-indicator
 
 # gaps
 
-gaps outer 5
-gaps inner 10
+gaps outer 0
+gaps inner 5
 
 #smart_gaps on
 
@@ -76,11 +80,30 @@ bindsym $mod+Shift+a exec pavucontrol
 
 # window lock
 
-bindsym Control+Mod1+l exec i3lock-fancy
+bindsym $mod+Control+l exec gnome-screensaver-command -l
+
+# locker
+set $Locker i3lock -c 141414 && sleep 1
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id  systemctl poweroff -i, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+Delete mode "$mode_system"
 
 # Go to sleep
 
-bindsym Control+Mod1+s exec systemctl suspend
+bindsym $mod+Shift+s exec systemctl suspend
 
 # Screen Shots
 bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Pictures/'
@@ -164,6 +187,9 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
+# Auto-start programs
+exec --no-startup-id i3msg "1"; exec /usr/bin/firefox
+
 # switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
@@ -226,9 +252,6 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
 	colors {
-        background #2f343f
-        statusline #2f343f
-        separator #4b5262
 
 		# colour of border, background, and text
         focused_workspace	#2f343f	#bf616a	#d8dee8
