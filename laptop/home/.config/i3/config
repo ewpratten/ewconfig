@@ -11,6 +11,11 @@
 
 set $mod Mod4
 
+# Languages
+exec "setxkbmap -option 'grp:alt_shift_toggle' -layout us,jp -variant qwerty"
+exec gxkb
+# exec --no-startup-id fcitx -d
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 font pango:monospace 8
@@ -29,6 +34,15 @@ font pango:monospace 8
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# Create a scratchpad
+#exec gnome-terminal --title "scratch"
+#[title="scratch"] move scratchpad
+bindsym $mod+Shift+n mark "scratch", move scratchpad
+bindsym $mod+n [con_mark="scratch"] scratchpad show
+
+# Rick roll
+bindsym $mod+Control+r exec xdg-open /home/ewpratten/Music/rickroll.mp3
+
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
@@ -38,31 +52,44 @@ bindsym $mod+Shift+q kill
 # start dmenu (a program launcher)
 #bindsym $mod+d exec dmenu_run
 
+# Show custom launcher
+bindsym $mod+Shift+w exec sh /home/ewpratten/projects/menus/scripts/web.sh
+
+# Calculator
+bindsym $mod+c exec xsel -o | dmenu -p Calculate: | xargs echo | bc 2>&1 | dmenu -p Answer: | xsel -i
+
 # use rofi instead
 
 bindsym $mod+d exec rofi -show run
+bindsym $mod+Shift+d exec rofi -show drun
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
 
 # settings
 # byndsym $mod+Control+s exec env XDG_CURRENT_DESKTOP=GNOME gnome-control-center  
 
 exec --no-startup-id nitrogen --restore
-exec_always --no-startup-id compton -f
+#exec_always --no-startup-id compton -b --respect-prop-shadow
+#exec_always --no-startup-id $HOME/.config/compton/launch.sh
 exec --no-startup-id nm-applet
 exec --no-startup-id volumeicon
 exec --no-startup-id kdeconnect-indicator
 exec /home/ewpratten/bin/conk
+#exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# This allows the gnome password prompt. But requires: policykit-desktop-privileges policykit-1-gnome
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 
 # gaps
-
-gaps outer 0
+for_window [class=".*"] border pixel 0
+gaps outer 5
 gaps inner 5
 
-#smart_gaps on
+
+# smart_gaps on
 
 # windows style workspace switcher
 
@@ -90,9 +117,9 @@ bindsym $mod+Shift+a exec pavucontrol
 bindsym $mod+Control+l exec gnome-screensaver-command -l
 
 # locker
-set $Locker i3lock -c 141414 && sleep 1
+set $Locker i3lock -c 141414 -e -f -i /home/ewpratten/Pictures/lockscreen.png && sleep 1
 
-set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown, (b) fix mouse
 mode "$mode_system" {
     bindsym l exec --no-startup-id $Locker, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
@@ -100,6 +127,7 @@ mode "$mode_system" {
     bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
     bindsym Shift+s exec --no-startup-id  systemctl poweroff -i, mode "default"
+    bindsym b exec --no-startup-id sudo modprobe -r psmouse && sudo modprobe psmouse, mode "default"
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
@@ -107,6 +135,20 @@ mode "$mode_system" {
 }
 
 bindsym $mod+Delete mode "$mode_system"
+
+set $mode_monitor Move current workspace with VIM keys
+mode "$mode_monitor" {
+	bindsym h move workspace to output left
+	bindsym l move workspace to output right
+	bindsym j move workspace to output up
+	bindsym k move workspace to output down
+	
+	bindsym Return mode "default"
+    bindsym Escape mode "default"
+
+}
+
+bindsym $mod+m mode "$mode_monitor"
 
 # Go to sleep
 
@@ -265,6 +307,8 @@ bar {
         active_workspace	#2f343f	#2f343f	#d8dee8
         inactive_workspace	#2f343f	#2f343f	#d8dee8
         urgent_workspace	#2f343f	#ebcb8b	#2f343f
+    	
+	background #002b36
     }
         status_command i3status
 	position top
