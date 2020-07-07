@@ -66,6 +66,11 @@ plugins=(zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
+alias i3cheatsheet='egrep ^bind ~/.config/i3/config | cut -d '\'' '\'' -f 2- | sed '\''s/ /\t/'\'' | column -ts $'\''\t'\'' | pr -2 -w 145 -t | less'
+
+# Load Z
+. ~/bin/z.sh
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -91,11 +96,16 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+
+fancyLocationString(){
+    echo "<$(echo $(printf "\\\\$(printf "u001b[3$(($(echo $((16#$(hostname | md5sum | cut -c -2)))) % 10))")m")$(if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then echo "R"; else echo "L"; fi))\u001b[0m>"
+}
 
 # Prompt config
 autoload -U colors && colors
 NEWLINE=$'\n'
-export PROMPT="%{$fg[green]%}%n@%M %{$fg[cyan]%}%~ $ %{$reset_color%}"
+export PROMPT="%{$fg[green]%}%n@%M $(fancyLocationString) %{$fg[cyan]%}%~ $ %{$reset_color%}"
 setopt prompt_subst
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' actionformats \
@@ -126,6 +136,9 @@ alias cls=clear
 alias zshreload="source ~/.zshrc"
 alias lip="ip addr | grep inet | grep wlan0"
 alias p4='ping 4.2.2.2 -c 4'
+alias ubenv='docker run -it ubuntu'
+alias fixmouse='sudo modprobe -r psmouse && sudo modprobe psmouse && xinput --set-prop "SynPS/2 Synaptics TouchPad" 287 0' # Fixes mouse issues
+alias quickhttp='sudo python -m SimpleHTTPServer 443'
 
 mkcd() {
         if [ $# != 1 ]; then
@@ -156,10 +169,14 @@ extract () {
    fi
 }
 
+pydo () {
+	python3 -c "print($1)"
+}
+
 export LD_LIBRARY="$LD_LIBRARY:/home/ewpratten/lib"
 # source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-export PATH="$PATH:/home/ewpratten/development/flutter/bin:/home/ewpratten/development/binalias:/home/ewpratten/bin:/home/ewpratten/bin/go/bin:/usr/lib/dart/bin"
+export PATH="$PATH:/home/ewpratten/development/flutter/bin:/home/ewpratten/development/binalias:/home/ewpratten/bin:/home/ewpratten/bin/go/bin:/usr/lib/dart/bin:/home/ewpratten/.local/kitty.app/bin:/home/ewpratten/node/bin"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/ewpratten/.sdkman"
