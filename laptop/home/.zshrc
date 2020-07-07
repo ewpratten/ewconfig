@@ -105,7 +105,7 @@ fancyLocationString(){
 # Prompt config
 autoload -U colors && colors
 NEWLINE=$'\n'
-export PROMPT="%{$fg[green]%}%n@%M $(fancyLocationString) %{$fg[cyan]%}%~ $ %{$reset_color%}"
+export PROMPT="%{$fg[green]%}%n@%M %{$fg[cyan]%}%~ $ %{$reset_color%}"
 setopt prompt_subst
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' actionformats \
