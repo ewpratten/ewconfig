@@ -1,0 +1,13 @@
+#! /bin/bash
+# Opens a local port that redirects to a remote server
+
+if [ "$#" -lt 2 ]; then
+    echo "Usage: $0 <remote_host> <remote_port> [local_port]"
+    exit 1
+fi
+REMOTE_HOST=$1
+REMOTE_PORT=$2
+LOCAL_PORT=${3:-$REMOTE_PORT}
+
+echo "Forwarding connections for 0.0.0.0:$LOCAL_PORT to $1:$2"
+socat tcp-listen:$3,reuseaddr,fork tcp:$1:$2
