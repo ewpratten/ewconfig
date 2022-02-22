@@ -5,6 +5,7 @@ export EWCONFIG_ROOT="$HOME/.config/ewconfig"
 # Load my custom prompt and macros
 . $EWCONFIG_ROOT/configs/zsh/prompt.sh
 . $EWCONFIG_ROOT/configs/zsh/macros.sh
+. $EWCONFIG_ROOT/configs/zsh/keybinds.sh
 
 # Load per-host configuration
 if [ -f $EWCONFIG_ROOT/configs/zsh/by_host/$HOSTNAME.sh ]; then
