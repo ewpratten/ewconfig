@@ -10,3 +10,6 @@ export EWCONFIG_ROOT="$HOME/.config/ewconfig"
 if [ -f $EWCONFIG_ROOT/configs/zsh/by_host/$HOSTNAME.sh ]; then
   . $EWCONFIG_ROOT/configs/zsh/by_host/$HOSTNAME.sh
 fi
+
+# I always want my ~/bin to be in my PATH
+export PATH="$HOME/bin:$PATH"
