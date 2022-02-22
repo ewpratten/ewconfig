@@ -1,0 +1,70 @@
+
+# Personal servers
+Host rtl-netlink
+	HostName netlink.local
+	User pi
+
+Host rtl-compute
+	Hostname compute.local
+	User pi
+
+Host gw-ca-tor-01
+    Hostname gw-ca-tor-01.servers.retrylife.ca
+
+Host hp-desktop
+    Hostname 10.9.0.12
+
+# Github SSH adapter for restricted networks
+Host github.com
+	HostName ssh.github.com
+	Port 443
+
+Host gist.github.com
+	HostName ssh.github.com
+	Port 443
+
+# IndustrialBrothers Internal network
+Host ib-*
+    Hostname %h.industrialbrothers.com
+	IdentityFile ~/.ssh/industrialbrothers_id_ed25519
+    RequestTTY force
+    User epratten
+
+Host *.industrialbrothers.com
+	IdentityFile ~/.ssh/industrialbrothers_id_ed25519
+	
+Host ib-8700k-125
+	RemoteCommand powershell "& 'C:\Program Files\Git\bin\sh.exe' --login"
+Host ib-8700k-139
+    RemoteCommand powershell "& 'C:\Program Files\Git\bin\sh.exe' --login"
+
+Host ib-rfcpu-002-lnx
+	User evan
+
+Host ib-rfcpu-001-lnx
+	User epratten
+
+# Default hostnames I may encounter in the wild
+Host openrepeater.local
+	HostName openrepeater.local
+	User root
+	StrictHostKeyChecking no
+
+Host raspberrypi.local
+	StrictHostKeyChecking no
+	User pi
+
+# Raider Robotics
+Host 10.50.24.2
+	StrictHostKeyChecking no
+	User admin
+
+# Sheridan
+Host atlas
+    User prattene
+    RequestTTY yes
+    RemoteCommand ~/.local/bin/zsh --login
+
+Host sheridan-cpanel
+    User prattene
+    HostName cpanel.prattene.dev.fast.sheridanc.on.ca
