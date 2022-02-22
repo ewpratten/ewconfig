@@ -1,5 +1,6 @@
 # This is some kind of dark magic.
 # I have no memory of whats going on here, but this has been my config since 2015-ish, so it shall not be touched.
+# This was origionally written for crosh, so that may be part of the problem...
 
 autoload -U colors && colors
 NEWLINE=$'\n'

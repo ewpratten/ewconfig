@@ -9,6 +9,8 @@
     ~/.zshrc: 
       path: configs/zsh/.zshrc
       force: true
+    ~/.config/tabset/: 
+      path: configs/tabset/**
 
 - create:
     - ~/Downloads
