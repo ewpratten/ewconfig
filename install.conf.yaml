@@ -6,6 +6,7 @@
 
 - link:
     ~/.gitconfig: configs/git/.gitconfig
+    ~/.zshrc: configs/zsh/.zshrc
 
 - create:
     - ~/Downloads
