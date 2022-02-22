@@ -6,9 +6,6 @@
 
 - link:
     ~/.gitconfig: configs/git/.gitconfig
-    ~/.ssh/config: 
-      path: configs/ssh/config
-      force: true
 
 - create:
     - ~/Downloads
