@@ -1,5 +1,5 @@
 [remmina]
-password=.
+password=
 gateway_username=
 window_height=525
 ssh_tunnel_loopback=0

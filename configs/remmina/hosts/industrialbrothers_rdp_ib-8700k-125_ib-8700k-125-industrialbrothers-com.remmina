@@ -1,5 +1,5 @@
 [remmina]
-password=.
+password=
 gateway_username=
 ssh_tunnel_loopback=0
 serialname=
@@ -52,7 +52,7 @@ sharesmartcard=0
 ssh_tunnel_username=
 resolution_height=0
 useproxyenv=0
-microphone=0
+microphone=
 gwtransp=http
 ssh_tunnel_privatekey=
 ssh_tunnel_server=
