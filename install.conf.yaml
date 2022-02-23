@@ -10,6 +10,7 @@
       path: configs/zsh/.zshrc
       force: true
     ~/.config/tabset: configs/tabset
+    ~/.local/share/remmina: configs/remmina/hosts
 
 - create:
     - ~/Downloads
