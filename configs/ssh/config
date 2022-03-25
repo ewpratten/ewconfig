@@ -1,4 +1,3 @@
-
 # Personal servers
 Host rtl-netlink
 	HostName netlink.local
@@ -13,6 +12,14 @@ Host gw-ca-tor-01
 
 Host hp-desktop
     Hostname 10.9.0.12
+
+Host ewpratten-laptop
+	Hostname 10.9.0.2
+	User ewpratten
+
+Host ewpratten-desktop
+	Hostname 10.9.0.9
+	User ewpratten
 
 # Github SSH adapter for restricted networks
 Host github.com
@@ -68,3 +75,4 @@ Host atlas
 Host sheridan-cpanel
     User prattene
     HostName cpanel.prattene.dev.fast.sheridanc.on.ca
+
