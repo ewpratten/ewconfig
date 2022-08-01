@@ -21,3 +21,6 @@ bindkey "\e[3@" kill-line
 # Home and end
 bindkey  "^[[H"   beginning-of-line
 bindkey  "^[[F"   end-of-line
+
+# Delete
+bindkey  "^[[3~"  delete-char
