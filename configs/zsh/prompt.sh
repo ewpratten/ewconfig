@@ -4,7 +4,15 @@
 
 autoload -U colors && colors
 NEWLINE=$'\n'
-export PROMPT="%{$fg[green]%}%n@%M %{$fg[cyan]%}%~ $ %{$reset_color%}"
+
+# Use colors to signal local vs remote connections
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    HOST_COLOR="yellow"
+else
+    HOST_COLOR="green"
+fi
+
+export PROMPT="%{$fg[$HOST_COLOR]%}%n@%M %{$fg[cyan]%}%~ $ %{$reset_color%}"
 setopt prompt_subst
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' actionformats \
