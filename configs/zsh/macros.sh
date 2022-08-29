@@ -8,6 +8,11 @@ alias p4='ping 8.8.8.8 -c 4'
 alias quickhttp='sudo python -m SimpleHTTPServer 443'
 alias zshreload="source ~/.zshrc"
 
+# Kill via pgrep
+nkill() {
+    kill -9 $(pgrep $1) 
+}
+
 # Makes a directory, then moves into it
 mkcd() {
     if [ $# != 1 ]; then
