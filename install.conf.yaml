@@ -4,6 +4,12 @@
 
 - clean: ['~']
 
+- create:
+    - ~/Downloads
+    - ~/bin
+    - ~/projects
+    - ~/src
+
 - link:
     ~/.gitconfig: configs/git/.gitconfig
     ~/.zshrc: 
@@ -12,12 +18,10 @@
     ~/.config/tabset: configs/tabset
     ~/.local/share/remmina: configs/remmina/hosts
     ~/.config/nvim: configs/nvim
-
-- create:
-    - ~/Downloads
-    - ~/bin
-    - ~/projects
-    - ~/src
+    ~/bin/catto:
+      path: configs/scripts/catto
+      mode: 755
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
+  - [chmod +x configs/scripts/catto, Making catto executable]
