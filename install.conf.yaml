@@ -16,7 +16,7 @@
       path: configs/zsh/.zshrc
       force: true
     ~/.config/tabset: configs/tabset
-    ~/.local/share/remmina: configs/remmina/hosts
+    # ~/.local/share/remmina: configs/remmina/hosts
     ~/.config/nvim: configs/nvim
     ~/bin/catto:
       path: configs/scripts/catto
