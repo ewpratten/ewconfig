@@ -28,7 +28,7 @@ def main() -> int:
         print("File not found", file=sys.stderr)
         return 1
 
-    # Compres the image to a temporary file
+    # Compress the image to a temporary file
     with tempfile.NamedTemporaryFile(suffix=image_path.suffix) as temp:
         # Compress
         if not args.no_compress:

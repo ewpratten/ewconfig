@@ -7,6 +7,7 @@ alias cls=clear
 alias p4='ping 8.8.8.8 -c 4'
 alias quickhttp='sudo python -m SimpleHTTPServer 443'
 alias zshreload="source ~/.zshrc"
+alias wg-easykeys="wg genkey | tee >(wg pubkey)"
 
 # Kill via pgrep
 nkill() {
@@ -20,6 +21,13 @@ mkcd() {
     else
         mkdir -p $1 && cd $1
     fi
+}
+
+# Sources a .env
+source_env() {
+  env=${1:-.env}
+  [ ! -f "${env}" ] && { echo "Env file ${env} doesn't exist"; return 1; }
+  eval $(sed -e '/^\s*$/d' -e '/^\s*#/d' -e 's/=/="/' -e 's/$/"/' -e 's/^/export /' "${env}")
 }
 
 # Auto-extract anything
