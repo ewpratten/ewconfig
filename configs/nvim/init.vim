@@ -20,6 +20,9 @@ vnoremap <S-Tab> <gv
 " VSCode-style shift-arrow for selection
 set keymodel=startsel,stopsel
 
+" VSCode-style word deletion
+imap <C-BS> <C-W>
+
 " Force VIM to use system clipboard
 set clipboard=unnamedplus
 
