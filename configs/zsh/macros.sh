@@ -8,6 +8,28 @@ alias p4='ping 8.8.8.8 -c 4'
 alias quickhttp='sudo python -m SimpleHTTPServer 443'
 alias zshreload="source ~/.zshrc"
 alias wg-easykeys="wg genkey | tee >(wg pubkey)"
+alias nvim-tmp="nvim $(mktemp)"
+
+# WHOIS macros
+alias whois-afrinic="whois -h whois.afrinic.net"
+alias whois-altdb="whois -h whois.altdb.net"
+alias whois-aoltw="whois -h whois.aoltw.net"
+alias whois-ampr="whois -h whois.ampr.org"
+alias whois-apnic="whois -h whois.apnic.net"
+alias whois-arin="whois -h rr.arin.net"
+alias whois-bell="whois -h whois.in.bell.ca"
+alias whois-bboi="whois -h irr.bboi.net"
+alias whois-bgptools="whois -h bgp.tools"
+alias whois-canarie="whois -h whois.canarie.ca"
+alias whois-epoch="whois -h whois.epoch.net"
+alias whois-jpirr="whois -h jpirr.nic.ad.jp"
+alias whois-lacnic="whois -h irr.lacnic.net"
+alias whois-level3="whois -h rr.level3.net"
+alias whois-nestegg="whois -h whois.nestegg.net"
+alias whois-panix="whois -h rrdb.access.net"
+alias whois-radb="whois -h whois.radb.net"
+alias whois-reach="whois -h rr.telstraglobal.net"
+alias whois-ripe="whois -h whois.ripe.net"
 
 # Kill via pgrep
 nkill() {
