@@ -4,11 +4,10 @@ alias la="ls -a"
 alias :q="exit"
 alias :wq="exit"
 alias cls=clear
-alias p4='ping 8.8.8.8 -c 4'
-alias quickhttp='sudo python -m SimpleHTTPServer 443'
 alias zshreload="source ~/.zshrc"
 alias wg-easykeys="wg genkey | tee >(wg pubkey)"
 alias nvim-tmp="nvim $(mktemp)"
+alias flush-dns="sudo systemd-resolve --flush-caches"
 
 # WHOIS macros
 alias whois-afrinic="whois -h whois.afrinic.net"
@@ -33,7 +32,11 @@ alias whois-ripe="whois -h whois.ripe.net"
 
 # Kill via pgrep
 nkill() {
-    kill -9 $(pgrep $1) 
+    if [ $# != 1 ]; then
+        echo "Usage: nkill <name>"
+    else
+        kill -9 $(pgrep $1) 
+    fi
 }
 
 # Makes a directory, then moves into it
