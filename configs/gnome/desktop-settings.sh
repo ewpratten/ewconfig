@@ -12,6 +12,19 @@ fi
 gsettings set org.gnome.desktop.interface gtk-enable-primary-paste true # Middle click paste
 gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing false # Allow touchpad while typing
 gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false # Disable natural scrolling on touchpad
+gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true # Enable tap-to-click on touchpad
+gsettings set org.gnome.desktop.interface show-battery-percentage true # Show battery percentage
+
+# Disable application switching with Super+num keyy
+gsettings set org.gnome.shell.keybindings switch-to-application-1 "[]"
+gsettings set org.gnome.shell.keybindings switch-to-application-2 "[]"
+gsettings set org.gnome.shell.keybindings switch-to-application-3 "[]"
+gsettings set org.gnome.shell.keybindings switch-to-application-4 "[]"
+gsettings set org.gnome.shell.keybindings switch-to-application-5 "[]"
+gsettings set org.gnome.shell.keybindings switch-to-application-6 "[]"
+gsettings set org.gnome.shell.keybindings switch-to-application-7 "[]"
+gsettings set org.gnome.shell.keybindings switch-to-application-8 "[]"
+gsettings set org.gnome.shell.keybindings switch-to-application-9 "[]"
 
 # Keyboard settings
 gsettings set org.gnome.desktop.wm.keybindings close "['<Super><Shift>q']" # Close windows with Mod+Shift+q
