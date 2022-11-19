@@ -29,3 +29,4 @@
   - [git submodule update --init --recursive, Installing submodules]
   - [chmod +x configs/scripts/catto, Making catto executable]
   - [chmod +x configs/scripts/aspath, Making aspath executable]
+  - [sh ./helpers/configure-gnome.sh, Configuring GNOME]

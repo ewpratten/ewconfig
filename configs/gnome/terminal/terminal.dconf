@@ -1,0 +1,7 @@
+[legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+custom-command='/usr/bin/zsh'
+default-size-columns=100
+default-size-rows=40
+login-shell=true
+use-custom-command=true
+visible-name='Default'
