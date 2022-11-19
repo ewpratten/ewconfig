@@ -39,7 +39,7 @@ gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-4 "['<Super>4
 
 # Allow Mod+Enter to open a terminal
 keybindings=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings)
-if [ "$keybindings" = "[]" || "$keybindings" = "@as []" ]; then
+if [ "$keybindings" = "[]" ] || [ "$keybindings" = "@as []" ]; then
     gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
     gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name "Terminal"
     gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "gnome-terminal"
