@@ -8,6 +8,7 @@ alias zshreload="source ~/.zshrc"
 alias wg-easykeys="wg genkey | tee >(wg pubkey)"
 alias nvim-tmp="nvim $(mktemp)"
 alias flush-dns="sudo systemd-resolve --flush-caches"
+alias showsizes="du -h --max-depth=1"
 
 # WHOIS macros
 alias whois-afrinic="whois -h whois.afrinic.net"
