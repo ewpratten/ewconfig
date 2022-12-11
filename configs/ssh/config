@@ -81,3 +81,8 @@ Host *.sdf.org
     user ewpratten
     PreferredAuthentications password
     PubkeyAuthentication no
+
+Host sdf.org
+    user ewpratten
+    PreferredAuthentications password
+    PubkeyAuthentication no
