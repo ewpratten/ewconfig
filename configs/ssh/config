@@ -1,26 +1,3 @@
-# Personal servers
-Host rtl-netlink
-	HostName netlink.local
-	User pi
-
-Host rtl-compute
-	Hostname compute.local
-	User pi
-
-Host gw-ca-tor-01
-    Hostname gw-ca-tor-01.servers.retrylife.ca
-
-Host hp-desktop
-    Hostname 10.9.0.12
-
-Host ewpratten-laptop
-	Hostname 10.9.0.2
-	User ewpratten
-
-Host ewpratten-desktop
-	Hostname 10.9.0.9
-	User ewpratten
-
 # Github SSH adapter for restricted networks
 Host github.com
 	HostName ssh.github.com
@@ -28,9 +5,26 @@ Host github.com
 
 Host gist.github.com
 	HostName ssh.github.com
-	Port 443
+    Port 443
 
-# IndustrialBrothers Internal network
+# Home network
+Host unifi 
+    HostName Dream-Machine-Pro.local
+	User root
+	PubkeyAcceptedKeyTypes +ssh-rsa
+    HostKeyAlgorithms +ssh-rsa
+
+Host ewpratten-steamdeck
+    HostName ewpratten-steamdeck.local
+    User deck
+    ForwardX11 yes
+
+Host mc.homieho.me
+    User root
+    PreferredAuthentications password
+    PubkeyAuthentication no
+
+# IndustrialBrothers domain
 Host ib-*
     Hostname %h.industrialbrothers.com
 	IdentityFile ~/.ssh/industrialbrothers_id_ed25519
@@ -38,7 +32,8 @@ Host ib-*
     User epratten
 
 Host *.industrialbrothers.com
-	IdentityFile ~/.ssh/industrialbrothers_id_ed25519
+    IdentityFile ~/.ssh/industrialbrothers_id_ed25519
+    User epratten
 	
 Host ib-8700k-125
 	RemoteCommand powershell "& 'C:\Program Files\Git\bin\sh.exe' --login"
@@ -47,9 +42,6 @@ Host ib-8700k-139
 
 Host ib-rfcpu-002-lnx
 	User evan
-
-Host ib-rfcpu-001-lnx
-	User epratten
 
 # Default hostnames I may encounter in the wild
 Host openrepeater.local
@@ -75,4 +67,17 @@ Host atlas
 Host sheridan-cpanel
     User prattene
     HostName cpanel.prattene.dev.fast.sheridanc.on.ca
+    PubkeyAcceptedKeyTypes +ssh-rsa
+    HostKeyAlgorithms=+ssh-rsa
 
+# NLNOG
+Host *.ring.nlnog.net
+    User ewpratten
+    IdentitiesOnly yes
+    #IdentityFile ~/.ssh/id_ed25519_sk_rk.pub
+
+# SDF.org
+Host *.sdf.org
+    user ewpratten
+    PreferredAuthentications password
+    PubkeyAuthentication no
