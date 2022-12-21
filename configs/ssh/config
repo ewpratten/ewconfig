@@ -9,10 +9,10 @@ Host gist.github.com
 
 # Home network
 Host unifi 
-    HostName Dream-Machine-Pro.local
-	User root
-	PubkeyAcceptedKeyTypes +ssh-rsa
-    HostKeyAlgorithms +ssh-rsa
+    HostName DreamMachinePro.local
+    User root
+    PreferredAuthentications password
+    PubkeyAuthentication no
 
 Host ewpratten-steamdeck
     HostName ewpratten-steamdeck.local
