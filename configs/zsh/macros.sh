@@ -32,6 +32,10 @@ alias whois-radb="whois -h whois.radb.net"
 alias whois-reach="whois -h rr.telstraglobal.net"
 alias whois-ripe="whois -h whois.ripe.net"
 
+# Neo-aliases
+if [ -x "$(command -v nvim)" ]; then alias vim="nvim"; fi
+if [ -x "$(command -v neomutt)" ]; then alias mutt="neomutt"; fi
+
 # Kill via pgrep
 nkill() {
     if [ $# != 1 ]; then
