@@ -9,6 +9,7 @@ alias wg-easykeys="wg genkey | tee >(wg pubkey)"
 alias nvim-tmp="nvim $(mktemp)"
 alias flush-dns="sudo systemd-resolve --flush-caches"
 alias showsizes="du -h --max-depth=1"
+alias lsgrep="ls | grep"
 
 # WHOIS macros
 alias whois-afrinic="whois -h whois.afrinic.net"
@@ -30,6 +31,10 @@ alias whois-panix="whois -h rrdb.access.net"
 alias whois-radb="whois -h whois.radb.net"
 alias whois-reach="whois -h rr.telstraglobal.net"
 alias whois-ripe="whois -h whois.ripe.net"
+
+# Neo-aliases
+if [ -x "$(command -v nvim)" ]; then alias vim="nvim"; fi
+if [ -x "$(command -v neomutt)" ]; then alias mutt="neomutt"; fi
 
 # Kill via pgrep
 nkill() {
