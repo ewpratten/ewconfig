@@ -24,6 +24,13 @@ Host mc.homieho.me
     PreferredAuthentications password
     PubkeyAuthentication no
 
+Host 10.80.0.218
+    User root
+    PreferredAuthentications password
+    PubkeyAuthentication no
+    PubkeyAcceptedKeyTypes +ssh-rsa
+    HostKeyAlgorithms=+ssh-rsa
+
 # IndustrialBrothers domain
 Host ib-*
     Hostname %h.industrialbrothers.com
@@ -51,7 +58,14 @@ Host openrepeater.local
 
 Host raspberrypi.local
 	StrictHostKeyChecking no
-	User pi
+    User pi
+
+Host 192.168.8.1
+    User root
+    PreferredAuthentications password
+    PubkeyAuthentication no
+    PubkeyAcceptedKeyTypes +ssh-rsa
+    HostKeyAlgorithms=+ssh-rsa
 
 # Raider Robotics
 Host 10.50.24.2
@@ -62,7 +76,7 @@ Host 10.50.24.2
 Host atlas
     User prattene
     RequestTTY yes
-    RemoteCommand ~/.local/bin/zsh --login
+    # RemoteCommand ~/.local/bin/zsh --login
 
 Host sheridan-cpanel
     User prattene
@@ -86,3 +100,8 @@ Host sdf.org
     user ewpratten
     PreferredAuthentications password
     PubkeyAuthentication no
+
+# Personal Infra
+Host oci-arm
+    HostName oci-arm.ip.ewp.fyi
+    User ubuntu
