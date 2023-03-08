@@ -10,6 +10,7 @@ alias nvim-tmp="nvim $(mktemp)"
 alias flush-dns="sudo systemd-resolve --flush-caches"
 alias showsizes="du -h --max-depth=1"
 alias lsgrep="ls | grep"
+alias sheridan-rdp='firefox --new-window "ext+container:name=College&url=https://client.wvd.microsoft.com/arm/webclient/index.html"'
 
 # WHOIS macros
 alias whois-afrinic="whois -h whois.afrinic.net"
