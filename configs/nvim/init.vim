@@ -46,7 +46,6 @@ Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'airblade/vim-gitgutter'
 Plug 'nathanaelkane/vim-indent-guides'
-"  Plug 'ggandor/leap.nvim'
 
 " And this is where the plugins no longer be
 call plug#end()
@@ -65,9 +64,6 @@ let g:indent_guides_guide_size = 1
 let g:indent_guides_auto_colors = 0
 hi IndentGuidesOdd  ctermbg=darkgrey
 hi IndentGuidesEven ctermbg=lightgrey
-
-" Enable leap for jumping
-"  lua require('leap').add_default_mappings()
 
 " Make the gitgutter look cleaner
 let g:gitgutter_override_sign_column_highlight = 0
