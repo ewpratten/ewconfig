@@ -9,6 +9,7 @@
     - ~/bin
     - ~/projects
     - ~/src
+    - ~/www
 
 - link:
     ~/.gitconfig: configs/git/.gitconfig
