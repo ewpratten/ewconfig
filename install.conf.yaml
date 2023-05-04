@@ -10,6 +10,7 @@
     - ~/projects
     - ~/src
     - ~/www
+    - ~/.local/share/nautilus/scripts/
 
 - link:
     ~/.gitconfig: configs/git/.gitconfig
@@ -27,6 +28,9 @@
       mode: 755
     ~/bin/fetch-steamdeck-screenshots:
       path: configs/scripts/fetch-steamdeck-screenshots
+      mode: 755
+    ~/.local/share/nautilus/scripts/Copy to web:
+      path: configs/nautilus/scripts/Copy to web
       mode: 755
 
 - shell:
