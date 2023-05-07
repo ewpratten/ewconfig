@@ -37,13 +37,21 @@ gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-2 "['<Super>2
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-3 "['<Super>3']" # Switch to ws 3
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-4 "['<Super>4']" # Switch to ws 4
 
-# Allow Mod+Enter to open a terminal
+# Generate custom keybinds if they do not yet exist
 keybindings=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings)
 if [ "$keybindings" = "[]" ] || [ "$keybindings" = "@as []" ]; then
-    gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+    # Define the list of custom keybindings
+    gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']"
+
+    # Allow Mod+Enter to open a terminal
     gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name "Terminal"
     gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "gnome-terminal"
     gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding "<Super>Return"
+
+    # Allow Mod+d to launch rofi
+    gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ name "Rofi"
+    gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ command "rofi -show drun"
+    gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ binding "<Super>d"
 fi
 
 # Top Bar settings
