@@ -10,6 +10,7 @@
     - ~/projects
     - ~/src
     - ~/www
+    - ~/pkg
     - ~/.local/share/nautilus/scripts/
 
 - link:
