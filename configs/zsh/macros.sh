@@ -85,3 +85,13 @@ extract() {
         echo "'$1' is not a valid file!"
     fi
 }
+
+# Generate a password
+genpass() {
+    if [ $# != 1 ]; then
+        echo "Usage: genpass <len>"
+    else
+        echo $(openssl rand -base64 $1 | tr -d "\n")
+    fi
+
+}
