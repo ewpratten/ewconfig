@@ -20,6 +20,17 @@ fi
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
+# Configure a sane default editor
+if type -p nvim > /dev/null; then
+  export EDITOR="nvim"
+elif type -p vim > /dev/null; then
+  export EDITOR="vim"
+elif type -p vi > /dev/null; then
+  export EDITOR="vi"
+elif type -p nano > /dev/null; then
+  export EDITOR="nano"
+fi
+
 # SDKMAN!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

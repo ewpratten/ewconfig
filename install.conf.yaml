@@ -34,6 +34,7 @@
     ~/.local/share/nautilus/scripts/Copy to web:
       path: configs/nautilus/scripts/Copy to web
       mode: 755
+    ~/.ssh/allowed_signers: configs/ssh/allowed_signers
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
