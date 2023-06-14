@@ -9,6 +9,15 @@
 # [gpg]
 # 	format = ssh
 
+[init]
+    defaultBranch = master
+
+[advice]
+    detachedHead = true
+
+[alias]
+    authors = shortlog --summary --numbered --email
+
 [gpg "ssh"]
 	allowedSignersFile = ~/.ssh/allowed_signers
 
