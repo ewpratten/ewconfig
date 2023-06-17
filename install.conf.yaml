@@ -35,6 +35,7 @@
       path: configs/nautilus/scripts/Copy to web
       mode: 755
     ~/.ssh/allowed_signers: configs/ssh/allowed_signers
+    ~/.cargo/config.toml: configs/cargo/config.toml
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
