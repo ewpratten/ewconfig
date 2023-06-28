@@ -13,9 +13,12 @@
 [submodule "configs/nvim/pack/tpope/start/commentary"]
 	path = configs/nvim/pack/tpope/start/commentary
 	url = https://tpope.io/vim/commentary.git
+	ignore = dirty
 [submodule "configs/nvim/pack/jiangmiao/start/auto-pairs"]
 	path = configs/nvim/pack/jiangmiao/start/auto-pairs
 	url = https://github.com/jiangmiao/auto-pairs
+	ignore = dirty
 [submodule "configs/nvim/pack/airblade/start/vim-gitgutter"]
 	path = configs/nvim/pack/airblade/start/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git
+	ignore = dirty

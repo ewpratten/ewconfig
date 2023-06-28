@@ -21,7 +21,14 @@ vnoremap <S-Tab> <gv
 set keymodel=startsel,stopsel
 
 " VSCode-style word deletion
-imap <C-BS> <C-W>
+inoremap <C-BS> <C-W>
+inoremap <C-Del> <Esc>lcw
+nnoremap <C-Del> cw<Esc>l
+
+" VSCode-style comment toggling
+nnoremap <C-_> :Commentary<CR>
+vnoremap <C-_> :Commentary<CR>
+inoremap <C-_> <C-O>:Commentary<CR>
 
 " Force VIM to use system clipboard
 set clipboard=unnamedplus
@@ -30,44 +37,17 @@ set clipboard=unnamedplus
 set exrc
 set secure
 
-" Autoload vim-plug
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-" This is where the plugins be
-call plug#begin()
-
-"  Plug 'github/copilot.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
-Plug 'jiangmiao/auto-pairs'
-Plug 'airblade/vim-gitgutter'
-Plug 'nathanaelkane/vim-indent-guides'
-
-" And this is where the plugins no longer be
-call plug#end()
-
 " Enable filetype plugins
 set nocompatible
 filetype plugin on
 syntax on
 
-" Enable rainbow
-let g:rainbow_active = 1
-
-" Allow indent guides to show
-let g:indent_guides_enable_on_vim_startup = 0
-let g:indent_guides_guide_size = 1
-let g:indent_guides_auto_colors = 0
-hi IndentGuidesOdd  ctermbg=darkgrey
-hi IndentGuidesEven ctermbg=lightgrey
-
-" Make the gitgutter look cleaner
-let g:gitgutter_override_sign_column_highlight = 0
+" Disable the gitgutter background
+let g:gitgutter_override_sign_column_highlight = 1
 highlight clear SignColumn
-highlight GitGutterAdd    guifg=#009900 ctermfg=2
-highlight GitGutterChange guifg=#bbbb00 ctermfg=3
-highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+
+" Make gitgutter update on file save
+autocmd BufWritePost * GitGutter
+
+" Enable Leap
+lua require('leap').add_default_mappings()
