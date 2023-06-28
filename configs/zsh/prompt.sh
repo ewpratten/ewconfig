@@ -30,4 +30,4 @@ vcs_info_wrapper() {
         echo "%{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
     fi
 }
-export RPROMPT=$'%@ $(vcs_info_wrapper) %?'
+export RPROMPT=$'%T $(vcs_info_wrapper)%?'
