@@ -2,3 +2,20 @@
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot
 	ignore = dirty
+[submodule "configs/nvim/pack/tpope/start/repeat"]
+	path = configs/nvim/pack/tpope/start/repeat
+	url = https://tpope.io/vim/repeat.git
+	ignore = dirty
+[submodule "configs/nvim/pack/ggandor/start/leap.nvim"]
+	path = configs/nvim/pack/ggandor/start/leap.nvim
+	url = https://github.com/ggandor/leap.nvim
+	ignore = dirty
+[submodule "configs/nvim/pack/tpope/start/commentary"]
+	path = configs/nvim/pack/tpope/start/commentary
+	url = https://tpope.io/vim/commentary.git
+[submodule "configs/nvim/pack/jiangmiao/start/auto-pairs"]
+	path = configs/nvim/pack/jiangmiao/start/auto-pairs
+	url = https://github.com/jiangmiao/auto-pairs
+[submodule "configs/nvim/pack/airblade/start/vim-gitgutter"]
+	path = configs/nvim/pack/airblade/start/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter.git
