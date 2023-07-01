@@ -14,7 +14,7 @@
     - ~/pkg
     # Config dirs
     - ~/.config/nvim
-    - ~/.config/cargo
+    - ~/.cargo
     # Program plugins
     - ~/.local/share/nautilus/scripts/
     
