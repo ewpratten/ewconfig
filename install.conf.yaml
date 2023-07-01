@@ -5,23 +5,34 @@
 - clean: ['~']
 
 - create:
+    # Common organizational dirs
     - ~/Downloads
     - ~/bin
     - ~/projects
     - ~/src
     - ~/www
     - ~/pkg
+    # Config dirs
+    - ~/.config/nvim
+    # Program plugins
     - ~/.local/share/nautilus/scripts/
-
+    
 - link:
+    # Git
     ~/.gitconfig: configs/git/.gitconfig
+    ~/.ssh/allowed_signers: configs/ssh/allowed_signers
+
+    # Shell
     ~/.zshrc: 
       path: configs/zsh/.zshrc
       force: true
-    ~/.config/tabset: configs/tabset
-    ~/.config/rofi: configs/rofi
-    # ~/.local/share/remmina: configs/remmina/hosts
-    ~/.config/nvim: configs/nvim
+
+    # Vim
+    ~/.config/nvim/init.vim: configs/nvim/init.vim
+    ~/.config/nvim/pack: configs/nvim/pack
+    # ~/.config/nvim/spell: configs/nvim/en.utf-8.add
+
+    # Scripts
     ~/bin/catto:
       path: configs/scripts/catto
       mode: 755
@@ -34,7 +45,11 @@
     ~/.local/share/nautilus/scripts/Copy to web:
       path: configs/nautilus/scripts/Copy to web
       mode: 755
-    ~/.ssh/allowed_signers: configs/ssh/allowed_signers
+
+    # Others
+    ~/.config/tabset: configs/tabset
+    ~/.config/rofi: configs/rofi
+    # ~/.local/share/remmina: configs/remmina/hosts
     ~/.cargo/config.toml: configs/cargo/config.toml
 
 - shell:
