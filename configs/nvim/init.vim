@@ -6,15 +6,17 @@ syntax on
 set mouse=a
 
 " Configure the right-click menu
-aunmenu PopUp
-vnoremenu PopUp.Cut                         "+x
-vnoremenu PopUp.Copy                        "+y
-anoremenu PopUp.Paste                       "+gP
-vnoremenu PopUp.Paste                       "+P
-vnoremenu PopUp.Delete                      "_x
-nnoremenu PopUp.Select\ All>                ggVG
-vnoremenu PopUp.Select\ All>                gg0oG$
-inoremenu PopUp.Select\ All                 <C-Home><C-O>VG
+if !exists('g:vscode')
+    aunmenu PopUp
+    vnoremenu PopUp.Cut                         "+x
+    vnoremenu PopUp.Copy                        "+y
+    anoremenu PopUp.Paste                       "+gP
+    vnoremenu PopUp.Paste                       "+P
+    vnoremenu PopUp.Delete                      "_x
+    nnoremenu PopUp.Select\ All>                ggVG
+    vnoremenu PopUp.Select\ All>                gg0oG$
+    inoremenu PopUp.Select\ All                 <C-Home><C-O>VG
+endif
 
 " Tab size
 set tabstop=4
@@ -61,18 +63,22 @@ cnoreabbrev <expr> help getcmdtype() == ":" && getcmdline() == 'help' ? 'tab hel
 cnoreabbrev <expr> h getcmdtype() == ":" && getcmdline() == 'h' ? 'tab help' : 'h'
 
 " Enable spell checking
-set spell
-set spelllang=en_ca,en_us
-set spelloptions=camel
-hi clear SpellCap
-hi clear SpellRare
+if !exists('g:vscode')
+    set spell
+    set spelllang=en_ca,en_us
+    set spelloptions=camel
+    hi clear SpellCap
+    hi clear SpellRare
+endif
 
 " Disable the gitgutter background
 let g:gitgutter_override_sign_column_highlight = 1
 highlight clear SignColumn
 
 " Make gitgutter update on file save
-autocmd BufWritePost * GitGutter
+if !exists('g:vscode')
+    autocmd BufWritePost * GitGutter
+endif
 
 " Enable Leap
 lua require('leap').add_default_mappings()

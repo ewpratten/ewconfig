@@ -14,6 +14,7 @@
     - ~/pkg
     # Config dirs
     - ~/.config/nvim
+    - ~/.config/termux
     - ~/.cargo
     # Program plugins
     - ~/.local/share/nautilus/scripts/
@@ -52,6 +53,7 @@
     ~/.config/rofi: configs/rofi
     # ~/.local/share/remmina: configs/remmina/hosts
     ~/.cargo/config.toml: configs/cargo/config.toml
+    ~/.config/termux/termux.properties: configs/termux/termux.properties
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
@@ -60,3 +62,4 @@
   - [chmod +x configs/scripts/aspath, Making aspath executable]
   - [chmod +x configs/scripts/fetch-steamdeck-screenshots, Making fetch-steamdeck-screenshots executable]
   - [sh ./helpers/configure-gnome.sh, Configuring GNOME]
+  - [termux-reload-settings || true, Trying to reload Termux]
