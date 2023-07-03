@@ -12,7 +12,16 @@ else
     HOST_COLOR="green"
 fi
 
-export PROMPT="%{$fg[$HOST_COLOR]%}%n@%M %{$fg[cyan]%}%~ $ %{$reset_color%}"
+# Clear the prompt
+export PROMPT=""
+
+# If we are *NOT* in Termux, show the host and username
+if ! command -v termux-setup-storage; then
+    export PROMPT="%{$fg[$HOST_COLOR]%}%n@%M "
+fi
+
+# Add the common prompt parts
+export PROMPT="${PROMPT}%{$fg[cyan]%}%~ $ %{$reset_color%}"
 setopt prompt_subst
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' actionformats \
