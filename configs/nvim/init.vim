@@ -82,3 +82,11 @@ endif
 
 " Enable Leap
 lua require('leap').add_default_mappings()
+
+" Custom functions
+function! MkdirAndWrite()
+    let dir = expand('%:p:h')
+    exec '!mkdir -p ' . dir
+    exec 'w'
+endfunction
+command Wmk call MkdirAndWrite()
