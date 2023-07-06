@@ -8,6 +8,8 @@ NEWLINE=$'\n'
 # Use colors to signal local vs remote connections
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
     HOST_COLOR="yellow"
+elif [ "$EWCONFIG_IN_DOCKER" = "1" ]; then
+    HOST_COLOR="blue"
 else
     HOST_COLOR="green"
 fi
