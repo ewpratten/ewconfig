@@ -31,6 +31,12 @@ elif type -p nano > /dev/null; then
   export EDITOR="nano"
 fi
 
+# If we have neovim, use it as the manpage viewer
+if type -p nvim > /dev/null; then
+    export MANPAGER="nvim +Man!"
+    export MANWIDTH=80
+fi
+
 # SDKMAN!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

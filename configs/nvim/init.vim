@@ -69,6 +69,9 @@ if !exists('g:vscode')
     set spelloptions=camel
     hi clear SpellCap
     hi clear SpellRare
+
+    " Disable spellcheck for manpages
+    autocmd FileType man setlocal nospell
 endif
 
 " Disable the gitgutter background
