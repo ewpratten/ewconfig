@@ -1,16 +1,1 @@
-# ewconfig: My dotfiles
-
-## Neovim
-
-```sh
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-```
-
-And in `nvim`, run 
-
-```text
-:PlugInstall
-:Copilot setup
-``` 
-
+# **ew**pratten's **config** files
