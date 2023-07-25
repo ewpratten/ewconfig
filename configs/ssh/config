@@ -7,11 +7,7 @@ Host * !*.github.com !github.com
     VisualHostKey yes
 
 # Github SSH adapter for restricted networks
-Host github.com
-    HostName ssh.github.com
-    Port 443
-
-Host gist.github.com
+Host github.com gist.github.com
     HostName ssh.github.com
     Port 443
 
@@ -67,18 +63,10 @@ Host *.sheridanc.on.ca
 Host *.ring.nlnog.net
     User ewpratten
     IdentitiesOnly yes
-    #IdentityFile ~/.ssh/id_ed25519_sk_rk.pub
 
 # SDF.org
-Host *.sdf.org
+Host sdf.org *.sdf.org
     user ewpratten
-    PreferredAuthentications password
-    PubkeyAuthentication no
-
-Host sdf.org
-    user ewpratten
-    PreferredAuthentications password
-    PubkeyAuthentication no
 
 # Personal Infra
 Host oci-arm
