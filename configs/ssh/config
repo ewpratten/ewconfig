@@ -1,3 +1,10 @@
+# Global Rules
+Host *
+    IdentityFile %d/.ssh/id_ed25519_sk_rk_yk20572395
+    IdentityFile %d/.ssh/id_ed25519
+    IdentityFile %d/.ssh/id_rsa
+    VisualHostKey yes
+
 # Github SSH adapter for restricted networks
 Host github.com
 	HostName ssh.github.com
@@ -19,36 +26,12 @@ Host ewpratten-steamdeck
     User deck
     ForwardX11 yes
 
-Host mc.homieho.me
-    User root
-    PreferredAuthentications password
-    PubkeyAuthentication no
-
 Host 10.80.0.218
     User root
     PreferredAuthentications password
     PubkeyAuthentication no
     PubkeyAcceptedKeyTypes +ssh-rsa
     HostKeyAlgorithms=+ssh-rsa
-
-# IndustrialBrothers domain
-Host ib-*
-    Hostname %h.industrialbrothers.com
-	IdentityFile ~/.ssh/industrialbrothers_id_ed25519
-    RequestTTY force
-    User epratten
-
-Host *.industrialbrothers.com
-    IdentityFile ~/.ssh/industrialbrothers_id_ed25519
-    User epratten
-	
-Host ib-8700k-125
-	RemoteCommand powershell "& 'C:\Program Files\Git\bin\sh.exe' --login"
-Host ib-8700k-139
-    RemoteCommand powershell "& 'C:\Program Files\Git\bin\sh.exe' --login"
-
-Host ib-rfcpu-002-lnx
-	User evan
 
 # Default hostnames I may encounter in the wild
 Host openrepeater.local
@@ -72,17 +55,12 @@ Host 10.50.24.2
 	StrictHostKeyChecking no
 	User admin
 
-# Sheridan
-Host atlas
+# Sheridan College
+Host *.sheridanc.on.ca
     User prattene
     RequestTTY yes
-    # RemoteCommand ~/.local/bin/zsh --login
-
-Host sheridan-cpanel
-    User prattene
-    HostName cpanel.prattene.dev.fast.sheridanc.on.ca
     PubkeyAcceptedKeyTypes +ssh-rsa
-    HostKeyAlgorithms=+ssh-rsa
+    HostKeyAlgorithms +ssh-rsa
 
 # NLNOG
 Host *.ring.nlnog.net
