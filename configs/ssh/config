@@ -3,18 +3,17 @@ Host *
     IdentityFile %d/.ssh/id_ed25519_sk_rk_yk20572395
     IdentityFile %d/.ssh/id_ed25519
     IdentityFile %d/.ssh/id_rsa
+Host * !*.github.com !github.com
     VisualHostKey yes
 
 # Github SSH adapter for restricted networks
 Host github.com
     HostName ssh.github.com
     Port 443
-    VisualHostKey no
 
 Host gist.github.com
     HostName ssh.github.com
     Port 443
-    VisualHostKey no
 
 # Home network
 Host unifi 
