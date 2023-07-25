@@ -7,12 +7,12 @@ Host *
 
 # Github SSH adapter for restricted networks
 Host github.com
-	HostName ssh.github.com
-	Port 443
+    HostName ssh.github.com
+    Port 443
     VisualHostKey no
 
 Host gist.github.com
-	HostName ssh.github.com
+    HostName ssh.github.com
     Port 443
     VisualHostKey no
 
@@ -37,12 +37,12 @@ Host 10.80.0.218
 
 # Default hostnames I may encounter in the wild
 Host openrepeater.local
-	HostName openrepeater.local
-	User root
-	StrictHostKeyChecking no
+    HostName openrepeater.local
+    User root
+    StrictHostKeyChecking no
 
 Host raspberrypi.local
-	StrictHostKeyChecking no
+    StrictHostKeyChecking no
     User pi
 
 Host 192.168.8.1
@@ -54,8 +54,8 @@ Host 192.168.8.1
 
 # Raider Robotics
 Host 10.50.24.2
-	StrictHostKeyChecking no
-	User admin
+    StrictHostKeyChecking no
+    User admin
 
 # Sheridan College
 Host *.sheridanc.on.ca
