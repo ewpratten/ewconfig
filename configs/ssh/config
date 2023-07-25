@@ -4,7 +4,7 @@ Host *
     IdentityFile %d/.ssh/id_ed25519
     IdentityFile %d/.ssh/id_rsa
     VisualHostKey yes
- 
+
 # Github SSH adapter for restricted networks
 Host github.com
 	HostName ssh.github.com
