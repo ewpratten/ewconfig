@@ -1,8 +1,25 @@
+# Allow programs to write their own autocomplete functions to ~/.zfunc
+mkdir -p ~/.zfunc
+fpath+=~/.zfunc
+
 # Make all shells append to history file instantly
 setopt INC_APPEND_HISTORY
 
-# Handles case-insensitive completion
+# If we have rustup, it can be used to generate completeions for itself and cargo
+if type -p rustup >/dev/null; then
+    # Only generate if the files don't already exist
+    if [[ ! -f ~/.zfunc/_rustup ]]; then
+        rustup completions zsh > ~/.zfunc/_rustup
+    fi
+    if [[ ! -f ~/.zfunc/_cargo ]]; then
+        rustup completions zsh cargo > ~/.zfunc/_cargo
+    fi
+fi
+
+# Enable auto-complete
 autoload -Uz compinit && compinit
+
+# Handles case-insensitive completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 # Configure command history
