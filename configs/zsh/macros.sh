@@ -117,3 +117,21 @@ ssh-verify(){
         ssh-keygen -Y verify -f ~/.ssh/allowed_signers -n file -I $1 -s $2 < $3
     fi
 }
+
+# Fully restart a wireguard link
+wg-restart() {
+    if [ $# != 1 ]; then
+        echo "Usage: wg-restart <interface>"
+    else
+        wg-quick down $1 && wg-quick up $1
+    fi
+}
+
+# Reload a wireguard link without stopping it
+wg-reload() {
+    if [ $# != 1 ]; then
+        echo "Usage: wg-reload <interface>"
+    else
+        wg syncconf $1 <(wg-quick strip $1)
+    fi
+}
