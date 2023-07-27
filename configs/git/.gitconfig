@@ -1,10 +1,10 @@
+[include]
+	path = ~/.config/git/features/enable-signing.gitconfig
+
 [user]
 	email = ewpratten@gmail.com
 	name = Evan Pratten
 	signingkey = ~/.ssh/id_ed25519_sk_rk_yk20572395
-
-[gpg]
-    format = ssh
 
 [init]
     defaultBranch = master
@@ -17,10 +17,6 @@
 
 [alias]
     authors = shortlog --summary --numbered --email
-
-[gpg "ssh"]
-    allowedSignersFile = ~/.ssh/allowed_signers
-    defaultKeyCommand = ssh-add -L
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f

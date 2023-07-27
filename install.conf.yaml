@@ -63,3 +63,4 @@
   - [chmod +x configs/scripts/fetch-steamdeck-screenshots, Making fetch-steamdeck-screenshots executable]
   - [sh ./helpers/configure-gnome.sh, Configuring GNOME]
   - [termux-reload-settings || true, Trying to reload Termux]
+  - [bash ./helpers/git-config-features.sh, Setting up optional git-config features]
