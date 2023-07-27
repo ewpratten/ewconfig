@@ -95,3 +95,25 @@ genpass() {
     fi
 
 }
+
+# Sign a file with an SSH key
+ssh-sign(){
+    if [ $# != 2 ]; then
+        echo "Usage: ssh-sign <key_file> <file>"
+    else
+        if [ -f $2 ]; then
+            cat $2 | ssh-keygen -Y sign -f $1 -n file -
+        else
+            >&2 echo "File not found: $2"
+        fi
+    fi
+}
+
+# Verify a file, using the ~/.ssh/allowed_signers file
+ssh-verify(){
+    if [ $# != 3 ]; then
+        echo "Usage: ssh-verify <author> <sigfile> <file>"
+    else
+        ssh-keygen -Y verify -f ~/.ssh/allowed_signers -n file -I $1 -s $2 < $3
+    fi
+}
