@@ -4,9 +4,13 @@
 
 autoload -U colors && colors
 NEWLINE=$'\n'
+USER_ICON="$"
 
-# Use colors to signal local vs remote connections
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+# Use colors to signal the current connection / user privs
+if [[ $(id -u) = 0 ]]; then
+    HOST_COLOR="red"
+    USER_ICON="#"
+elif [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
     HOST_COLOR="yellow"
 elif [ "$EWCONFIG_IN_DOCKER" = "1" ]; then
     HOST_COLOR="blue"
@@ -23,7 +27,7 @@ if ! command -v termux-setup-storage; then
 fi
 
 # Add the common prompt parts
-export PROMPT="${PROMPT}%{$fg[cyan]%}%~ $ %{$reset_color%}"
+export PROMPT="${PROMPT}%{$fg[cyan]%}%~ ${USER_ICON} %{$reset_color%}"
 setopt prompt_subst
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' actionformats \
