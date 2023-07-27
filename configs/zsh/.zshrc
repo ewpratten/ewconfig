@@ -38,8 +38,10 @@ if type -p nvim > /dev/null; then
 fi
 
 # Replace gnome-keyring with default ssh agent if possible
-if type -p gnome-keyring-daemon > /dev/null; then
-    killall gnome-keyring-daemon 2> /dev/null && eval `ssh-agent`
+if HOSTNAME="ewpratten-laptop"; then
+  if type -p gnome-keyring-daemon > /dev/null; then
+      killall gnome-keyring-daemon 2> /dev/null && eval `ssh-agent`
+  fi
 fi
 
 # SDKMAN!
