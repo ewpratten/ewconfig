@@ -1,5 +1,5 @@
-echo "$fg[$HOST_COLOR]Platform:$reset_color $(uname -o) $(uname -r)"
-echo "$fg[$HOST_COLOR]Uptime:$reset_color $(uptime -p)"
+echo "$fg[green]Platform:$reset_color $(uname -o) $(uname -r)"
+echo "$fg[green]Uptime:$reset_color $(uptime -p)"
 
 # Determine if $EWCONFIG_ROOT contains uncommitted changes
 if [ -d $EWCONFIG_ROOT/.git ]; then
