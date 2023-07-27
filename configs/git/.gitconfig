@@ -1,10 +1,7 @@
 [user]
 	email = ewpratten@gmail.com
 	name = Evan Pratten
-	# signingkey = 
-
-# [core]
-# 	editor = "vim"
+	signingkey = ~/.ssh/id_ed25519_sk_rk_yk20572395
 
 [gpg]
     format = ssh
