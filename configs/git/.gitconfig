@@ -6,8 +6,8 @@
 # [core]
 # 	editor = "vim"
 
-# [gpg]
-# 	format = ssh
+[gpg]
+    format = ssh
 
 [init]
     defaultBranch = master
@@ -22,7 +22,8 @@
     authors = shortlog --summary --numbered --email
 
 [gpg "ssh"]
-	allowedSignersFile = ~/.ssh/allowed_signers
+    allowedSignersFile = ~/.ssh/allowed_signers
+    defaultKeyCommand = ssh-add -L
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
