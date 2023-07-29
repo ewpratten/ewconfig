@@ -37,13 +37,6 @@ if type -p nvim > /dev/null; then
     export MANWIDTH=80
 fi
 
-# Replace gnome-keyring with default ssh agent if possible
-if [[ "$HOSTNAME" == "ewpratten-laptop" ]]; then
-  if type -p gnome-keyring-daemon > /dev/null; then
-      killall gnome-keyring-daemon 2> /dev/null && eval `ssh-agent`
-  fi
-fi
-
 # SDKMAN!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

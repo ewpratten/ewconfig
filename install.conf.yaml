@@ -54,6 +54,8 @@
     # ~/.local/share/remmina: configs/remmina/hosts
     ~/.cargo/config.toml: configs/cargo/config.toml
     ~/.config/termux/termux.properties: configs/termux/termux.properties
+    ~/.config/user-tmpfiles.d/discord-rpc.conf: configs/user-tmpfiles.d/discord-rpc.conf
+    ~/.config/autostart/gnome-keyring-ssh.desktop: configs/autostart/gnome-keyring-ssh.desktop
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
