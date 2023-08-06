@@ -15,6 +15,7 @@
     # Config dirs
     - ~/.config/nvim
     - ~/.config/termux
+    - ~/.config/logid
     - ~/.cargo
     # Program plugins
     - ~/.local/share/nautilus/scripts/
@@ -56,6 +57,7 @@
     ~/.config/termux/termux.properties: configs/termux/termux.properties
     ~/.config/user-tmpfiles.d/discord-rpc.conf: configs/user-tmpfiles.d/discord-rpc.conf
     ~/.config/autostart/gnome-keyring-ssh.desktop: configs/autostart/gnome-keyring-ssh.desktop
+    ~/.config/logid/logid.cfg: configs/logid/logid.cfg
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
