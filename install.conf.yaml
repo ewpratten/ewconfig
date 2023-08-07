@@ -68,6 +68,7 @@
     ~/.config/termux/termux.properties: configs/termux/termux.properties
     ~/.config/user-tmpfiles.d/discord-rpc.conf: configs/user-tmpfiles.d/discord-rpc.conf
     ~/.config/logid/logid.cfg: configs/logid/logid.cfg
+    ~/.config/xaero: configs/xaero
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
