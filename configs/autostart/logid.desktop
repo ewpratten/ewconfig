@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name = Logid
+GenericName = Logid
+Comment = Logitech Mouse Driver
+Exec = logid -v -c $HOME/.config/logid/logid.cfg
+Type = Application
+X-GNOME-Autostart-enabled = true

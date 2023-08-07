@@ -16,6 +16,7 @@
     - ~/.config/nvim
     - ~/.config/termux
     - ~/.config/logid
+    - ~/.config/systemd/user
     - ~/.cargo
     # Program plugins
     - ~/.local/share/nautilus/scripts/
@@ -48,6 +49,16 @@
     ~/.local/share/nautilus/scripts/Copy to web:
       path: configs/nautilus/scripts/Copy to web
       mode: 755
+    ~/bin/run-logid:
+      path: configs/scripts/run-logid
+      mode: 755
+
+    # Systemd Services
+    # ~/.config/systemd/user/logid.service: configs/systemd/user/logid.service
+
+    # XDG Autostart
+    ~/.config/autostart/gnome-keyring-ssh.desktop: configs/autostart/gnome-keyring-ssh.desktop
+    ~/.config/autostart/logid.desktop: configs/autostart/logid.desktop
 
     # Others
     ~/.config/tabset: configs/tabset
@@ -56,7 +67,6 @@
     ~/.cargo/config.toml: configs/cargo/config.toml
     ~/.config/termux/termux.properties: configs/termux/termux.properties
     ~/.config/user-tmpfiles.d/discord-rpc.conf: configs/user-tmpfiles.d/discord-rpc.conf
-    ~/.config/autostart/gnome-keyring-ssh.desktop: configs/autostart/gnome-keyring-ssh.desktop
     ~/.config/logid/logid.cfg: configs/logid/logid.cfg
 
 - shell:

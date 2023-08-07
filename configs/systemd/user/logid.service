@@ -1,0 +1,20 @@
+# NOTE: In order to use this service, the following needs to be placed in 
+# /etc/udev/rules.d/90-hidraw-permissions.rules
+#
+# KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0664", GROUP="plugdev"
+#
+# This can then be put into effect with:
+# sudo udevadm control --reload-rules && sudo udevadm trigger
+
+[Unit]
+Description = Logitech mouse driver
+
+[Service]
+Type = simple
+User = ewpratten
+#Group = plugdev
+ExecStart = logid -v -c /home/ewpratten/.config/logid/logid.cfg
+Restart = always
+
+[Install]
+WantedBy = multi-user.target
