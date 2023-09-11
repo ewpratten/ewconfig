@@ -70,11 +70,17 @@
     ~/.config/logid/logid.cfg: configs/logid/logid.cfg
 
 - shell:
+  # Make sure we have our git modules
   - [git submodule update --init --recursive, Installing submodules]
+  # Install SSH config
   - [sh ./helpers/install-ssh-config.sh, Installing SSH config]
+  # Ensure that all downloaded scripts are executable
   - [chmod +x configs/scripts/catto, Making catto executable]
   - [chmod +x configs/scripts/aspath, Making aspath executable]
   - [chmod +x configs/scripts/fetch-steamdeck-screenshots, Making fetch-steamdeck-screenshots executable]
+  # Configure GNOME
   - [sh ./helpers/configure-gnome.sh, Configuring GNOME]
+  # Configure Termux if on Android
   - [termux-reload-settings || true, Trying to reload Termux]
+  # Configure Git
   - [bash ./helpers/git-config-features.sh, Setting up optional git-config features]

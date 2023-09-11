@@ -16,7 +16,7 @@
     detachedHead = true
 
 [alias]
-    authors = shortlog --summary --numbered --email
+	authors = shortlog --summary --numbered --email
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f

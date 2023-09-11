@@ -70,9 +70,18 @@ if !exists('g:vscode')
     hi clear SpellCap
     hi clear SpellRare
 
-    " Disable spellcheck for manpages
+    " Disable spellcheck for some file formats
     autocmd FileType man setlocal nospell
+    autocmd FileType diff setlocal nospell
 endif
+
+" Configure Diff rendering
+hi DiffText         ctermfg=White       ctermbg=none
+hi DiffFile         ctermfg=White       ctermbg=none cterm=bold
+hi DiffIndexLine    ctermfg=White       ctermbg=none cterm=bold
+hi DiffAdd          ctermfg=DarkGreen   ctermbg=none
+hi DiffChange       ctermfg=DarkRed     ctermbg=none
+hi DiffDelete       ctermfg=DarkRed     ctermbg=none
 
 " Disable the gitgutter background
 let g:gitgutter_override_sign_column_highlight = 1

@@ -71,6 +71,10 @@ Host *.ring.nlnog.net
 Host sdf.org *.sdf.org
     user ewpratten
 
+# Guru
+Host *.gurustudio.com
+    User "guru-domain\\epratten"
+
 # Personal Infra
 Host oci-arm
     HostName oci-arm.ip.ewp.fyi
