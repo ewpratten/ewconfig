@@ -64,9 +64,10 @@ def do_render(input_file: Path, start_timestamp: str, end_timestamp: str, mode: 
     # Create the new file beside the old one
     start_time_str = start_timestamp.replace(":", ".")
     end_time_str = end_timestamp.replace(":", ".")
+    file_suffix = ".mp3" if mode == "Audio Only" else input_file.suffix
     output_file = (
         input_file.parent
-        / f"{input_file.stem}_trimmed_{start_time_str}_{end_time_str}_render{input_file.suffix}"
+        / f"{input_file.stem}_trimmed_{start_time_str}_{end_time_str}_render{file_suffix}"
     )
     output_file.unlink(missing_ok=True)
 
