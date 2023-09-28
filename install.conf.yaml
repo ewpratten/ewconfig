@@ -49,6 +49,9 @@
     ~/.local/share/nautilus/scripts/Copy to web:
       path: configs/nautilus/scripts/Copy to web
       mode: 755
+    ~/.local/share/nautilus/scripts/Open in Video Trimmer:
+      path: configs/nautilus/scripts/Open in Video Trimmer
+      mode: 755
     ~/bin/run-logid:
       path: configs/scripts/run-logid
       mode: 755
@@ -78,6 +81,7 @@
   - [chmod +x configs/scripts/catto, Making catto executable]
   - [chmod +x configs/scripts/aspath, Making aspath executable]
   - [chmod +x configs/scripts/fetch-steamdeck-screenshots, Making fetch-steamdeck-screenshots executable]
+  - [chmod +x configs/nautilus/scripts/*, Making nautilus scripts executable]
   # Configure GNOME
   - [sh ./helpers/configure-gnome.sh, Configuring GNOME]
   # Configure Termux if on Android
