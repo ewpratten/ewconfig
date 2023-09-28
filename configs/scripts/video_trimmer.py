@@ -14,7 +14,7 @@ RENDER_MODES = ["Video + Audio", "Video Only", "Audio Only"]
 
 
 def open_in_video_player(file: Path):
-    os.system(f"xdg-open {file}")
+    os.system(f'xdg-open "{file}"')
 
 
 def render(
