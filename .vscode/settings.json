@@ -5,6 +5,10 @@
         "*.md.liquid": "markdown",
         "*.js.liquid": "liquid-javascript",
         "*.css.liquid": "liquid-css",
-        "*.scss.liquid": "liquid-scss",
-    }
+        "*.scss.liquid": "liquid-scss"
+    },
+    // Add python_modules to the python path
+    "python.analysis.extraPaths": [
+        "./python_modules"
+    ],
 }

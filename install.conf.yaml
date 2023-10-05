@@ -55,6 +55,9 @@
     ~/bin/run-logid:
       path: configs/scripts/run-logid
       mode: 755
+    ~/bin/houdini-tool: configs/scripts/houdini-tool.py
+    ~/bin/hython-latest: configs/scripts/hython-latest
+    ~/bin/usdnc-to-usd: configs/scripts/usdnc-to-usd.py
 
     # Systemd Services
     # ~/.config/systemd/user/logid.service: configs/systemd/user/logid.service
@@ -71,6 +74,7 @@
     ~/.config/termux/termux.properties: configs/termux/termux.properties
     ~/.config/user-tmpfiles.d/discord-rpc.conf: configs/user-tmpfiles.d/discord-rpc.conf
     ~/.config/logid/logid.cfg: configs/logid/logid.cfg
+    ~/houdini19.5/scripts: configs/houdini19.5/scripts
 
 - shell:
   # Make sure we have our git modules
@@ -78,9 +82,7 @@
   # Install SSH config
   - [sh ./helpers/install-ssh-config.sh, Installing SSH config]
   # Ensure that all downloaded scripts are executable
-  - [chmod +x configs/scripts/catto, Making catto executable]
-  - [chmod +x configs/scripts/aspath, Making aspath executable]
-  - [chmod +x configs/scripts/fetch-steamdeck-screenshots, Making fetch-steamdeck-screenshots executable]
+  - [chmod +x configs/scripts/*, Making bin scripts executable]
   - [chmod +x configs/nautilus/scripts/*, Making nautilus scripts executable]
   # Configure GNOME
   - [sh ./helpers/configure-gnome.sh, Configuring GNOME]
