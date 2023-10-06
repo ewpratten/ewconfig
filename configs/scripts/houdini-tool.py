@@ -97,6 +97,10 @@ def main() -> int:
         str(hou_path / "bin" / get_binary_name_for_edition(args.type)),
         "-foreground",
     ] + get_houdini_edition_args(args.type)
+    if (project_path / f"{project_path.name}.hip").exists():
+        cmd.append(f"{project_path}/{project_path.name}.hip")
+    if (project_path / f"{project_path.name}.hipnc").exists():
+        cmd.append(f"{project_path}/{project_path.name}.hipnc")
     logger.info(f"Running: {' '.join(cmd)}")
     status = subprocess.run(cmd, env=environment_vars, cwd=project_path).returncode
     return status
