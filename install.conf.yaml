@@ -18,6 +18,7 @@
     - ~/.config/logid
     - ~/.config/systemd/user
     - ~/.cargo
+    - ~/.config/user-tmpfiles.d
     # Program plugins
     - ~/.local/share/nautilus/scripts/
     
