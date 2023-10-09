@@ -11,4 +11,5 @@
     "python.analysis.extraPaths": [
         "./python_modules"
     ],
+    "python.formatting.provider": "black",
 }

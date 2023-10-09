@@ -11,14 +11,15 @@ import argparse
 import subprocess
 import logging
 from ewpipe.common.dirs import HOUDINI_PROJECTS_DIR
+from ewpipe.common.utils.path import prepend_if_relative
 from ewpipe.houdini.editions import (
     get_binary_name_for_edition,
     get_houdini_edition_args,
     HOU_EDITIONS,
+    noncomercialize_path,
 )
 from ewpipe.houdini.installations import get_houdini_installation_path
 from ewpipe.common.logging import configure_logging
-from ewpipe.common.env import diff_from_current_env
 
 logger = logging.getLogger(__name__)
 
@@ -52,6 +53,10 @@ def main() -> int:
     ap.add_argument(
         "--no-project-env", help="Disables setting $HIP and $JOB", action="store_true"
     )
+    ap.add_argument("--cpu", help="Use CPU compute for OpenCL", action="store_true")
+    ap.add_argument(
+        "--dump-core", help="Forces Houdini to dump its core", action="store_true"
+    )
     ap.add_argument("--verbose", "-v", help="Verbose output", action="store_true")
     args = ap.parse_args()
 
@@ -66,43 +71,53 @@ def main() -> int:
     logger.info(f"Selected Houdini {hou_path.name[3:]} from {hou_path}")
 
     # Determine the project path
-    project_path = Path(args.project)
-    if not project_path.is_absolute():
-        # This is a project name, not a path
-        project_path = HOUDINI_PROJECTS_DIR / project_path
+    project_path = prepend_if_relative(HOUDINI_PROJECTS_DIR, Path(args.project))
+    project_save_file = project_path / f"{project_path.name}.hip"
     logger.info(f"Opening project from: {project_path}")
 
     # If the directory does not exist, create
     project_path.mkdir(parents=True, exist_ok=True)
 
     # If allowed, set up env vars
-    environment_vars = os.environ.copy()
-    environment_vars["HOUDINI_SCRIPT_DEBUG"] = "1"
-    environment_vars["HOUDINI_SPLASH_MESSAGE"] = "Loading with custom scripts"
-    environment_vars["HOUDINI_CONSOLE_PYTHON_PANEL_ERROR"] = "1"
+    hou_env_settings = {}
+    hou_env_settings["HOUDINI_SCRIPT_DEBUG"] = "1"
+    hou_env_settings["HOUDINI_SPLASH_MESSAGE"] = "Loading with custom scripts"
+    hou_env_settings["HOUDINI_CONSOLE_PYTHON_PANEL_ERROR"] = "1"
+    hou_env_settings["HOUDINI_PDG_NODE_DEBUG"] = "3"
+    if args.cpu:
+        hou_env_settings["HOUDINI_OCL_DEVICETYPE"] = "CPU"
+        hou_env_settings["HOUDINI_USE_HFS_OCL"]="1"
+    if args.dump_core:
+        hou_env_settings["HOUDINI_COREDUMP"] = "1"
     if not args.no_project_env:
         # environment_vars["HIP"] = str(project_path)
-        environment_vars["JOB"] = str(project_path)
-        environment_vars["HOUDINI_HIP_DEFAULT_NAME"] = f"{project_path.name}.hip"
+        hou_env_settings["JOB"] = str(project_path)
+        hou_env_settings["HOUDINI_HIP_DEFAULT_NAME"] = project_save_file.name
 
     # Figure out what has changed in the environment and print the changes
-    env_changes = diff_from_current_env(environment_vars)
-    if env_changes:
+    if hou_env_settings:
         logger.info("Environment changes:")
-        for key, value in env_changes.items():
+        for key, value in hou_env_settings.items():
             logger.info(f"  ${key}: {value}")
+            
+    # Combine the current environment with 
+    cmd_env = dict(os.environ)
+    cmd_env.update(hou_env_settings)
 
-    # Launch houdini
+    # Build command to launch houdini
     cmd = [
         str(hou_path / "bin" / get_binary_name_for_edition(args.type)),
         "-foreground",
     ] + get_houdini_edition_args(args.type)
-    if (project_path / f"{project_path.name}.hip").exists():
-        cmd.append(f"{project_path}/{project_path.name}.hip")
-    if (project_path / f"{project_path.name}.hipnc").exists():
-        cmd.append(f"{project_path}/{project_path.name}.hipnc")
+
+    # If the expected project file exists already
+    # (aka, user already saved in a previous session),
+    # then conveniently open the project automatically
+    cmd.append(str(noncomercialize_path(project_save_file)))
+
+    # Run houdini
     logger.info(f"Running: {' '.join(cmd)}")
-    status = subprocess.run(cmd, env=environment_vars, cwd=project_path).returncode
+    status = subprocess.run(cmd, env=cmd_env, cwd=project_path).returncode
     return status
 
 

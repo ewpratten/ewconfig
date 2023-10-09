@@ -1,4 +1,5 @@
 from typing import List
+from pathlib import Path
 
 HOU_EDITIONS = ["core", "fx", "indie", "apprentice"]
 """All possible Houdini editions."""
@@ -34,3 +35,16 @@ def get_houdini_edition_args(edition: str) -> List[str]:
         return [f"-{edition}"]
     else:
         return []
+
+
+def noncomercialize_path(input_path: Path) -> Path:
+    # Figure out the noncomercial version of the path
+    path_suffix = input_path.suffix
+    noncomercial_path = input_path.with_suffix(f".{path_suffix}nc")
+
+    # If the NC version exists, use it
+    if noncomercial_path.exists():
+        return noncomercial_path
+
+    # All other cases, use the input directly
+    return input_path
