@@ -113,7 +113,9 @@ def main() -> int:
     # If the expected project file exists already
     # (aka, user already saved in a previous session),
     # then conveniently open the project automatically
-    cmd.append(str(noncomercialize_path(project_save_file)))
+    proj_file = noncomercialize_path(project_save_file)
+    if proj_file.exists():
+        cmd.append(str(proj_file))
 
     # Run houdini
     logger.info(f"Running: {' '.join(cmd)}")
