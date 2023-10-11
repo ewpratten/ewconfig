@@ -22,3 +22,6 @@
 	path = configs/nvim/pack/airblade/start/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git
 	ignore = dirty
+[submodule "configs/nvim/third_party/usda-syntax"]
+	path = configs/nvim/third_party/usda-syntax
+	url = https://github.com/superfunc/usda-syntax
