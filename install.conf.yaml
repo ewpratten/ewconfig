@@ -35,37 +35,28 @@
     # Vim
     ~/.config/nvim/init.vim: configs/nvim/init.vim
     ~/.config/nvim/pack: configs/nvim/pack
-    # ~/.config/nvim/spell: configs/nvim/en.utf-8.add
+    ~/.config/nvim/third_party: configs/nvim/third_party
 
     # Scripts
-    ~/bin/catto:
-      path: configs/scripts/catto
-      mode: 755
-    ~/bin/aspath:
-      path: configs/scripts/aspath
-      mode: 755
-    ~/bin/fetch-steamdeck-screenshots:
-      path: configs/scripts/fetch-steamdeck-screenshots
-      mode: 755
+    ~/bin/catto: configs/scripts/catto
+    ~/bin/aspath: configs/scripts/aspath
+    ~/bin/fetch-steamdeck-screenshots: configs/scripts/fetch-steamdeck-screenshots
+    ~/bin/run-logid: configs/scripts/run-logid
+    ~/bin/houdini-tool: configs/scripts/houdini-tool.py
+    ~/bin/hython-latest: configs/scripts/hython-latest
+    ~/bin/usdnc-to-usd: configs/scripts/usdnc-to-usd.py
+    ~/bin/guru-vpn: configs/scripts/guru-vpn.py
+
+    # Nautilus right-click scripts
     ~/.local/share/nautilus/scripts/Copy to web:
       path: configs/nautilus/scripts/Copy to web
       mode: 755
     ~/.local/share/nautilus/scripts/Open in Video Trimmer:
       path: configs/nautilus/scripts/Open in Video Trimmer
       mode: 755
-    ~/.local/share/nautilus/scripts/USDView:
-      path: configs/nautilus/scripts/USDView
+    ~/.local/share/nautilus/scripts/Open with USDView:
+      path: configs/nautilus/scripts/Open with USDView
       mode: 755
-    ~/bin/run-logid:
-      path: configs/scripts/run-logid
-      mode: 755
-    ~/bin/houdini-tool: configs/scripts/houdini-tool.py
-    ~/bin/hython-latest: configs/scripts/hython-latest
-    ~/bin/usdnc-to-usd: configs/scripts/usdnc-to-usd.py
-    ~/bin/guru-vpn: configs/scripts/guru-vpn.py
-
-    # Systemd Services
-    # ~/.config/systemd/user/logid.service: configs/systemd/user/logid.service
 
     # XDG Autostart
     ~/.config/autostart/gnome-keyring-ssh.desktop: configs/autostart/gnome-keyring-ssh.desktop

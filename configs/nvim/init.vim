@@ -55,6 +55,13 @@ set nocompatible
 filetype plugin on
 syntax on
 
+" Custom syntax highlighting
+if !exists('g:vscode')
+    au BufRead,BufNewFile *.usd set filetype=usda
+    au BufRead,BufNewFile *.usda set filetype=usda
+    autocmd FileType usda source ~/.config/nvim/third_party/usda-syntax/vim/usda.vim
+endif
+
 " Hide the intro message
 set shortmess+=I
 
