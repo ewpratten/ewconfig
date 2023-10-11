@@ -80,6 +80,7 @@ if !exists('g:vscode')
     " Disable spellcheck for some file formats
     autocmd FileType man setlocal nospell
     autocmd FileType diff setlocal nospell
+    autocmd FileType usda setlocal nospell
 endif
 
 " Configure Diff rendering
