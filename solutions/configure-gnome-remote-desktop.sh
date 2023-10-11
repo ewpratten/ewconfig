@@ -1,0 +1,23 @@
+#! /bin/bash
+# This script will do the work needed to configure Gnome Remote Desktop headlessly.
+# Useful if you need RDP access to a remote machine and forgot to configure it before-hand
+set -e
+
+# Make the keys dir
+KEYS_DIR=~/.config/gnome-remote-desktop/keys
+mkdir -p $KEYS_DIR
+
+# Generate keys
+openssl genrsa -out $KEYS_DIR/tls.key 4096
+openssl req -new -key $KEYS_DIR/tls.key -out $KEYS_DIR/tls.csr
+openssl x509 -req -days 36500 -signkey $KEYS_DIR/tls.key -in $KEYS_DIR/tls.csr -out $KEYS_DIR/tls.crt
+
+# Set the certificates
+grdctl rdp set-tls-cert $KEYS_DIR/tls.crt
+grdctl rdp set-tls-key $KEYS_DIR/tls.key
+grdctl rdp disable-view-only
+
+# Inform of that to run next
+echo "To finish GRD RDP setup, run:\
+\n\tgrdctl rdp set-credentials <username> <password>\
+\n\tgrdctl rdp enable"

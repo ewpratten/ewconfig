@@ -2,7 +2,7 @@
     link:
       relink: true
 
-- clean: ['~']
+- clean: ["~"]
 
 - create:
     # Common organizational dirs
@@ -21,14 +21,14 @@
     - ~/.config/user-tmpfiles.d
     # Program plugins
     - ~/.local/share/nautilus/scripts/
-    
+
 - link:
     # Git
     ~/.gitconfig: configs/git/.gitconfig
     ~/.ssh/allowed_signers: configs/ssh/allowed_signers
 
     # Shell
-    ~/.zshrc: 
+    ~/.zshrc:
       path: configs/zsh/.zshrc
       force: true
 
@@ -53,6 +53,9 @@
     ~/.local/share/nautilus/scripts/Open in Video Trimmer:
       path: configs/nautilus/scripts/Open in Video Trimmer
       mode: 755
+    ~/.local/share/nautilus/scripts/USDView:
+      path: configs/nautilus/scripts/USDView
+      mode: 755
     ~/bin/run-logid:
       path: configs/scripts/run-logid
       mode: 755
@@ -76,18 +79,23 @@
     ~/.config/user-tmpfiles.d/discord-rpc.conf: configs/user-tmpfiles.d/discord-rpc.conf
     ~/.config/logid/logid.cfg: configs/logid/logid.cfg
     ~/houdini19.5/scripts: configs/houdini19.5/scripts
+    ~/sln: solutions
 
 - shell:
-  # Make sure we have our git modules
-  - [git submodule update --init --recursive, Installing submodules]
-  # Install SSH config
-  - [sh ./helpers/install-ssh-config.sh, Installing SSH config]
-  # Ensure that all downloaded scripts are executable
-  - [chmod +x configs/scripts/*, Making bin scripts executable]
-  - [chmod +x configs/nautilus/scripts/*, Making nautilus scripts executable]
-  # Configure GNOME
-  - [sh ./helpers/configure-gnome.sh, Configuring GNOME]
-  # Configure Termux if on Android
-  - [termux-reload-settings || true, Trying to reload Termux]
-  # Configure Git
-  - [bash ./helpers/git-config-features.sh, Setting up optional git-config features]
+    # Make sure we have our git modules
+    - [git submodule update --init --recursive, Installing submodules]
+    # Install SSH config
+    - [sh ./helpers/install-ssh-config.sh, Installing SSH config]
+    # Ensure that all downloaded scripts are executable
+    - [chmod +x configs/scripts/*, Making bin scripts executable]
+    - [chmod +x configs/nautilus/scripts/*, Making nautilus scripts executable]
+    - [chmod +x solutions/*, Making solution scripts executable]
+    # Configure GNOME
+    - [sh ./helpers/configure-gnome.sh, Configuring GNOME]
+    # Configure Termux if on Android
+    - [termux-reload-settings || true, Trying to reload Termux]
+    # Configure Git
+    - [
+        bash ./helpers/git-config-features.sh,
+        Setting up optional git-config features,
+      ]
