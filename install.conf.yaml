@@ -62,6 +62,7 @@
     ~/bin/houdini-tool: configs/scripts/houdini-tool.py
     ~/bin/hython-latest: configs/scripts/hython-latest
     ~/bin/usdnc-to-usd: configs/scripts/usdnc-to-usd.py
+    ~/bin/guru-vpn: configs/scripts/guru-vpn.py
 
     # Systemd Services
     # ~/.config/systemd/user/logid.service: configs/systemd/user/logid.service
