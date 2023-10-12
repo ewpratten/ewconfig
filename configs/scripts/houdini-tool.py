@@ -45,6 +45,13 @@ def main() -> int:
         required=True,
     )
     ap.add_argument(
+        "--sub-project",
+        "--sp",
+        help="Name of the sub-project to open",
+        type=str,
+        default=None,
+    )
+    ap.add_argument(
         "--hou-version",
         help="Houdini version to use. Defaults to latest",
         type=str,
@@ -72,11 +79,14 @@ def main() -> int:
 
     # Determine the project path
     project_path = prepend_if_relative(HOUDINI_PROJECTS_DIR, Path(args.project))
-    project_save_file = project_path / f"{project_path.name}.hip"
+    project_save_file = project_path / (
+        f"{args.sub_project}.hip" if args.sub_project else f"{project_path.name}.hip"
+    )
     logger.info(f"Opening project from: {project_path}")
 
     # If the directory does not exist, create
     project_path.mkdir(parents=True, exist_ok=True)
+    (project_path / "render").mkdir(parents=True, exist_ok=True)
 
     # If allowed, set up env vars
     hou_env_settings = {}
@@ -86,7 +96,7 @@ def main() -> int:
     hou_env_settings["HOUDINI_PDG_NODE_DEBUG"] = "3"
     if args.cpu:
         hou_env_settings["HOUDINI_OCL_DEVICETYPE"] = "CPU"
-        hou_env_settings["HOUDINI_USE_HFS_OCL"]="1"
+        hou_env_settings["HOUDINI_USE_HFS_OCL"] = "1"
     if args.dump_core:
         hou_env_settings["HOUDINI_COREDUMP"] = "1"
     if not args.no_project_env:
@@ -99,8 +109,8 @@ def main() -> int:
         logger.info("Environment changes:")
         for key, value in hou_env_settings.items():
             logger.info(f"  ${key}: {value}")
-            
-    # Combine the current environment with 
+
+    # Combine the current environment with
     cmd_env = dict(os.environ)
     cmd_env.update(hou_env_settings)
 
