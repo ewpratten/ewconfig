@@ -13,6 +13,7 @@ alias lsgrep="ls | grep"
 alias sheridan-rdp='firefox --new-window "ext+container:name=College&url=https://client.wvd.microsoft.com/arm/webclient/index.html"'
 alias git-diff-nvim="git diff | nvim -R -d -c 'set filetype=diff' -"
 alias yk-totp="ykman oath accounts code"
+alias flush-dns-cache="sudo systemd-resolve --flush-caches"
 
 # WHOIS macros
 alias whois-afrinic="whois -h whois.afrinic.net"
@@ -125,7 +126,8 @@ wg-restart() {
     if [ $# != 1 ]; then
         echo "Usage: wg-restart <interface>"
     else
-        wg-quick down $1 && wg-quick up $1
+        wg-quick down $1 || true;
+        wg-quick up $1
     fi
 }
 
@@ -135,5 +137,23 @@ wg-reload() {
         echo "Usage: wg-reload <interface>"
     else
         wg syncconf $1 <(wg-quick strip $1)
+    fi
+}
+
+# Edit a wireguard config file
+wg-edit() {
+    if [ $# != 1 ]; then
+        echo "Usage: wg-edit <interface>"
+    else
+        sudo nvim /etc/wireguard/$1.conf
+    fi
+} 
+
+# Print a wireguard config file
+wg-cat() {
+    if [ $# != 1 ]; then
+        echo "Usage: wg-cat <interface>"
+    else
+        sudo cat /etc/wireguard/$1.conf
     fi
 }
