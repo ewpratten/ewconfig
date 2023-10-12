@@ -75,6 +75,7 @@ def main() -> int:
 
     # For every line (client) except the first (this device)
     lines = output.split("\n")[1:]
+    outputs = []
     for line in lines:
         # values are in TSV
         values = line.split("\t")
@@ -99,10 +100,20 @@ def main() -> int:
 
         # Get the time of the last handshake
         last_handshake = datetime.fromtimestamp(int(values[4]))
-        time_ago = timeago.format(last_handshake, datetime.now()) if values[4] != "0" else "Never"
+        time_ago = (
+            timeago.format(last_handshake, datetime.now())
+            if values[4] != "0"
+            else "Never"
+        )
 
-        # Print the client's name and the time of the last handshake
-        print(f"{name}: {time_ago}")
+        outputs.append((name, last_handshake, time_ago))
+
+    # Sort the outputs by time
+    outputs.sort(key=lambda x: x[1], reverse=True)
+
+    # Print the outputs
+    for output in outputs:
+        print(f"{output[0]}: {output[2]}")
 
     return 0
 
