@@ -99,7 +99,7 @@ def main() -> int:
 
         # Get the time of the last handshake
         last_handshake = datetime.fromtimestamp(int(values[4]))
-        time_ago = timeago.format(last_handshake, datetime.now())
+        time_ago = timeago.format(last_handshake, datetime.now()) if values[4] != "0" else "Never"
 
         # Print the client's name and the time of the last handshake
         print(f"{name}: {time_ago}")
