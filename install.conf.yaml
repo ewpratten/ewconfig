@@ -48,6 +48,7 @@
     ~/bin/hython-latest: configs/scripts/hython-latest
     ~/bin/usdnc-to-usd: configs/scripts/usdnc-to-usd.py
     ~/bin/guru-vpn: configs/scripts/guru-vpn.py
+    ~/bin/wg-handshakes: configs/scripts/wg-handshakes.py
 
     # Nautilus right-click scripts
     ~/.local/share/nautilus/scripts/Copy to web:
