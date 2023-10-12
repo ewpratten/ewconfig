@@ -2,6 +2,9 @@
 " Syntax highlighting
 syntax on
 
+" Enable modeline
+set modeline
+
 " Enable mouse usage
 set mouse=a
 
