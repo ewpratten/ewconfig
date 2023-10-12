@@ -56,6 +56,10 @@ def get_password(label: str, ns: str, key: str) -> str:
 
 
 def handle_connect(args: argparse.Namespace) -> int:
+    if not has_yk_plugged_in():
+        print("Could not find YubiKey. Is it plugged in?", file=sys.stderr)
+        return 1
+
     # If we are connected to AS54041, we need to briefly kill the connection
     if is_interface_up("vpn"):
         print("Bringing down AS54041 VPN")
@@ -91,22 +95,30 @@ def handle_connect(args: argparse.Namespace) -> int:
     subprocess.run(["sudo", "wg-quick", "up", "vpn"], check=True)
 
 
+def handle_disconnect(args: argparse.Namespace) -> int:
+    # Disconnect from Guru VPN
+    print("Bringing down Guru VPN")
+    result = subprocess.run(["nmcli", "connection", "down", "Guru VPN"])
+    return result.returncode
+
+
 def main() -> int:
     # Handle program arguments
     ap = argparse.ArgumentParser(
         prog="guru-vpn", description="Utility for connecting to the Guru VPN"
     )
-    ap.add_argument("operation", choices=["connect"], help="Operation to perform")
+    ap.add_argument(
+        "operation", choices=["connect", "disconnect"], help="Operation to perform"
+    )
     args = ap.parse_args()
 
     # Ensure we can actually get credentials from the Yubikey
     if not has_ykman():
-        print("Could not execute `ykman`. Is it installed?", file=sys.stderr)
-    if not has_yk_plugged_in():
-        print("Could not find YubiKey. Is it plugged in?", file=sys.stderr)
+        print("Could not execute `ykman`. Is it installed?", file=sys.stderr);
+        return 1
 
     # Handle subcommands
-    cmd_fns = {"connect": handle_connect}
+    cmd_fns = {"connect": handle_connect, "disconnect": handle_disconnect}
     return cmd_fns[args.operation](args)
 
 
