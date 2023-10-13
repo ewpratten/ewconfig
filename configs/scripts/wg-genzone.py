@@ -61,10 +61,11 @@ def get_addr_maps(
         while len(lines) > 0 and not lines[0].startswith("[Peer]"):
             # If this is an allowed ip line, parse it
             if lines[0].startswith("AllowedIPs"):
+                allowed_ips_line = lines[0].split("#")[0]
                 allowed_ips.extend(
                     [
                         ipaddress.ip_network(addr.strip())
-                        for addr in (lines[0].split("=")[1].strip()).split(",")
+                        for addr in (allowed_ips_line.split("=")[1].strip()).split(",")
                     ]
                 )
 
