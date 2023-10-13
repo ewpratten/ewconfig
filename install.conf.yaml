@@ -49,6 +49,7 @@
     ~/bin/usdnc-to-usd: configs/scripts/usdnc-to-usd.py
     ~/bin/guru-vpn: configs/scripts/guru-vpn.py
     ~/bin/wg-handshakes: configs/scripts/wg-handshakes.py
+    ~/bin/wg-genzone: configs/scripts/wg-genzone.py
 
     # Nautilus right-click scripts
     ~/.local/share/nautilus/scripts/Copy to web:
