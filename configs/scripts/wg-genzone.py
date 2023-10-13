@@ -103,6 +103,7 @@ def main() -> int:
     ap.add_argument(
         "--no-sudo", action="store_true", help="Do not use sudo to execute wg-quick"
     )
+    ap.add_argument("--ttl", help="The TTL to use for the zone", default=60)
     args = ap.parse_args()
 
     # Read the interface config
@@ -115,7 +116,6 @@ def main() -> int:
     
     # Convert to a zone file
     print(f"$ORIGIN {args.zone}.")
-    print(f"$TTL 60")
     print(f"@ IN SOA ns.{args.zone}. noc.ewpratten.com. 1 3600 600 86400 60")
     
     # Add the hosts
@@ -129,11 +129,11 @@ def main() -> int:
         # Add forward and reverse records
         for address in addresses:
             if isinstance(address, ipaddress.IPv4Address):
-                print(f"{host}. IN A {address}.")
-                print(f"{address.reverse_pointer}. IN PTR {host}.")
+                print(f"{host}. {args.ttl} IN A {address}.")
+                print(f"{address.reverse_pointer}. {args.ttl} IN PTR {host}.")
             elif isinstance(address, ipaddress.IPv6Address):
-                print(f"{host}. IN AAAA {address}.")
-                print(f"{address.reverse_pointer}. IN PTR {host}.")
+                print(f"{host}. {args.ttl} IN AAAA {address}.")
+                print(f"{address.reverse_pointer}. {args.ttl} IN PTR {host}.")
     
     
     return 0
