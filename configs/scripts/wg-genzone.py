@@ -130,10 +130,10 @@ def main() -> int:
         # Add forward and reverse records
         for address in addresses:
             if isinstance(address, ipaddress.IPv4Address):
-                print(f"{host}. IN A  {args.ttl} {address}.")
+                print(f"{host}. IN A  {args.ttl} {address}")
                 print(f"{address.reverse_pointer}. {args.ttl} IN PTR {host}")
             elif isinstance(address, ipaddress.IPv6Address):
-                print(f"{host}. {args.ttl} IN AAAA {address}.")
+                print(f"{host}. {args.ttl} IN AAAA {address}")
                 print(f"{address.reverse_pointer}. {args.ttl} IN PTR {host}")
     
     
