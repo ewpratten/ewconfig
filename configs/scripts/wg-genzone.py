@@ -63,7 +63,7 @@ def get_addr_maps(
             if lines[0].startswith("AllowedIPs"):
                 allowed_ips.extend(
                     [
-                        ipaddress.ip_network(addr)
+                        ipaddress.ip_network(addr.strip())
                         for addr in (lines[0].split("=")[1].strip()).split(",")
                     ]
                 )
