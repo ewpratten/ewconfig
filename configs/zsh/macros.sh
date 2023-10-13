@@ -158,3 +158,12 @@ wg-cat() {
         sudo cat /etc/wireguard/$1.conf
     fi
 }
+
+# Search for a process
+proc-grep() {
+    if [ $# != 1 ]; then
+        echo "Usage: proc-grep <regex>"
+    else
+        ps aux | { head -1; grep $1 }
+    fi
+}
