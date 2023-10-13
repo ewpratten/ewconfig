@@ -116,6 +116,7 @@ def main() -> int:
     
     # Convert to a zone file
     print(f"$ORIGIN {args.zone}.")
+    print(f"$TTL {args.ttl}")
     print(f"@ IN SOA ns.{args.zone}. noc.ewpratten.com. 1 3600 600 86400 60")
     
     # Add the hosts
@@ -129,11 +130,11 @@ def main() -> int:
         # Add forward and reverse records
         for address in addresses:
             if isinstance(address, ipaddress.IPv4Address):
-                print(f"{host}. {args.ttl} IN A {address}.")
-                print(f"{address.reverse_pointer}. {args.ttl} IN PTR {host}.")
+                print(f"{host}. IN A  {args.ttl} {address}.")
+                print(f"{address.reverse_pointer}. {args.ttl} IN PTR {host}")
             elif isinstance(address, ipaddress.IPv6Address):
                 print(f"{host}. {args.ttl} IN AAAA {address}.")
-                print(f"{address.reverse_pointer}. {args.ttl} IN PTR {host}.")
+                print(f"{address.reverse_pointer}. {args.ttl} IN PTR {host}")
     
     
     return 0
