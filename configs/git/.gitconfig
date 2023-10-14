@@ -17,6 +17,9 @@
 
 [alias]
 	authors = shortlog --summary --numbered --email
+	tree = log --graph --decorate --abbrev-commit --all \
+			--pretty=format:'%C(auto,yellow)commit %h%C(auto,cyan)%d%n%C(auto,cyan)Author:%Creset %aN <%aE>%n%C(auto,cyan)Date:%Creset %ad%n%s%n' \
+			--date=format:'%b %d %Y %H:%M:%S %z'
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
@@ -25,7 +28,6 @@
 	required = true
 
 [url "ssh://git@github.com/"]
-    #insteadOf = https://github.com/
     pushInsteadOf = https://github.com/
 
 [credential "https://github.com"]
@@ -41,3 +43,6 @@
 	smtpuser = evan@ewpratten.com
 	smtpencryption = tls
 	smtpserverport = 587
+
+[mailmap]
+	file = ~/.config/git/.mailmap

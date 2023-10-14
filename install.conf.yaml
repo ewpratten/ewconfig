@@ -18,6 +18,7 @@
     - ~/.config/logid
     - ~/.config/systemd/user
     - ~/.config/autostart
+    - ~/.config/git
     - ~/.cargo
     - ~/.config/user-tmpfiles.d
     # Program plugins
@@ -27,11 +28,15 @@
 - link:
     # Git
     ~/.gitconfig: configs/git/.gitconfig
+    ~/.config/git/.mailmap: configs/git/.mailmap
     ~/.ssh/allowed_signers: configs/ssh/allowed_signers
 
     # Shell
     ~/.zshrc:
       path: configs/zsh/.zshrc
+      force: true
+    ~/.bashrc:
+      path: configs/bash/.bashrc
       force: true
 
     # Vim
@@ -43,7 +48,6 @@
     ~/bin/catto: configs/scripts/catto
     ~/bin/aspath: configs/scripts/aspath
     ~/bin/fetch-steamdeck-screenshots: configs/scripts/fetch-steamdeck-screenshots
-    ~/bin/run-logid: configs/scripts/run-logid
     ~/bin/houdini-tool: configs/scripts/houdini-tool.py
     ~/bin/hython-latest: configs/scripts/hython-latest
     ~/bin/usdnc-to-usd: configs/scripts/usdnc-to-usd.py
