@@ -1,0 +1,66 @@
+#! /usr/bin/env python3
+import smtplib
+import getpass
+from email.message import EmailMessage
+import argparse
+import sys
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="ewp-sendmail", description="Easily send real emails"
+    )
+    ap.add_argument(
+        "--recipient",
+        "--to",
+        help="Email address of the recipient",
+        default="evan@ewpratten.com",
+    )
+    ap.add_argument("--cc", help="Email addresses to CC", nargs="+")
+    ap.add_argument("--subject", "-s", help="Subject of the email")
+    ap.add_argument(
+        "--from",
+        help="Sender of the email",
+        default="system-reports@ewpratten.com",
+        dest="sender",
+    )
+    ap.add_argument(
+        "--password",
+        help="Password to use for sending the email. Overrides the password in ~/.netrc",
+    )
+    args = ap.parse_args()
+
+    # Read the body from stdin
+    print("Enter the body of the email. Press Ctrl+D when done.")
+    body = sys.stdin.read()
+
+    # Read the password
+    password = args.password or getpass.getpass(f"Password for {args.sender}: ")
+
+    # Log in to the SMTP server
+    print("Connecting to SMTP server...")
+    smtp = smtplib.SMTP("smtp.ewpratten.com", 587)
+    smtp.ehlo()
+    smtp.starttls()
+    print("Authenticating...")
+    smtp.login(args.sender, password)
+    print("Sending email...")
+    # Create the email
+    msg = EmailMessage()
+    msg.set_content(body)
+    msg["Subject"] = args.subject
+    msg["From"] = args.sender
+    msg["To"] = args.recipient
+    if args.cc:
+        msg["Cc"] = ",".join(args.cc)
+    # Send the email
+    smtp.send_message(msg)
+    print("Done.")
+    smtp.quit()
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
