@@ -14,7 +14,6 @@ alias sheridan-rdp='firefox --new-window "ext+container:name=College&url=https:/
 alias git-diff-nvim="git diff | nvim -R -d -c 'set filetype=diff' -"
 alias yk-totp="ykman oath accounts code"
 alias flush-dns-cache="sudo systemd-resolve --flush-caches"
-alias ewconfig-pull="cd ~/.config/ewconfig; git pull"
 
 # WHOIS macros
 alias whois-afrinic="whois -h whois.afrinic.net"
@@ -166,4 +165,12 @@ proc-grep() {
     else
         ps aux | { head -1; grep $1 }
     fi
+}
+
+# Updates ewconfig
+ewconfig-pull() {
+    cwd=$(pwd)
+    cd ~/.config/ewconfig
+    git pull
+    cd $cwd
 }
