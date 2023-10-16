@@ -18,8 +18,9 @@
 [alias]
 	authors = shortlog --summary --numbered --email
 	tree = log --graph --decorate --abbrev-commit --all \
-			--pretty=format:'%C(auto,yellow)commit %h%C(auto,cyan)%d%n%C(auto,cyan)Author:%Creset %aN <%aE>%n%C(auto,cyan)Date:%Creset %ad%n%s%n' \
+			--pretty=format:'%C(yellow)commit %h%C(auto)%d%n%C(cyan)Author:%Creset %aN %C(dim white)<%aE>%n%C(cyan)Date:%Creset %C(dim white)%ad (%ar)%n%s%n' \
 			--date=format:'%b %d %Y %H:%M:%S %z'
+	branches = branch -a -l -vv
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
