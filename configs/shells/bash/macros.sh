@@ -1,4 +1,9 @@
-alias ls="ls --color=auto"
+# If ls has `--color` support
+if ls --color > /dev/null 2>&1; then
+    alias ls="ls --color=auto"
+fi
+
+# Main aliases
 alias ll="ls -l"
 alias la="ls -a"
 alias :q="exit"
@@ -163,5 +168,25 @@ ewconfig-pull() {
     cwd=$(pwd)
     cd ~/.config/ewconfig
     git pull
+    cd $cwd
+}
+
+# Updates the ewconfig on machines that don't have git
+ewconfig-pull-zip(){
+    cwd=$(pwd)
+    # If $EWCONFIG_ROOT/.git exists, don't let the user run this
+    if [ -d $EWCONFIG_ROOT/.git ]; then
+        echo "You can't run this command when ~/.config/ewconfig is a git repo!"
+        return 1
+    fi
+
+    # Download the latest zip
+    cd ~/Downloads
+    curl -L https://ewp.fyi/config.zip -o ewconfig.zip
+    rm -rf ~/.config/ewconfig
+    unzip -o ewconfig.zip -d ~/.config/ewconfig
+    rm ewconfig.zip
+
+    # Return to the original directory
     cd $cwd
 }
