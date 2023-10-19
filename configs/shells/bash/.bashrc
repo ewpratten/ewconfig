@@ -14,3 +14,6 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # A basic prompt to display user@host dir sign
 export PS1="(bash) \[\e[0;32m\]\u@\h \[\e[0;36m\]\w \[\e[0;36m\]\$ \[\e[0m\]"
+
+# If found, load studio python
+[[ -d "/c/Programs/software/win/core/python/python_3.7.7" ]] && export PATH="/c/Programs/software/win/core/python/python_3.7.7:$PATH"
