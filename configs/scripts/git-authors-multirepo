@@ -11,18 +11,21 @@ def main() -> int:
         description="git authors, but for multiple repos at once"
     )
     ap.add_argument(
-        "walk_start_dir",
+        "--start",
         help="Directory to start walking from",
         default=Path("."),
         type=Path,
     )
+    ap.add_argument("--log-repos", help="Log the repos found", action="store_true")
     args = ap.parse_args()
 
     # Find every subdirectory that is a git repo
     git_dirs = []
-    for path in args.walk_start_dir.iterdir():
+    for path in args.start.iterdir():
         if path.is_dir() and (path / ".git").is_dir():
             git_dirs.append(path)
+            if args.log_repos:
+                print(f"Reading GIT repo at: {path}")
 
     # Collect the results of `git authors` from each repo
     authors = []
