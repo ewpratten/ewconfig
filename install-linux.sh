@@ -52,6 +52,11 @@ ln -sf $EWCONFIG_ROOT/configs/git/.gitconfig ~/.gitconfig
 ln -sf $EWCONFIG_ROOT/configs/sssh/allowed_signers ~/.ssh/allowed_signers
 ln -sf $EWCONFIG_ROOT/configs/git/.mailmap ~/.config/git/.mailmap
 
+# Copy the global mailmap file once
+if [ ! -f ~/.config/git/config-fragments/global-mailmap.gitconfig ]; then
+    cp $EWCONFIG_ROOT/configs/git/config-fragments/global-mailmap.gitconfig ~/.config/git/config-fragments/global-mailmap.gitconfig
+fi
+
 # Check if GIT is installed > 2.34
 set +x
 if type -p git > /dev/null; then
@@ -74,17 +79,17 @@ if type -p chown > /dev/null; then chown "$USER:$USER" "$HOME/.ssh/config"; fi
 
 # Configure (neo)Vim
 ln -sf $EWCONFIG_ROOT/configs/nvim/init.vim ~/.config/nvim/init.vim
-ln -sf $EWCONFIG_ROOT/configs/nvim/pack ~/.config/nvim/pack
-ln -sf $EWCONFIG_ROOT/configs/nvim/third_party ~/.config/nvim/third_party
+unlink ~/.config/nvim/pack || true;         ln -sf $EWCONFIG_ROOT/configs/nvim/pack ~/.config/nvim/pack
+unlink ~/.config/nvim/third_party || true;  ln -sf $EWCONFIG_ROOT/configs/nvim/third_party ~/.config/nvim/third_party
 
 # Nautilus right-click scripts
 ln -sf $EWCONFIG_ROOT/configs/nautilus/scripts/* ~/.local/share/nautilus/scripts/
 
 # Tabset configs
-ln -sf $EWCONFIG_ROOT/configs/tabset/ ~/.config/tabset
+unlink ~/.config/tabset || true; ln -sf $EWCONFIG_ROOT/configs/tabset ~/.config/tabset
 
 # Rofi configs
-ln -sf $EWCONFIG_ROOT/configs/rofi/ ~/.config/rofi
+unlink ~/.config/rofi || true; ln -sf $EWCONFIG_ROOT/configs/rofi ~/.config/rofi
 
 # Cargo
 ln -sf $EWCONFIG_ROOT/configs/cargo/config.toml ~/.cargo/config.toml
