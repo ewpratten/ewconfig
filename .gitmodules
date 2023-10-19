@@ -1,7 +1,3 @@
-[submodule "dotbot"]
-	path = dotbot
-	url = https://github.com/anishathalye/dotbot
-	ignore = dirty
 [submodule "configs/nvim/pack/tpope/start/repeat"]
 	path = configs/nvim/pack/tpope/start/repeat
 	url = https://tpope.io/vim/repeat.git
