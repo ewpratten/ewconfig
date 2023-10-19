@@ -9,10 +9,14 @@ elif [ -n "$ZSH_VERSION" ]; then
   green="$fg[green]"
 fi
 
-# If `uname -s` is a BSD
-if [ $(uname -s | grep -c BSD) -gt 0 ]; then
+# Different OSes have different ways of displaying info
+if [ $(uname -s | grep -c BSD) -gt 0 ]; then # BSD
   echo -e "${green}Platform:$reset_color $(uname -s) $(uname -r) $(uname -p)"
-else # Linux
+
+elif [ $(uname -s | grep -c Msys) -gt 0 ]; then # Windows
+  echo -e "${green}Platform:$reset_color $(uname -o) $(uname -r)"
+  
+else # Linux-y things
   echo -e "${green}Platform:$reset_color $(uname -o) $(uname -r)"
   echo -e "${green}Uptime:$reset_color $(uptime -p)"
 fi

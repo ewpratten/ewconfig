@@ -1,11 +1,11 @@
 # This is a somewhat hacky bashrc that is used to provide some of the conveniences from my zshrc on machines that I can't get zsh on
 export EWCONFIG_ROOT="$HOME/.config/ewconfig"
 
-# Load macros
-. $EWCONFIG_ROOT/configs/shells/bash/macros.sh
-
 # Show some host info
 . $EWCONFIG_ROOT/configs/shells/bash/info.sh
+
+# Load macros
+. $EWCONFIG_ROOT/configs/shells/bash/macros.sh
 
 # I always want my ~/bin to be in my PATH
 export PATH="$HOME/bin:$PATH"
