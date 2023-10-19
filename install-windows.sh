@@ -31,7 +31,7 @@ ln -sf $EWCONFIG_ROOT/configs/shells/bash/.bashrc ~/.bashrc
 
 # Configure Git
 ln -sf $EWCONFIG_ROOT/configs/git/.gitconfig ~/.gitconfig
-ln -sf $EWCONFIG_ROOT/configs/sssh/allowed_signers ~/.ssh/allowed_signers
+ln -sf $EWCONFIG_ROOT/configs/sssh/allowed_signers ~/.ssh/allowed_signers || true
 ln -sf $EWCONFIG_ROOT/configs/git/.mailmap ~/.config/git/.mailmap
 
 # Configure SSH
