@@ -1,10 +1,9 @@
 [include]
-	path = ~/.config/git/features/enable-signing.gitconfig
-
-[user]
-	email = evan@ewpratten.com
-	name = Evan Pratten
-	signingkey = ~/.ssh/id_ed25519_sk_rk_yk20572395
+	# NOTE: These paths are imported if they exist and ignored if they don't
+	# This allows us to have a single config file for all our machines
+	# and control the specifics by symlinking the relevant files per-machine
+	path = ~/.config/git/config-fragments/personal-info.gitconfig
+	path = ~/.config/git/config-fragments/enable-signing.gitconfig
 
 [init]
     defaultBranch = master
@@ -38,12 +37,6 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
-
-[sendemail]
-	smtpserver = smtp.migadu.com
-	smtpuser = evan@ewpratten.com
-	smtpencryption = tls
-	smtpserverport = 587
 
 [mailmap]
 	file = ~/.config/git/.mailmap

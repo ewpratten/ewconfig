@@ -16,5 +16,10 @@ Install and link everything with:
 mkdir -p ~/.config && cd ~/.config
 git clone https://github.com/ewpratten/ewconfig
 cd ewconfig
-./install
+
+# Linux
+sh ./install-linux.sh
+
+# Windows, with GIT BASH
+sh ./install-windows.sh
 ```

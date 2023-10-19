@@ -3,21 +3,22 @@
 export EWCONFIG_ROOT="$HOME/.config/ewconfig"
 
 # Load my custom prompt and macros
-. $EWCONFIG_ROOT/configs/zsh/prompt.sh
-. $EWCONFIG_ROOT/configs/zsh/macros.sh
-. $EWCONFIG_ROOT/configs/zsh/keybinds.sh
-. $EWCONFIG_ROOT/configs/zsh/autocomplete.sh
+. $EWCONFIG_ROOT/configs/shells/zsh/prompt.sh
+. $EWCONFIG_ROOT/configs/shells/zsh/macros.sh
+. $EWCONFIG_ROOT/configs/shells/zsh/keybinds.sh
+. $EWCONFIG_ROOT/configs/shells/zsh/autocomplete.sh
 
 # Load per-host configuration
 if [ -f $EWCONFIG_ROOT/configs/zsh/by_host/$HOSTNAME.sh ]; then
-  . $EWCONFIG_ROOT/configs/zsh/by_host/$HOSTNAME.sh
+  . $EWCONFIG_ROOT/configs/shells/zsh/by_host/$HOSTNAME.sh
 fi
 
 # Show some host info
-. $EWCONFIG_ROOT/configs/zsh/info.sh
+. $EWCONFIG_ROOT/configs/shells/zsh/info.sh
 
 # I always want my ~/bin to be in my PATH
 export PATH="$HOME/bin:$PATH"
+export PATH="$EWCONFIG_ROOT/configs/scripts:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 # Configure a sane default editor

@@ -6,7 +6,10 @@
         {
             "label": "Run install script",
             "type": "shell",
-            "command": "./install",
+            "command": "sh",
+            "args": [
+                "./install-linux.sh"
+            ],
             "problemMatcher": []
         }
     ]
