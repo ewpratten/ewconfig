@@ -21,12 +21,11 @@ def main() -> int:
 
     # Find every subdirectory that is a git repo
     git_dirs = []
-    all_dirs_recursive = list(args.start.glob("**/*"))
+    all_dirs_recursive = list(args.start.glob("**/*.git"))
     for path in all_dirs_recursive:
-        if path.is_dir() and (path / ".git").is_dir():
-            git_dirs.append(path)
-            if args.log_repos:
-                print(f"Reading GIT repo at: {path}")
+        git_dirs.append(path.parent)
+        if args.log_repos:
+            print(f"Reading GIT repo at: {path.parent}")
 
     # Collect the results of `git authors` from each repo
     authors = []
