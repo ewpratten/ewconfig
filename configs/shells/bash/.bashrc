@@ -4,6 +4,9 @@ export EWCONFIG_ROOT="$HOME/.config/ewconfig"
 # Load macros
 . $EWCONFIG_ROOT/configs/shells/bash/macros.sh
 
+# Show some host info
+. $EWCONFIG_ROOT/configs/shells/bash/info.sh
+
 # I always want my ~/bin to be in my PATH
 export PATH="$HOME/bin:$PATH"
 export PATH="$EWCONFIG_ROOT/configs/scripts:$PATH"

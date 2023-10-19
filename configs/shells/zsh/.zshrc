@@ -14,7 +14,7 @@ if [ -f $EWCONFIG_ROOT/configs/zsh/by_host/$HOSTNAME.sh ]; then
 fi
 
 # Show some host info
-. $EWCONFIG_ROOT/configs/shells/zsh/info.sh
+. $EWCONFIG_ROOT/configs/shells/bash/info.sh
 
 # I always want my ~/bin to be in my PATH
 export PATH="$HOME/bin:$PATH"
