@@ -16,4 +16,4 @@ export PATH="$HOME/.local/bin:$PATH"
 export PS1="(bash) \[\e[0;32m\]\u@\h \[\e[0;36m\]\w \[\e[0;36m\]\$ \[\e[0m\]"
 
 # If found, load studio python
-[[ -d "/c/Programs/software/win/core/python/python_3.7.7" ]] && export PATH="/c/Programs/software/win/core/python/python_3.7.7:$PATH"
+if [ -d "/c/Programs/software/win/core/python/python_3.7.7" ]; then export PATH="/c/Programs/software/win/core/python/python_3.7.7:$PATH"; fi
