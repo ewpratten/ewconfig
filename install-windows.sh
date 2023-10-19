@@ -35,6 +35,11 @@ ln -sf $EWCONFIG_ROOT/configs/git/.gitconfig ~/.gitconfig
 ln -sf $EWCONFIG_ROOT/configs/sssh/allowed_signers ~/.ssh/allowed_signers || true
 ln -sf $EWCONFIG_ROOT/configs/git/.mailmap ~/.config/git/.mailmap
 
+# Copy the global mailmap file once
+if [ ! -f ~/.config/git/config-fragments/global-mailmap.gitconfig ]; then
+    cp $EWCONFIG_ROOT/configs/git/config-fragments/global-mailmap.gitconfig ~/.config/git/config-fragments/global-mailmap.gitconfig
+fi
+
 # Configure SSH
 ln -sf $EWCONFIG_ROOT/configs/ssh/config ~/.ssh/config
 chmod 644 "$HOME/.ssh/config"
