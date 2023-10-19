@@ -56,7 +56,7 @@ ln -sf $EWCONFIG_ROOT/configs/git/.mailmap ~/.config/git/.mailmap
 set +x
 if type -p git > /dev/null; then
     # If sort has a -V option
-    if sort --help | grep -q -- -V; then
+    if man sort | grep -q -- -V; then
         # If GIT has SSH signing support, enable it
         git_version=$(git --version | cut -d' ' -f3 | cut -d'.' -f1-2)
         minimum_version=2.34
