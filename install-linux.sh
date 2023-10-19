@@ -6,8 +6,11 @@ export EWCONFIG_ROOT=$(dirname $(readlink -f $0))
 
 # Pull git submodules if needed
 if type -p git > /dev/null; then
-    echo "Syncing git submodules..."
-    git submodule update --init --recursive
+    # If we have permission to run git
+    if [ -d "$EWCONFIG_ROOT/.git" ]; then
+        echo "Syncing git submodules..."
+        git submodule update --init --recursive
+    fi
 fi
 
 # Make sure scripts are all executable
