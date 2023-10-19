@@ -13,7 +13,7 @@ fi
 if [ $(uname -s | grep -c BSD) -gt 0 ]; then # BSD
   echo -e "${green}Platform:$reset_color $(uname -s) $(uname -r) $(uname -p)"
 
-elif [ $(uname -s | grep -c Msys) -gt 0 ]; then # Windows
+elif [ $(uname -o | grep -c Msys) -gt 0 ]; then # Windows
   echo -e "${green}Platform:$reset_color $(uname -o) $(uname -r)"
   
 else # Linux-y things
