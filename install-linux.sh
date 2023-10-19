@@ -55,12 +55,15 @@ ln -sf $EWCONFIG_ROOT/configs/git/.mailmap ~/.config/git/.mailmap
 # Check if GIT is installed > 2.34
 set +x
 if type -p git > /dev/null; then
-    # If GIT has SSH signing support, enable it
-    git_version=$(git --version | cut -d' ' -f3 | cut -d'.' -f1-2)
-    minimum_version=2.34
-    if [ "$(printf '%s\n' "$minimum_version" "$git_version" | sort -V | head -n1)" = "$minimum_version" ]; then
-        set -x
-        ln -sf $EWCONFIG_ROOT/configs/git/config-fragments/enable-signing.gitconfig ~/.config/git/config-fragments/enable-signing.gitconfig
+    # If sort has a -V option
+    if sort --help | grep -q -- -V; then
+        # If GIT has SSH signing support, enable it
+        git_version=$(git --version | cut -d' ' -f3 | cut -d'.' -f1-2)
+        minimum_version=2.34
+        if [ "$(printf '%s\n' "$minimum_version" "$git_version" | sort -V | head -n1)" = "$minimum_version" ]; then
+            set -x
+            ln -sf $EWCONFIG_ROOT/configs/git/config-fragments/enable-signing.gitconfig ~/.config/git/config-fragments/enable-signing.gitconfig
+        fi
     fi
 fi
 
