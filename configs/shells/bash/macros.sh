@@ -184,7 +184,8 @@ ewconfig-pull-zip(){
     cd ~/Downloads
     curl -L https://ewp.fyi/config.zip -o ewconfig.zip
     rm -rf ~/.config/ewconfig
-    unzip -o ewconfig.zip -d ~/.config/ewconfig
+    unzip ewconfig.zip
+    mv ewconfig-master ~/.config/ewconfig
     rm ewconfig.zip
 
     # Return to the original directory
