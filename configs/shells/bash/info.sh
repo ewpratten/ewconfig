@@ -1,4 +1,5 @@
 
+echo "in info"
 # Define red and green based on the shell
 if [ -n "$BASH_VERSION" ]; then
   red='\033[0;31m'
@@ -15,7 +16,7 @@ if [ $(uname -s | grep -c BSD) -gt 0 ]; then # BSD
 
 elif [ $(uname -s | grep -c Msys) -gt 0 ]; then # Windows
   echo -e "${green}Platform:$reset_color $(uname -o) $(uname -r)"
-  
+
 else # Linux-y things
   echo -e "${green}Platform:$reset_color $(uname -o) $(uname -r)"
   echo -e "${green}Uptime:$reset_color $(uptime -p)"
