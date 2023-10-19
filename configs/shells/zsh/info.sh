@@ -1,6 +1,6 @@
 
 # If `uname -s` is a BSD
-if [ uname -s | grep BSD - > /dev/null ]; then
+if [ $(uname -s | grep -c BSD) -gt 0 ]; then
   echo "$fg[green]Platform:$reset_color $(uname -s) $(uname -r) $(uname -p)"
 else # Linux
   echo "$fg[green]Platform:$reset_color $(uname -o) $(uname -r)"
