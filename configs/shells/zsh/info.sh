@@ -1,5 +1,11 @@
-echo "$fg[green]Platform:$reset_color $(uname -o) $(uname -r)"
-echo "$fg[green]Uptime:$reset_color $(uptime -p)"
+
+# If `uname -s` is a BSD
+if [ uname -s | grep BSD > /dev/null ]; then
+  echo "$fg[green]Platform:$reset_color $(uname -s) $(uname -r) $(uname -p)"
+else # Linux
+  echo "$fg[green]Platform:$reset_color $(uname -o) $(uname -r)"
+  echo "$fg[green]Uptime:$reset_color $(uptime -p)"
+fi
 
 # Determine if $EWCONFIG_ROOT contains uncommitted changes
 if [ -d $EWCONFIG_ROOT/.git ]; then
