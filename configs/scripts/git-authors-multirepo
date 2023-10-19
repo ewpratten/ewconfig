@@ -21,7 +21,8 @@ def main() -> int:
 
     # Find every subdirectory that is a git repo
     git_dirs = []
-    for path in args.start.iterdir():
+    all_dirs_recursive = list(args.start.glob("**/*"))
+    for path in all_dirs_recursive:
         if path.is_dir() and (path / ".git").is_dir():
             git_dirs.append(path)
             if args.log_repos:
