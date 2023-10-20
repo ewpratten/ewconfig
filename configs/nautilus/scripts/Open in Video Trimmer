@@ -1,4 +1,4 @@
 #! /bin/bash
 set -e
 
-python3 ~/.config/ewconfig/configs/scripts/video_trimmer.py
+python3 ~/.config/ewconfig/configs/scripts/video_trimmer
