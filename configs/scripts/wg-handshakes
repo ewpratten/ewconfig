@@ -65,6 +65,12 @@ def main() -> int:
     ap.add_argument(
         "--dns-server", "-d", help="Override the DNS server to use for RDNS lookups"
     )
+    ap.add_argument(
+        "--format",
+        default="text",
+        choices=["text", "html"],
+        help="The format to output",
+    )
     args = ap.parse_args()
 
     # Get the output of wg show
@@ -112,8 +118,18 @@ def main() -> int:
     outputs.sort(key=lambda x: x[1], reverse=True)
 
     # Print the outputs
-    for output in outputs:
-        print(f"{output[0]}: {output[2]}")
+    if args.format == "text":
+        for output in outputs:
+            print(f"{output[0]}: {output[2]}")
+    elif args.format == "html":
+        print("<head><title>WireGuard Handshakes</title></head>")
+        print("<body>")
+        print("<table>")
+        print("<tr><th>Name</th><th>Last Handshake</th></tr>")
+        for output in outputs:
+            print(f"<tr><td>{output[0]}</td><td>{output[2]}</td></tr>")
+        print("</table>")
+        print("</body>")
 
     return 0
 
