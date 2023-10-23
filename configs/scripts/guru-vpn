@@ -108,17 +108,23 @@ def main() -> int:
         prog="guru-vpn", description="Utility for connecting to the Guru VPN"
     )
     ap.add_argument(
-        "operation", choices=["connect", "disconnect"], help="Operation to perform"
+        "operation",
+        choices=["connect", "disconnect", "reconnect"],
+        help="Operation to perform",
     )
     args = ap.parse_args()
 
     # Ensure we can actually get credentials from the Yubikey
     if not has_ykman():
-        print("Could not execute `ykman`. Is it installed?", file=sys.stderr);
+        print("Could not execute `ykman`. Is it installed?", file=sys.stderr)
         return 1
 
     # Handle subcommands
-    cmd_fns = {"connect": handle_connect, "disconnect": handle_disconnect}
+    cmd_fns = {
+        "connect": handle_connect,
+        "disconnect": handle_disconnect,
+        "reconnect": lambda args: handle_disconnect(args) or handle_connect(args),
+    }
     return cmd_fns[args.operation](args)
 
 
