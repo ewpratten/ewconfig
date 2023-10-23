@@ -22,6 +22,8 @@
 			--date=format:'%b %d %Y %H:%M:%S %z'
 	branches = branch -a -l -vv
 	overview = log --all --pretty=format:'%C(green)commit %C(yellow)%h%C(green) by %C(reset)%C(yellow)%aN %C(dim white)(%ar) %n%C(dim white)%S%n%B%n'
+	lscommits = ! ( echo -e "Commits\tFile" && git log --pretty=format: --name-only | sed '/^$/d' | sort | uniq -c | sort -g -r ) | less
+	lsc = lscommits
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
