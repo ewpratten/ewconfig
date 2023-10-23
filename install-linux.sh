@@ -103,6 +103,12 @@ ln -sf $EWCONFIG_ROOT/configs/user-tmpfiles.d/* ~/.config/user-tmpfiles.d/
 # Logid config
 ln -sf $EWCONFIG_ROOT/configs/logid/logid.cfg ~/.config/logid/logid.cfg
 
+# Minecraft global configs
+unlink ~/.config/minecraft || true; ln -sf $EWCONFIG_ROOT/configs/minecraft ~/.config/minecraft
+if [ -d ~/.var/app/org.prismlauncher.PrismLauncher ]; then
+    flatpak override --user --filesystem=~/.config/minecraft org.prismlauncher.PrismLauncher
+fi
+
 # -- Optional Configs --
 set +x
 

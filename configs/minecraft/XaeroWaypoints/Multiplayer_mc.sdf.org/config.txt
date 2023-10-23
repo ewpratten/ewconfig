@@ -1,0 +1,13 @@
+//waypoints config options
+usingMultiworldDetection:false
+ignoreServerLevelId:false
+defaultMultiworldId:mw-3,1,-4
+teleportationEnabled:true
+usingDefaultTeleportCommand:false
+serverTeleportCommandFormat:^col^warp add {x},{y},{z}
+serverTeleportCommandRotationFormat:^col^warp add {x},{y},{z}
+sortType:NONE
+sortReversed:false
+
+//other config options
+ignoreHeightmaps:false
