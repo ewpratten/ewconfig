@@ -16,11 +16,11 @@ Host github.com gist.github.com
     #    IdentityFile %d/.ssh/id_rsa
 
 # Home network
-Host unifi 
-    HostName DreamMachinePro.local
+Host unifi
+    HostName dreammachinepro.local
     User root
-    PreferredAuthentications password
-    PubkeyAuthentication no
+    #PreferredAuthentications password
+    #    PubkeyAuthentication no
 
 Host ewpratten-steamdeck
     HostName ewpratten-steamdeck.local

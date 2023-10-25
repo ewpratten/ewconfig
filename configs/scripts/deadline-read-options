@@ -1,0 +1,44 @@
+#! /usr/bin/env python
+import argparse
+import sys
+import configparser
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        description="Nicely lists the options stored in a Deadline .options file"
+    )
+    ap.add_argument("options_file", type=str, help="The .options file to read")
+    ap.add_argument(
+        "--show-types", action="store_true", help="Show the type of each option"
+    )
+    ap.add_argument(
+        "--show-defaults",
+        action="store_true",
+        help="Show the default value of each option",
+    )
+    args = ap.parse_args()
+
+    # Read the file
+    with open(args.options_file, "r") as f:
+        config_string = f.read()
+
+    # Parse the file
+    config = configparser.ConfigParser()
+    config.read_string(config_string)
+
+    # List each option
+    for section in config.sections():
+        print(f"{section}{'*' if bool(config[section].get('Required', False)) else ''}: {config[section].get('Description', 'No description')}")
+        if args.show_types:
+            print(f"  Type: {config[section].get('Type', 'No type')}")
+        if args.show_defaults:
+            print(f"  Default: {config[section].get('Default', 'No default')}")
+            
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
