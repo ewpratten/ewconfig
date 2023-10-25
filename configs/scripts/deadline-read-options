@@ -33,8 +33,8 @@ def main() -> int:
         print(f"{section}{'*' if bool(config[section].get('Required', False)) else ''}: {config[section].get('Description', 'No description')}")
         if args.show_types:
             print(f"  Type: {config[section].get('Type', 'No type')}")
-        if args.show_defaults:
-            print(f"  Default: {config[section].get('Default', 'No default')}")
+        if args.show_defaults and "Default" in config[section]:
+            print(f"  Default: {config[section]['Default']}")
             
 
     return 0
