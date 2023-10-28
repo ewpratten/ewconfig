@@ -79,17 +79,17 @@ if type -p chown > /dev/null; then chown "$USER:$USER" "$HOME/.ssh/config"; fi
 
 # Configure (neo)Vim
 ln -sf $EWCONFIG_ROOT/configs/nvim/init.vim ~/.config/nvim/init.vim
-unlink ~/.config/nvim/pack || true;         ln -sf $EWCONFIG_ROOT/configs/nvim/pack ~/.config/nvim/pack
-unlink ~/.config/nvim/third_party || true;  ln -sf $EWCONFIG_ROOT/configs/nvim/third_party ~/.config/nvim/third_party
+ln -snf $EWCONFIG_ROOT/configs/nvim/pack ~/.config/nvim/pack
+ln -snf $EWCONFIG_ROOT/configs/nvim/third_party ~/.config/nvim/third_party
 
 # Nautilus right-click scripts
 ln -sf $EWCONFIG_ROOT/configs/nautilus/scripts/* ~/.local/share/nautilus/scripts/
 
 # Tabset configs
-unlink ~/.config/tabset || true; ln -sf $EWCONFIG_ROOT/configs/tabset ~/.config/tabset
+ln -nsf $EWCONFIG_ROOT/configs/tabset ~/.config/tabset
 
 # Rofi configs
-unlink ~/.config/rofi || true; ln -sf $EWCONFIG_ROOT/configs/rofi ~/.config/rofi
+ln -nsf $EWCONFIG_ROOT/configs/rofi ~/.config/rofi
 
 # Cargo
 ln -sf $EWCONFIG_ROOT/configs/cargo/config.toml ~/.cargo/config.toml
@@ -104,7 +104,7 @@ ln -sf $EWCONFIG_ROOT/configs/user-tmpfiles.d/* ~/.config/user-tmpfiles.d/
 ln -sf $EWCONFIG_ROOT/configs/logid/logid.cfg ~/.config/logid/logid.cfg
 
 # Minecraft global configs
-unlink ~/.config/minecraft || true; ln -sf $EWCONFIG_ROOT/configs/minecraft ~/.config/minecraft
+ln -nsf $EWCONFIG_ROOT/configs/minecraft ~/.config/minecraft
 if [ -d ~/.var/app/org.prismlauncher.PrismLauncher ]; then
     flatpak override --user --filesystem=~/.config/minecraft org.prismlauncher.PrismLauncher
 fi
