@@ -71,6 +71,10 @@ Host *.ring.nlnog.net
 # SDF.org
 Host sdf.org *.sdf.org
     user ewpratten
+Host sdf
+    HostName sdf.org
+Host otaku
+    HostName otaku.sdf.org
 
 # Guru
 Host *.gurustudio.com
