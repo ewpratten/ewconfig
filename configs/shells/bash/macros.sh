@@ -213,7 +213,7 @@ guru-shell() {
 
     # Figure out the appropriate prefix
     if [ $(uname -o | grep -c Msys) -gt 0 ]; then
-        s_drive="S://"
+        s_drive="S:/"
         pathsep=";"
     else
         s_drive="//qs/resources"
