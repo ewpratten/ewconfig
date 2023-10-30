@@ -207,14 +207,16 @@ ewconfig-pull-zip(){
 guru-shell() {
     # Figure out the appropriate prefix
     if [ $(uname -o | grep -c Msys) -gt 0 ]; then
-        s_drive="s://"
+        s_drive="S://"
+        pathsep=";"
     else
         s_drive="//qs/resources"
+        pathsep=":"
     fi
 
-    PYTHONPATH="$s_drive/studio/studio2023/env:$PYTHONPATH" \
-    PYTHONPATH="$s_drive/studio/studio2023:$PYTHONPATH" \
-    PATH="/c/Programs/software/win/core/python/python_3.7.7:$PATH" \
+    PYTHONPATH="$s_drive/studio/studio2023/env$pathsep$PYTHONPATH" \
+    PYTHONPATH="$s_drive/studio/studio2023$pathsep$PYTHONPATH" \
+    PATH="/c/Programs/software/win/core/python/python_3.7.7$pathsep$PATH" \
     PS1_CTX="guru bash" \
     bash
 }
