@@ -28,14 +28,14 @@ else
 fi
 
 # Set PYTHONPATH based on the data we learned
-PYTHONPATH="$s_drive/$studio2023_path/env$pathsep$PYTHONPATH" 
-PYTHONPATH="$s_drive/$studio2023_path$pathsep$PYTHONPATH" 
+export PYTHONPATH="$s_drive/$studio2023_path/env$pathsep$PYTHONPATH" 
+export PYTHONPATH="$s_drive/$studio2023_path$pathsep$PYTHONPATH" 
 
 # Update the PATH to point to the studio's install of python
-PATH="/c/Programs/software/win/core/python/python_3.7.7$pathsep$PATH"
+export PATH="/c/Programs/software/win/core/python/python_3.7.7$pathsep$PATH"
 
 # Configure the prompt
-PS1_CTX="guru$ps1_mode bash"
+export PS1_CTX="guru$ps1_mode bash"
 
 # Finally, start bash
 bash
