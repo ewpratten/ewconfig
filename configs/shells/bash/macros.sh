@@ -195,7 +195,7 @@ ewconfig-pull-zip(){
 
 # Pop a shell inside Guru env
 guru-shell() {
-    PYTHONPATH="//qs//resources/studio/studio2023/env:$PYTHONPATH" \
+    PYTHONPATH="//qs/resources/studio/studio2023/env:$PYTHONPATH" \
     PS1_CTX="guru bash" \
     bash
 }
