@@ -17,3 +17,12 @@ export PS1="(bash) \[\e[0;32m\]\u@\h \[\e[0;36m\]\w \[\e[0;36m\]\$ \[\e[0m\]"
 
 # If found, load studio python
 if [ -d "/c/Programs/software/win/core/python/python_3.7.7" ]; then export PATH="/c/Programs/software/win/core/python/python_3.7.7:$PATH"; fi
+
+# If `python --version` starts with `Python 3`
+if [[ $(python --version) == Python\ 3* ]]; then
+    # If we don't have python3 in our path
+    if ! command -v python3 &> /dev/null; then
+        # Make an alias for python3
+        alias python3=python
+    fi
+fi
