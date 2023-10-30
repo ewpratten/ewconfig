@@ -46,6 +46,16 @@ alias whois-ripe="whois -h whois.ripe.net"
 if [ -x "$(command -v nvim)" ]; then alias vim="nvim"; fi
 if [ -x "$(command -v neomutt)" ]; then alias mutt="neomutt"; fi
 
+# Python aliases
+# If `python --version` starts with `Python 3`
+if [[ $(python --version) == Python\ 3* ]]; then
+    # If we don't have python3 in our path
+    if ! command -v python3 &> /dev/null; then
+        # Make an alias for python3
+        alias python3=python
+    fi
+fi
+
 # Kill via pgrep
 nkill() {
     if [ $# != 1 ]; then
@@ -195,8 +205,16 @@ ewconfig-pull-zip(){
 
 # Pop a shell inside Guru env
 guru-shell() {
-    PYTHONPATH="//qs/resources/studio/studio2023/env:$PYTHONPATH" \
-    PYTHONPATH="//qs/resources/studio/studio2023:$PYTHONPATH" \
+    # Figure out the appropriate prefix
+    if [ $(uname -o | grep -c Msys) -gt 0 ]; then
+        s_drive="s://"
+    else
+        s_drive="//qs/resources"
+    fi
+
+    PYTHONPATH="$s_drive/studio/studio2023/env:$PYTHONPATH" \
+    PYTHONPATH="$s_drive/studio/studio2023:$PYTHONPATH" \
+    PATH="/c/Programs/software/win/core/python/python_3.7.7:$PATH" \
     PS1_CTX="guru bash" \
     bash
 }
