@@ -23,7 +23,7 @@ if [ "$dev_env" == "n" ]; then
     studio2023_path="studio/studio2023"
     ps1_mode=""
 else
-    studio2023_path="development/epratten/studio/studio2023"
+    studio2023_path="development/epratten/studio2023"
     ps1_mode="-dev"
 fi
 
