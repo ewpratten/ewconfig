@@ -33,7 +33,7 @@ export PYTHONPATH="$s_drive/$studio2023_path$pathsep$PYTHONPATH"
 
 # Update the PATH to point to the studio's install of python
 if [ -d "/c/Programs/software/win/core/python/python_3.7.7" ]; then 
-    export PATH="C://Programs/software/win/core/python/python_3.7.7$pathsep$PATH"
+    export PATH="/c/Programs/software/win/core/python/python_3.7.7:$PATH"
 fi
 
 # Configure the prompt
