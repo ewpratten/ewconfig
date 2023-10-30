@@ -46,13 +46,15 @@ alias whois-ripe="whois -h whois.ripe.net"
 if [ -x "$(command -v nvim)" ]; then alias vim="nvim"; fi
 if [ -x "$(command -v neomutt)" ]; then alias mutt="neomutt"; fi
 
-# Python aliases
-# If `python --version` starts with `Python 3`
-if [[ $(python --version) == Python\ 3* ]]; then
-    # If we don't have python3 in our path
-    if ! command -v python3 &> /dev/null; then
-        # Make an alias for python3
-        alias python3=python
+# If python exists, configure an alias for python3 if needed
+if [ -x "$(command -v python)" ]; then
+    # If `python --version` starts with `Python 3`
+    if [[ $(python --version) == Python\ 3* ]]; then
+        # If we don't have python3 in our path
+        if ! command -v python3 &> /dev/null; then
+            # Make an alias for python3
+            alias python3=python
+        fi
     fi
 fi
 
