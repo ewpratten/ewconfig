@@ -203,37 +203,10 @@ ewconfig-pull-zip(){
     cd $cwd
 }
 
-# Pop a shell inside Guru env
-guru-shell() {
-    # If //qs does not exist
-    if [ ! -d "//qs" ]; then
-        echo "This command must be executed on a studio machine!"
-        return 1
-    fi
-
-    # Figure out the appropriate prefix
-    if [ $(uname -o | grep -c Msys) -gt 0 ]; then
-        s_drive="S:/"
-        pathsep=";"
-    else
-        s_drive="//qs/resources"
-        pathsep=":"
-    fi
-
-    # Ask if we want to use the development env
-    echo "Do you want to use the development environment? (Y/n)"
-    read dev_env
-    if [ "$dev_env" == "n" ]; then
-        studio2023_path="studio/studio2023"
-        ps1_mode=""
-    else
-        studio2023_path="development/epratten/studio/studio2023"
-        ps1_mode="-dev"
-    fi
-
-    PYTHONPATH="$s_drive/$studio2023_path/env$pathsep$PYTHONPATH" \
-    PYTHONPATH="$s_drive/$studio2023_path$pathsep$PYTHONPATH" \
-    PATH="/c/Programs/software/win/core/python/python_3.7.7$pathsep$PATH" \
-    PS1_CTX="guru$ps1_mode bash" \
-    bash
+# Temporairly hop to the ewconfig directory to run a command
+ewconfig-run() {
+    cwd=$(pwd)
+    cd ~/.config/ewconfig
+    $@
+    cd $cwd
 }
