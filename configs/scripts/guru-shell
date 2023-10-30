@@ -17,7 +17,7 @@ else
 fi
 
 # Ask if we want to use the development env
-echo "Do you want to use the development environment? (Y/n)"
+echo -n "Do you want to use the development environment? (Y/n)"
 read dev_env
 if [ "$dev_env" == "n" ]; then
     studio2023_path="studio/studio2023"
@@ -32,7 +32,9 @@ export PYTHONPATH="$s_drive/$studio2023_path/env$pathsep$PYTHONPATH"
 export PYTHONPATH="$s_drive/$studio2023_path$pathsep$PYTHONPATH" 
 
 # Update the PATH to point to the studio's install of python
-export PATH="/c/Programs/software/win/core/python/python_3.7.7$pathsep$PATH"
+if [ -d "/c/Programs/software/win/core/python/python_3.7.7" ]; then 
+    export PATH="C://Programs/software/win/core/python/python_3.7.7$pathsep$PATH"
+fi
 
 # Configure the prompt
 export PS1_CTX="guru$ps1_mode bash"
