@@ -27,6 +27,13 @@ else
     ps1_mode="-dev"
 fi
 
+# Ask if we want to force debugging for all processes
+echo -n "Do you want to force debugging for all processes? (y/N)"
+read force_debug
+if [ "$force_debug" == "y" ]; then
+    export GURU_DEBUG=1
+fi
+
 # Set PYTHONPATH based on the data we learned
 export PYTHONPATH="$s_drive/$studio2023_path/env$pathsep$PYTHONPATH" 
 export PYTHONPATH="$s_drive/$studio2023_path$pathsep$PYTHONPATH" 
