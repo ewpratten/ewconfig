@@ -58,6 +58,11 @@ if [ -x "$(command -v python)" ]; then
     fi
 fi
 
+# If we are running in a studio environment
+if [ ! -z "$EWP_IN_GURU_ENVIRONMENT" ]; then
+   alias guru_launcher3="python $GURU_PYTHON_ROOT/env/guru_launcher3.py"
+fi
+
 # Kill via pgrep
 nkill() {
     if [ $# != 1 ]; then
