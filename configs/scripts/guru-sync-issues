@@ -1,0 +1,199 @@
+#! /usr/bin/env python3
+import argparse
+import sys
+import logging
+import requests
+import json
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import List, Optional, Dict, Any
+from enum import Enum, auto
+from datetime import datetime
+
+logger = logging.getLogger(__name__)
+
+GITLAB_PAT_FILE_PATH = Path("~/.config/guru-sync-issues/gitlab_pat.txt").expanduser()
+GITLAB_ENDPOINT = "http://gitlab.guru-domain.gurustudio.com/api/v4"
+MY_USER_ID = 64
+TRELLO_API_TOKEN_FILE_PATH = Path(
+    "~/.config/guru-sync-issues/trello_api_token.txt"
+).expanduser()
+TRELLO_API_KEY = "fba640a85f15c91e93e6b3f88e59489c"
+TRELLO_BOARD = "tw3Cn3L6"
+TRELLO_TODO_LIST = "6348a3ce5208f505b61d29bf"
+TRELLO_LABELS = {
+    "GURU": "64e03ac77d27032282436d28"
+}
+
+# Load the PAT
+try:
+    with open(GITLAB_PAT_FILE_PATH) as f:
+        GITLAB_PAT = f.read().strip()
+except FileNotFoundError:
+    logger.error(
+        f"Could not find GitLab PAT file at {GITLAB_PAT_FILE_PATH}. Please create it and try again."
+    )
+    sys.exit(1)
+
+# Load Trello key
+try:
+    with open(TRELLO_API_TOKEN_FILE_PATH) as f:
+        TRELLO_API_TOKEN = f.read().strip()
+except FileNotFoundError:
+    logger.error(
+        f"Could not find Trello API key file at {TRELLO_API_TOKEN_FILE_PATH}. Please create it and try again."
+    )
+    sys.exit(1)
+
+TrelloCardId = str
+
+
+class IssueState(Enum):
+    OPEN = "opened"
+    CLOSED = "closed"
+
+
+@dataclass
+class GitLabIssue:
+    title: str
+    issue_id: int
+    global_id: int
+    state: IssueState
+    created: datetime
+    updated: datetime
+    web_url: str
+    reference_string: str
+    due_date: Optional[datetime] = None
+
+
+def get_personal_gitlab_issues(user_id: int = MY_USER_ID) -> List[GitLabIssue]:
+    # Make an API call
+    response = requests.get(
+        f"{GITLAB_ENDPOINT}/issues",
+        params={
+            "assignee_id": user_id,
+            "private_token": GITLAB_PAT,
+            "per_page": 100,
+            "scope": "all",
+        },
+    )
+    response.raise_for_status()
+
+    # Parse the response
+    output = []
+    for issue in response.json():
+        output.append(
+            GitLabIssue(
+                title=issue["title"],
+                issue_id=issue["iid"],
+                global_id=issue["id"],
+                state=IssueState(issue["state"]),
+                created=datetime.fromisoformat(issue["created_at"]),
+                updated=datetime.fromisoformat(issue["updated_at"]),
+                web_url=issue["web_url"],
+                reference_string=issue["references"]["full"],
+                due_date=datetime.fromisoformat(issue["due_date"])
+                if issue["due_date"]
+                else None,
+            )
+        )
+
+    return output
+
+
+def get_all_trello_cards() -> List[Dict[str, Any]]:
+    # Get a list of cards on the board
+    response = requests.get(
+        f"https://api.trello.com/1/boards/{TRELLO_BOARD}/cards",
+        params={
+            "key": TRELLO_API_KEY,
+            "token": TRELLO_API_TOKEN,
+        },
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def find_or_create_trello_issue_for(
+    trello_cards: List[Dict[str, Any]], gitlab_issue: GitLabIssue
+) -> TrelloCardId:
+    # Look for a card that matches the issue
+    for card in trello_cards:
+        # Check the first line of the description for metadata
+        description = card["desc"]
+        desc_first_line = description.split("\n")[0]
+        if not desc_first_line.startswith("**Sync Metadata:** "):
+            continue
+
+        # Parse the metadata
+        metadata = json.loads(desc_first_line.split("`")[1])
+
+        # Check if the card matches
+        if metadata.get("ns") == "guru-gitlab" and (
+            gitlab_issue.global_id in metadata.get("ids", [])
+        ):
+            print(card["labels"], card["idLabels"])
+            logger.info(f"Found matching card {card['id']}")
+            return card["id"]
+
+    # Build the description
+    card_description = "\n\n".join(
+        [
+            f"**Sync Metadata:** `{json.dumps({'ns': 'guru-gitlab', 'ids': [gitlab_issue.global_id]})}`",
+            f"**GitLab Issue:** [`{gitlab_issue.reference_string}`]({gitlab_issue.web_url})\n",
+            "---"
+        ]
+    )
+
+    # Make a new card
+    response = requests.post(
+        "https://api.trello.com/1/cards",
+        params={
+            "idList": TRELLO_TODO_LIST,
+            "name": gitlab_issue.title,
+            "desc": card_description,
+            "idLabels": ",".join([TRELLO_LABELS["GURU"]]),
+            "pos": "top",
+            "key": TRELLO_API_KEY,
+            "token": TRELLO_API_TOKEN,
+        },
+    )
+    response.raise_for_status()
+    
+    return response.json()["id"]
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(description="Syncs issues from GitLab to Trello")
+
+    ap.add_argument(
+        "-v", "--verbose", help="Enable verbose logging", action="store_true"
+    )
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s:	%(message)s",
+    )
+
+    # Find all issues
+    issues = get_personal_gitlab_issues()
+    logger.info(f"Found {len(issues)} issues")
+
+    # Get a list of cards on the board
+    trello_cards = get_all_trello_cards()
+    logger.info(f"Found {len(trello_cards)} cards on the board")
+
+    # Handle each issue
+    for issue in issues:
+        # Find the trello card id for this issue
+        trello_card_id = find_or_create_trello_issue_for(trello_cards, issue)
+        logger.info(f"GitLab Issue {issue.global_id} is Trello Card {trello_card_id}")
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
