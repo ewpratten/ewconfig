@@ -1,4 +1,12 @@
 #! /usr/bin/env python3
+
+# fmt:off
+import sys
+import os
+from pathlib import Path
+sys.path.append((Path(os.environ["EWCONFIG_ROOT"]) / "python_modules").as_posix())
+# fmt:on
+
 import argparse
 import sys
 import logging
@@ -9,41 +17,19 @@ from pathlib import Path
 from typing import List, Optional, Dict, Any
 from enum import Enum, auto
 from datetime import datetime
+from ewconfig.secret_manager import get_semi_secret_string
+from ewconfig.trello import TRELLO_API_KEY, get_trello_api_token
+from ewconfig.trello.cards import get_all_trello_cards, create_card
+from ewconfig.trello.boards import PERSONAL_TASKS_BOARD
 
 logger = logging.getLogger(__name__)
 
-GITLAB_PAT_FILE_PATH = Path("~/.config/guru-sync-issues/gitlab_pat.txt").expanduser()
+GITLAB_PAT_FILE_PATH = get_semi_secret_string(
+    "guru_gitlab_pat", namespace="trello-sync"
+)
 GITLAB_ENDPOINT = "http://gitlab.guru-domain.gurustudio.com/api/v4"
 MY_USER_ID = 64
-TRELLO_API_TOKEN_FILE_PATH = Path(
-    "~/.config/guru-sync-issues/trello_api_token.txt"
-).expanduser()
-TRELLO_API_KEY = "fba640a85f15c91e93e6b3f88e59489c"
-TRELLO_BOARD = "tw3Cn3L6"
-TRELLO_TODO_LIST = "6348a3ce5208f505b61d29bf"
-TRELLO_LABELS = {
-    "GURU": "64e03ac77d27032282436d28"
-}
-
-# Load the PAT
-try:
-    with open(GITLAB_PAT_FILE_PATH) as f:
-        GITLAB_PAT = f.read().strip()
-except FileNotFoundError:
-    logger.error(
-        f"Could not find GitLab PAT file at {GITLAB_PAT_FILE_PATH}. Please create it and try again."
-    )
-    sys.exit(1)
-
-# Load Trello key
-try:
-    with open(TRELLO_API_TOKEN_FILE_PATH) as f:
-        TRELLO_API_TOKEN = f.read().strip()
-except FileNotFoundError:
-    logger.error(
-        f"Could not find Trello API key file at {TRELLO_API_TOKEN_FILE_PATH}. Please create it and try again."
-    )
-    sys.exit(1)
+TRELLO_API_TOKEN = get_trello_api_token()
 
 TrelloCardId = str
 
@@ -101,19 +87,6 @@ def get_personal_gitlab_issues(user_id: int = MY_USER_ID) -> List[GitLabIssue]:
     return output
 
 
-def get_all_trello_cards() -> List[Dict[str, Any]]:
-    # Get a list of cards on the board
-    response = requests.get(
-        f"https://api.trello.com/1/boards/{TRELLO_BOARD}/cards",
-        params={
-            "key": TRELLO_API_KEY,
-            "token": TRELLO_API_TOKEN,
-        },
-    )
-    response.raise_for_status()
-    return response.json()
-
-
 def find_or_create_trello_issue_for(
     trello_cards: List[Dict[str, Any]], gitlab_issue: GitLabIssue
 ) -> TrelloCardId:
@@ -141,26 +114,20 @@ def find_or_create_trello_issue_for(
         [
             f"**Sync Metadata:** `{json.dumps({'ns': 'guru-gitlab', 'ids': [gitlab_issue.global_id]})}`",
             f"**GitLab Issue:** [`{gitlab_issue.reference_string}`]({gitlab_issue.web_url})\n",
-            "---"
+            "---",
         ]
     )
 
     # Make a new card
-    response = requests.post(
-        "https://api.trello.com/1/cards",
-        params={
-            "idList": TRELLO_TODO_LIST,
-            "name": gitlab_issue.title,
-            "desc": card_description,
-            "idLabels": ",".join([TRELLO_LABELS["GURU"]]),
-            "pos": "top",
-            "key": TRELLO_API_KEY,
-            "token": TRELLO_API_TOKEN,
-        },
+    return create_card(
+        list_id=PERSONAL_TASKS_BOARD.lists["To Do"],
+        name=gitlab_issue.title,
+        description=card_description,
+        label_ids=[PERSONAL_TASKS_BOARD.tags["GURU"]],
+        position="top",
+        api_key=TRELLO_API_KEY,
+        api_token=TRELLO_API_TOKEN,
     )
-    response.raise_for_status()
-    
-    return response.json()["id"]
 
 
 def main() -> int:
@@ -183,7 +150,11 @@ def main() -> int:
     logger.info(f"Found {len(issues)} issues")
 
     # Get a list of cards on the board
-    trello_cards = get_all_trello_cards()
+    trello_cards = get_all_trello_cards(
+        board_id=PERSONAL_TASKS_BOARD.id,
+        api_key=TRELLO_API_KEY,
+        api_token=TRELLO_API_TOKEN,
+    )
     logger.info(f"Found {len(trello_cards)} cards on the board")
 
     # Handle each issue
