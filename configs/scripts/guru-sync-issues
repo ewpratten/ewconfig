@@ -24,9 +24,7 @@ from ewconfig.trello.boards import PERSONAL_TASKS_BOARD
 
 logger = logging.getLogger(__name__)
 
-GITLAB_PAT_FILE_PATH = get_semi_secret_string(
-    "guru_gitlab_pat", namespace="trello-sync"
-)
+GITLAB_PAT = get_semi_secret_string("guru_gitlab_pat", namespace="trello-sync")
 GITLAB_ENDPOINT = "http://gitlab.guru-domain.gurustudio.com/api/v4"
 MY_USER_ID = 64
 TRELLO_API_TOKEN = get_trello_api_token()
