@@ -28,12 +28,17 @@ mkdir -p ~/.ssh
 # Configure the shell
 ln -sf $EWCONFIG_ROOT/configs/shells/zsh/.zshrc ~/.zshrc
 ln -sf $EWCONFIG_ROOT/configs/shells/bash/.bashrc ~/.bashrc
+mkdir -p $LOCALAPPDATA/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState
 ln -sf $EWCONFIG_ROOT/configs/windows-terminal/settings.json $LOCALAPPDATA/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json
 
 # Configure Git
 ln -sf $EWCONFIG_ROOT/configs/git/.gitconfig ~/.gitconfig
 ln -sf $EWCONFIG_ROOT/configs/sssh/allowed_signers ~/.ssh/allowed_signers || true
 ln -sf $EWCONFIG_ROOT/configs/git/.mailmap ~/.config/git/.mailmap
+
+# Remove Microsoft's fake python executables
+rm $LOCALAPPDATA/Microsoft/WindowsApps/python.exe || true
+rm $LOCALAPPDATA/Microsoft/WindowsApps/python3.exe || true
 
 # Copy the global mailmap file once
 if [ ! -f ~/.config/git/config-fragments/global-mailmap.gitconfig ]; then
