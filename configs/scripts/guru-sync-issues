@@ -135,10 +135,11 @@ def find_or_create_trello_issue_for(
             return card["id"]
 
     # Build the description
+    issue_kind = " ".join([part.capitalize() for part in gitlab_issue.kind.split("_")])
     card_description = "\n\n".join(
         [
             f"**Sync Metadata:** `{json.dumps({'ns': 'guru-gitlab', 'ids': [gitlab_issue.get_fmt_id()]})}`",
-            f"**GitLab Issue:** [`{gitlab_issue.reference_string}`]({gitlab_issue.web_url})\n",
+            f"**GitLab {issue_kind}:** [`{gitlab_issue.reference_string}`]({gitlab_issue.web_url})\n",
             "---",
         ]
     )
