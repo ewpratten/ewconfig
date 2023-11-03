@@ -67,6 +67,19 @@ def get_all_issues() -> List[Dict[str, Any]]:
     )
     response.raise_for_status()
     issues.extend(response.json())
+    
+    # Get all issues that I have made in other people's repos
+    response = requests.get(
+        "https://api.github.com/user/issues",
+        headers={
+            "Authorization": f"token {GITHUB_PAT}",
+            "Accept": "application/vnd.github.raw+json",
+            "X-GitHub-Api-Version": GITHUB_API_VERSION,
+        },
+        params={"state": "open", "per_page": 100, "filter": "subscribed"},
+    )
+    response.raise_for_status()
+    issues.extend(response.json())
 
     # De-dupe issues
     issues = list({issue["id"]: issue for issue in issues}.values())
