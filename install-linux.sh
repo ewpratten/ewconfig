@@ -115,7 +115,7 @@ set +x
 # If ~/.config/git/config-fragments/personal-info.gitconfig does not exist
 if [ ! -f ~/.config/git/config-fragments/personal-info.gitconfig ]; then
     # Ask if the user wants to install personal GIT config
-    echo "Do you want to install the personal GIT config? (y/n)"
+    echo -n "Do you want to install the personal GIT config? (y/n) "
     read -r install_git_config
     if [ "$install_git_config" = "y" ]; then
         ln -sf $EWCONFIG_ROOT/configs/git/config-fragments/personal-info.gitconfig ~/.config/git/config-fragments/personal-info.gitconfig

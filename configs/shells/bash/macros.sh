@@ -21,6 +21,7 @@ alias yk-totp="ykman oath accounts code"
 alias flush-dns-cache="sudo systemd-resolve --flush-caches"
 alias which-ls="ls -la $(which ls)"
 alias rdns="dig +short -x"
+alias ufw-status="sudo ufw status numbered"
 
 # WHOIS macros
 alias whois-afrinic="whois -h whois.afrinic.net"

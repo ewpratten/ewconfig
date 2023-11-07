@@ -1,0 +1,50 @@
+#! /usr/bin/env python
+import argparse
+import sys
+import logging
+import subprocess
+
+logger = logging.getLogger(__name__)
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(prog='ufw-del', description='Delete UFW rules by their comment')
+    ap.add_argument('comment', help='Comment to delete')
+    ap.add_argument("--dry-run", help="Don't actually delete the rules", action="store_true")
+    ap.add_argument('-v', '--verbose', help='Enable verbose logging', action='store_true')
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format='%(levelname)s:	%(message)s',
+    )
+    
+    # Call ufw to get a list of rules
+    logger.info('Getting list of rules...')
+    rules = subprocess.run(['sudo', 'ufw', 'status', 'numbered'], capture_output=True, text=True).stdout.split('\n')
+    rules = [rule for rule in rules if rule.startswith('[')]
+    logger.info(f'Found {len(rules)} rules')
+    
+    # Reshape the rules list to be (number, line) tuples
+    rules = [(int(rule.split('[')[1].split(']')[0].strip()), rule) for rule in rules]
+    
+    # Sort descending by rule number
+    rules.sort(key=lambda x: x[0], reverse=True)
+    
+    # Delete rules with the specified comment
+    for rule_num, rule in rules:
+        if "#" in rule:
+            comment = rule.split('#')[1].strip()
+            if comment == args.comment:
+                rule_id = rule.split("]")[0].strip('[').strip()
+                logger.info(f'Deleting rule {rule_id}...')
+                
+                if not args.dry_run:
+                    subprocess.run(['sudo', 'ufw', 'delete', rule_id])
+            
+
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())
