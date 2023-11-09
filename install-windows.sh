@@ -7,7 +7,7 @@ echo "Syncing git submodules..."
 git submodule update --init --recursive
 
 # Make sure scripts are all executable
-chmod +x $EWCONFIG_ROOT/configs/scripts/*
+chmod +x $EWCONFIG_ROOT/scripts/*
 chmod +x $EWCONFIG_ROOT/configs/nautilus/scripts/*
 
 # -- Directory Setup --

@@ -14,7 +14,7 @@ if type -p git > /dev/null; then
 fi
 
 # Make sure scripts are all executable
-chmod +x $EWCONFIG_ROOT/configs/scripts/*
+chmod +x $EWCONFIG_ROOT/scripts/*
 chmod +x $EWCONFIG_ROOT/configs/nautilus/scripts/*
 
 # -- Directory Setup --
