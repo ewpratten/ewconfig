@@ -119,7 +119,7 @@ def main() -> int:
     ap.add_argument(
         "keyboard",
         help="Keyboard to build/flash",
-        choices=["tg4x"],
+        choices=["tg4x", "ferris/sweep"],
     )
     ap.add_argument("--flash-mode", "-f", help="Flash mode to use", default="flash")
     ap.add_argument(
@@ -140,9 +140,12 @@ def main() -> int:
 
     # Refresh the QMK repository
     refresh_qmk_repo()
+    
+    # Figure out the keymap name
+    keymap = args.keyboard.split("/")[0]
 
     # Copy the keymap
-    copy_keymap(args.keyboard)
+    copy_keymap(keymap)
 
     # Handle the modes
     if args.mode == "build":
