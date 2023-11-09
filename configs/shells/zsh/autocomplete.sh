@@ -41,3 +41,6 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
+bindkey "^[OA" up-line-or-beginning-search # Up over SSH connection
+bindkey "^[OB" down-line-or-beginning-search # Down over SSH connection
+
