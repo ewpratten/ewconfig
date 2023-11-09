@@ -8,7 +8,7 @@ if [ -z "$1" ]; then
 fi
 
 # Parse out the ASNs
-asns=$( mtr -jzc1 $1 | jq ".report.hubs[].ASN" | tr -d "\"" | uniq )
+asns=$( mtr -jzc1 -Z1 -G0.25 $1 | jq ".report.hubs[].ASN" | tr -d "\"" | uniq )
 
 # For each line
 for asn in $asns; do
