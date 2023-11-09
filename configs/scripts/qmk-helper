@@ -1,0 +1,157 @@
+#! /usr/bin/env python3
+import argparse
+import sys
+import logging
+import subprocess
+import shutil
+import os
+from pathlib import Path
+
+logger = logging.getLogger(__name__)
+
+QMK_REPOSITORY = "https://github.com/qmk/qmk_firmware"
+QMK_PINNED_COMMIT = "daabe2d8c5eab9d9d605f8e079dfae82d2b06a8d"
+QMK_CLONE_PATH = Path("~/src/qmk_firmware").expanduser()
+QMK_USERNAME = "ewpratten"
+LOCAL_KEYMAPS_ROOT = Path(os.environ["EWCONFIG_ROOT"]) / "keyboards" / "qmk" / "keymaps"
+
+
+def check_prerequisite_tools() -> bool:
+    # Ensure we have git
+    if shutil.which("git") is None:
+        logger.error("git is not installed")
+        return False
+
+    # Ensure we have make
+    if shutil.which("make") is None:
+        logger.error("make is not installed")
+        return False
+
+    # Ensure we have qmk
+    if shutil.which("qmk") is None:
+        logger.error("qmk is not installed")
+        return False
+
+    # OK
+    return True
+
+
+def refresh_qmk_repo():
+    # If the repo doesn't exist, clone it
+    if not QMK_CLONE_PATH.exists():
+        logger.info("Cloning QMK repository")
+        QMK_CLONE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        subprocess.run(
+            ["git", "clone", QMK_REPOSITORY, QMK_CLONE_PATH],
+            check=True,
+        )
+
+    # Drop any local changes
+    logger.info("Dropping local changes")
+    subprocess.run(
+        ["git", "reset", "--hard"],
+        check=True,
+        cwd=QMK_CLONE_PATH,
+    )
+
+    # Pull the latest changes and then checkout the pinned commit
+    logger.info("Updating QMK repository")
+    subprocess.run(
+        ["git", "fetch", "--all"],
+        check=True,
+        cwd=QMK_CLONE_PATH,
+    )
+    subprocess.run(
+        ["git", "checkout", QMK_PINNED_COMMIT],
+        check=True,
+        cwd=QMK_CLONE_PATH,
+    )
+
+    # Update submodules
+    logger.info("Updating QMK submodules")
+    subprocess.run(
+        ["git", "submodule", "update", "--init", "--recursive"],
+        check=True,
+        cwd=QMK_CLONE_PATH,
+    )
+
+
+def copy_keymap(keyboard: str):
+    # Build the path that this keymap should be copied to
+    KEYMAP_PATH = QMK_CLONE_PATH / "keyboards" / keyboard / "keymaps" / QMK_USERNAME
+
+    # If the keymap already exists, delete it
+    if KEYMAP_PATH.exists():
+        logger.info("Removing existing keymap")
+        shutil.rmtree(KEYMAP_PATH)
+
+    # Copy the keymap
+    logger.info(f"Copying keymap to: {KEYMAP_PATH}")
+    shutil.copytree(LOCAL_KEYMAPS_ROOT / keyboard, KEYMAP_PATH)
+
+
+def build_keymap(keyboard: str):
+    # Build the keymap
+    logger.info(f"Building keymap: {keyboard}")
+    subprocess.run(
+        ["make", keyboard + ":" + QMK_USERNAME],
+        check=True,
+        cwd=QMK_CLONE_PATH,
+    )
+
+
+def flash_keymap(keyboard: str, flash_mode: str):
+    # Flash the keymap
+    logger.info(f"Flashing keymap: {keyboard} ({flash_mode})")
+    subprocess.run(
+        ["qmk", "flash", "-kb", keyboard, "-km", QMK_USERNAME, "-bl", flash_mode],
+        check=True,
+        cwd=QMK_CLONE_PATH,
+    )
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="qmk-helper", description="Utility for flashing QMK boards"
+    )
+    ap.add_argument("mode", choices=["build", "flash"], help="Mode to run in")
+    ap.add_argument(
+        "keyboard",
+        help="Keyboard to build/flash",
+        choices=["tg4x"],
+    )
+    ap.add_argument("--flash-mode", "-f", help="Flash mode to use", default="flash")
+    ap.add_argument(
+        "-v", "--verbose", help="Enable verbose logging", action="store_true"
+    )
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s:	%(message)s",
+    )
+
+    # Check for prerequisite tools
+    if not check_prerequisite_tools():
+        return 1
+    logger.info("Prerequisite tools found")
+
+    # Refresh the QMK repository
+    refresh_qmk_repo()
+
+    # Copy the keymap
+    copy_keymap(args.keyboard)
+
+    # Handle the modes
+    if args.mode == "build":
+        build_keymap(args.keyboard)
+    elif args.mode == "flash":
+        flash_keymap(args.keyboard, args.flash_mode)
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
