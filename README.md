@@ -1,12 +1,12 @@
 # *ew*pratten's *config* files
 
-This repository stores *most* of my common config files. It is designed to be deployable to pretty much any UNIX-like system. Assuming ideal conditions, any machine is one `./install` away from behaving like my personal workstation.
+This repository stores most of my common config files. It is designed to be deployable to pretty much any system. Assuming ideal conditions, any machine is one `sh ./install-<os>` away from behaving like my personal workstation.
 
 ## Setup
 
 The scripts in this repository have the following dependencies:
 
-- Git
+- Git (optional, extremely recommended)
 - ZSH (optional, recommended)
 - Neovim (optional, recommended)
 
@@ -17,7 +17,7 @@ mkdir -p ~/.config && cd ~/.config
 git clone https://github.com/ewpratten/ewconfig
 cd ewconfig
 
-# Linux
+# Linux & BSD & probably MacOS (untested)
 sh ./install-linux.sh
 
 # Windows, with GIT BASH
