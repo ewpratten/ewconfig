@@ -84,6 +84,11 @@ def main() -> int:
         level=logging.DEBUG if args.verbose else logging.INFO,
         format="%(levelname)s:	%(message)s",
     )
+    
+    # Ensure we have bottles
+    if not shutil.which("bottles-cli"):
+        logger.error("You can't do this without bottles installed")
+        return 1
 
     # Ensure we have wineasio
     if not (WINEASIO_SRC_PATH / "build64").exists():
