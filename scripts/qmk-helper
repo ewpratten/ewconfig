@@ -140,7 +140,7 @@ def main() -> int:
 
     # Refresh the QMK repository
     refresh_qmk_repo()
-    
+
     # Figure out the keymap name
     keymap = args.keyboard.split("/")[0]
 
@@ -151,6 +151,14 @@ def main() -> int:
     if args.mode == "build":
         build_keymap(args.keyboard)
     elif args.mode == "flash":
+        # Make sure that the flash mode is valid
+        if args.keyboard == "ferris-sweep" and args.flash_mode not in ["dfu-split-left", "dfu-split-right"]:
+            logger.error(
+                "Invalid flash mode. Must be one of: dfu-split-left, dfu-split-right"
+            )
+            return 1
+        
+        # Flash
         flash_keymap(args.keyboard, args.flash_mode)
 
     return 0
