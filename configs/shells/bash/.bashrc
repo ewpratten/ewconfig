@@ -9,7 +9,7 @@ export EWCONFIG_ROOT="$HOME/.config/ewconfig"
 
 # I always want my ~/bin to be in my PATH
 export PATH="$HOME/bin:$PATH"
-export PATH="$EWCONFIG_ROOT/configs/scripts:$PATH"
+export PATH="$EWCONFIG_ROOT/scripts:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 # A basic prompt to display user@host dir sign

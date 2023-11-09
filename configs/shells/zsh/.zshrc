@@ -18,7 +18,7 @@ fi
 
 # I always want my ~/bin to be in my PATH
 export PATH="$HOME/bin:$PATH"
-export PATH="$EWCONFIG_ROOT/configs/scripts:$PATH"
+export PATH="$EWCONFIG_ROOT/scripts:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 # Configure a sane default editor

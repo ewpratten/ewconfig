@@ -131,7 +131,8 @@ if [ -d ~/.config/blender/3.6 ]; then ln -sf $EWCONFIG_ROOT/configs/blender/3.x/
 # -- Finalization --
 
 # On systems that need it, configure Gnome
-sh ./helpers/configure-gnome.sh
+sh ./configs/gnome/gnome-terminal-settings.sh
+sh ./configs/gnome/desktop-settings.sh
 
 # Attempt to force a termux settings reload on Android devices
 termux-reload-settings || true
