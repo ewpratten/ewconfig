@@ -19,6 +19,10 @@ PROFILES = {
         "comment": "Zola",
         "ports": [(1111, "tcp")],
     },
+    "kdeconnect":{
+        "comment":"KDE Connect",
+        "ports":[("1714:1764", "udp"), ("1714:1764", "tcp")]
+    }
 }
 
 
