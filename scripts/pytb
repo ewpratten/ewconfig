@@ -1,0 +1,119 @@
+#! /usr/bin/env python
+import argparse
+import sys
+import logging
+import re
+from pathlib import Path
+from rich.console import Console
+from rich.syntax import Syntax
+from datetime import datetime
+
+logger = logging.getLogger(__name__)
+
+LINE_NUMBER_RE = re.compile(r", line \d+,")
+OUTPUT_ROOT = Path("~/Pictures/pytb").expanduser()
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="pytb", description="Tool for analyzing Python back traces"
+    )
+    ap.add_argument("--file", "-f", help="Read from file instead of stdin", type=Path)
+    ap.add_argument(
+        "--no-strip-referer", help="Strip referer from flask tbs", action="store_true"
+    )
+    ap.add_argument(
+        "-v", "--verbose", help="Enable verbose logging", action="store_true"
+    )
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s:	%(message)s",
+    )
+
+    # Attempt to read from file
+    if args.file:
+        tb_lines = args.file.read_text().splitlines()
+    else:
+        # Check if the shell is interactive
+        if sys.stdin.isatty():
+            print("Please paste the backtrace and press Ctrl+D:")
+
+        # Read from stdin until EOF
+        try:
+            tb_lines = "".join(list(sys.stdin)).splitlines()
+        except KeyboardInterrupt:
+            print("\nKeyboard interrupt detected, exiting...")
+            return 1
+
+    # Seek to the first line of the backtrace
+    for start_idx, line in enumerate(tb_lines):
+        if line.startswith("Traceback"):
+            break
+    else:
+        logger.error("No traceback found")
+        return 1
+
+    # Group the traceback lines into frames
+    frames = []
+    is_in_frame = False
+    for line in tb_lines[start_idx:]:
+        if line.startswith("File "):
+            is_in_frame = True
+            frames.append([line])
+        elif is_in_frame:
+            frames[-1].append(line)
+
+    # Handle the frames
+    output_lines = []
+    for frame in frames:
+        # Figure out the file
+        file = Path(frame[0].split('"')[1])
+        line_num = int(LINE_NUMBER_RE.search(frame[0]).group(0)[6:-1])
+
+        # Print the actual code
+        for idx, statement in enumerate(frame[1:]):
+            # Remove left padding
+            statement = statement.lstrip()
+
+            # Remove referer if needed
+            if not args.no_strip_referer:
+                statement = statement.split(", referer")[0]
+
+            # Build a context string if needed
+            context = f" # {file}#{line_num}" if idx == 0 else ""
+
+            # Print the line
+            output_lines.append((statement, context))
+
+    # Figure out the longest statement
+    longest_statement = max(len(line[0]) for line in output_lines)
+
+    # Build the lines, padding the statements so that the files line up
+    output = ""
+    for statement, context in output_lines:
+        output += f"{statement.ljust(longest_statement)}{context}\n"
+        
+    # remove any trailing newlines
+    output = output.rstrip()
+
+    # Pass over to rich to do the syntax highlighting
+    console = Console(record=True)
+    console.print(Syntax(output, "python", background_color="default"))
+    
+    # Export an image
+    file_name = f"Traceback {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+    if args.file:
+        file_name += f" ({args.file.stem})"
+    file_name += ".svg"
+    OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
+    console.save_svg(OUTPUT_ROOT / file_name, title="Python Traceback Visualizer (a tool by ewpratten)")
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
