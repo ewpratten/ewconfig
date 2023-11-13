@@ -63,6 +63,7 @@ fi
 # If we are running in a studio environment
 if [ ! -z "$EWP_IN_GURU_ENVIRONMENT" ]; then
    alias guru_launcher3="python $GURU_PYTHON_ROOT/env/guru_launcher3.py"
+   alias cd-dev="cd /s/development/epratten"
 fi
 
 # Kill via pgrep
