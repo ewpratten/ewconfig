@@ -96,12 +96,13 @@ def main() -> int:
     output = ""
     for statement, context in output_lines:
         output += f"{statement.ljust(longest_statement)}{context}\n"
+    longest_line = max(len(line) for line in output.splitlines())
         
     # remove any trailing newlines
     output = output.rstrip()
 
     # Pass over to rich to do the syntax highlighting
-    console = Console(record=True)
+    console = Console(record=True, width=longest_line+1)
     console.print(Syntax(output, "python", background_color="default"))
     
     # Export an image
@@ -110,7 +111,7 @@ def main() -> int:
         file_name += f" ({args.file.stem})"
     file_name += ".svg"
     OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
-    console.save_svg(OUTPUT_ROOT / file_name, title="Python Traceback Visualizer (a tool by ewpratten)")
+    console.save_svg(OUTPUT_ROOT / file_name, title="Evan's Python Traceback Visualizer")
 
     return 0
 
