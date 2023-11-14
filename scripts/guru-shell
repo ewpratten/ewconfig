@@ -39,6 +39,9 @@ export GURU_PYTHON_ROOT="$s_drive/$studio2023_path"
 export PYTHONPATH="$GURU_PYTHON_ROOT/env$pathsep$PYTHONPATH" 
 export PYTHONPATH="$GURU_PYTHON_ROOT$pathsep$PYTHONPATH" 
 
+# Remove anything from PYTHONPATH that contains Maya_Shared. 
+export PYTHONPATH=$(echo $PYTHONPATH | sed "s/[^$pathsep]*Maya_Shared[^$pathsep]*//g" | sed "s/$pathsep$pathsep/$pathsep/g" | sed "s/^$pathsep//g" | sed "s/$pathsep$//g")
+
 # Update the PATH to point to the studio's install of python
 if [ -d "/c/Programs/software/win/core/python/python_3.7.7" ]; then 
     export PATH="/c/Programs/software/win/core/python/python_3.7.7:$PATH"
