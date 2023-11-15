@@ -84,5 +84,5 @@ Host td-prod td-prod2 td-prod3 td-prod4
 
 # Personal Infra
 Host oci-arm
-    HostName oci-arm.ip.ewp.fyi
+    HostName oci-arm.vpn.ewp.fyi
     User ubuntu
