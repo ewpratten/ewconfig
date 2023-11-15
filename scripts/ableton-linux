@@ -69,10 +69,10 @@ def main() -> int:
         prog="ableton-linux", description="Executes Ableton on Linux"
     )
     ap.add_argument(
-        "--bottle", "-b", help="Use the specified bottle", default="Ableton 11 Standard"
+        "--bottle", "-b", help="Use the specified bottle", default="Ableton 11 Suite"
     )
     ap.add_argument(
-        "--program", "-p", help="Program to run", default="Ableton Live 11 Standard"
+        "--program", "-p", help="Program to run", default="Ableton Live 11 Suite"
     )
     ap.add_argument(
         "-v", "--verbose", help="Enable verbose logging", action="store_true"
@@ -84,7 +84,7 @@ def main() -> int:
         level=logging.DEBUG if args.verbose else logging.INFO,
         format="%(levelname)s:	%(message)s",
     )
-    
+
     # Ensure we have bottles
     if not shutil.which("bottles-cli"):
         logger.error("You can't do this without bottles installed")
@@ -114,7 +114,7 @@ def main() -> int:
             wineprefix / "drive_c" / "windows" / "system32" / "wineasio64.dll",
         )
         (wineprefix / ".wineasio-installed").touch()
-        
+
         logger.info("Waiting 15 seconds to let wine do its thing")
         time.sleep(15)
 
@@ -125,6 +125,9 @@ def main() -> int:
             "WINEASIO_NUMBER_INPUTS": "16",
             "WINEASIO_NUMBER_OUTPUTS": "16",
             "WINEASIO_CONNECT_TO_HARDWARE": "1",
+            "WINEASIO_PREFERRED_BUFFERSIZE": "2048",
+            "WINEASIO_FIXED_BUFFERSIZE": "1",
+            # "PIPEWIRE_LATENCY": "2048/48000", # Buffer size / sample rate
         }
     )
 
