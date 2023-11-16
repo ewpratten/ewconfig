@@ -22,6 +22,8 @@ alias flush-dns-cache="sudo systemd-resolve --flush-caches"
 alias which-ls="ls -la $(which ls)"
 alias rdns="dig +short -x"
 alias ufw-status="sudo ufw status numbered"
+alias genuuid="python -c 'import uuid; print(uuid.uuid4())'"
+alias clipboard="xclip -selection clipboard"
 
 # WHOIS macros
 alias whois-afrinic="whois -h whois.afrinic.net"
@@ -220,3 +222,18 @@ ewconfig-run() {
     $@
     cd $cwd
 }
+
+# Define a function to emulate gh
+gh-emulated() {
+    if [ $# != 3 ]; then
+        echo "You don't have gh installed. Emulating its functionality."
+        echo "Usage: gh repo clone <user>/<repo>"
+    else
+        git clone https://github.com/$3
+    fi
+}
+
+# Only if `gh` is not installed
+if ! command -v gh &> /dev/null; then
+    alias gh=gh-emulated
+fi

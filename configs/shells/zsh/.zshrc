@@ -21,6 +21,10 @@ export PATH="$HOME/bin:$PATH"
 export PATH="$EWCONFIG_ROOT/scripts:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
+# Make sure libs can be found
+export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="/usr/local/lib64:$LD_LIBRARY_PATH"
+
 # I want to be able to load my custom python modules
 export PYTHONPATH="$EWCONFIG_ROOT/python_modules:$PYTHONPATH"
 
