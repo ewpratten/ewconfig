@@ -71,6 +71,9 @@ def handle_connect(args: argparse.Namespace) -> int:
     # Fetch the credentials from the Yubikey
     oath_code = get_oath_code("Guru")
     print(f"Using OATH code: {oath_code}")
+    if not len(str(oath_code)) == 6:
+        print("Invalid OATH code length. Try again in a minute.", file=sys.stderr)
+        return 1
 
     # Construct the one-time password
     password = f"{base_password}{oath_code}"
