@@ -27,6 +27,7 @@ export LD_LIBRARY_PATH="/usr/local/lib64:$LD_LIBRARY_PATH"
 
 # I want to be able to load my custom python modules
 export PYTHONPATH="$EWCONFIG_ROOT/python_modules:$PYTHONPATH"
+export PYTHONSTARTUP="$EWCONFIG_ROOT/configs/python/python_startup.py"
 
 # Configure a sane default editor
 if type -p nvim > /dev/null; then

@@ -55,7 +55,7 @@ if [ "$keybindings" = "[]" ] || [ "$keybindings" = "@as []" ]; then
 
     # Allow Mod+Shift+Enter to open python
     gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ name "Python REPL"
-    gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ command "gnome-terminal -- python3"
+    gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ command "gnome-terminal -- $EWCONFIG_ROOT/.config/ewconfig/scripts/tinker"
     gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ binding "<Super><Shift>Return"
 fi
 

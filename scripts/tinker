@@ -1,0 +1,11 @@
+#! /bin/bash
+# NOTE: This is a script so that we can launch it from a gnome keybind
+set -e
+
+# If PYTHONSTARTUP is not set, we have to set it
+if [ -z "$PYTHONSTARTUP" ]; then
+    export PYTHONSTARTUP="$HOME/.config/ewconfig/configs/python/python_startup.py"
+fi
+
+# Launch python
+PYTHON_TINKER_MODE=1 python3
