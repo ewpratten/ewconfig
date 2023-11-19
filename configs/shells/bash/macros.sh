@@ -190,7 +190,7 @@ wg-cat() {
 ewconfig-pull() {
     cwd=$(pwd)
     cd ~/.config/ewconfig
-    git pull
+    git pull ewp master
     cd $cwd
 }
 
