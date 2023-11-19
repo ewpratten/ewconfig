@@ -1,0 +1,31 @@
+{
+	"Constructor": {
+		"prefix": "new",
+		"body": [
+			"/// Construct a new $1",
+			"pub fn new($2) -> Self {",
+			"\tSelf {",
+			"\t\t$3",
+			"\t}",
+			"}"
+		]
+	},
+	"Derive Macro": {
+		"prefix": "derive",
+		"body": "#[derive(Debug, $1)]$2"
+	},
+	"Unit Tests": {
+		"prefix": "cfg: test",
+		"body": [
+			"#[cfg(test)]",
+			"mod tests {",
+			"\tuse super::*;",
+			"\t",
+			"\t#[test]",
+			"\tfn test_$1() {",
+			"\t\t$2",
+			"\t}",
+			"}"
+		]
+	}
+}
