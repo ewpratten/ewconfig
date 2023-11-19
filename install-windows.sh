@@ -6,6 +6,15 @@ export EWCONFIG_ROOT=$(dirname $(readlink -f $0))
 echo "Syncing git submodules..."
 git submodule update --init --recursive
 
+# Make sure that the `ewp` upstream exists
+if ! git remote | grep -q ewp; then
+    echo "Adding secondary git remote"
+    git remote add ewp git://git.ewpratten.com/ewconfig
+    git remote set-url --push ewp ssh://ewpratten@git.ewpratten.com:/srv/git/ewconfig
+    echo "Remotes are:"
+    git remote -v
+fi
+
 # Make sure scripts are all executable
 chmod +x $EWCONFIG_ROOT/scripts/*
 chmod +x $EWCONFIG_ROOT/configs/nautilus/scripts/*
