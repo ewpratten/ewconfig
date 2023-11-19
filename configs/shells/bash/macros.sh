@@ -223,6 +223,18 @@ ewconfig-run() {
     cd $cwd
 }
 
+# Re-run the install script from anywhere
+ewconfig-reinstall() {
+    # Require an argument (linux, windows)
+    if [ $# != 1 ]; then
+        echo "Usage: ewconfig-reinstall <platform>"
+        return 1
+    fi
+
+    # Execute through ewconfig-run
+    ewconfig-run sh ./install-$1.sh
+}
+
 # Define a function to emulate gh
 gh-emulated() {
     if [ $# != 3 ]; then
