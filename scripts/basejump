@@ -12,7 +12,7 @@ def main() -> int:
     # Handle program arguments
     ap = argparse.ArgumentParser(prog="basejump")
     ap.add_argument(
-        "subcommand", help="The subcommand to run", choices=["init", "fetch"]
+        "subcommand", help="The subcommand to run", choices=["init", "fetch", "discover"]
     )
     ap.add_argument("arguments", nargs=argparse.REMAINDER)
     args = ap.parse_args()
