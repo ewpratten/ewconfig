@@ -3,6 +3,7 @@ import argparse
 import sys
 import logging
 import subprocess
+import json
 from pprint import pprint
 from pathlib import Path
 
@@ -49,7 +50,7 @@ def main() -> int:
         
     # Print the results
     logger.info("Found the following repos:")
-    pprint(repos)
+    print(json.dumps(repos, indent=4))
 
     return 0
 
