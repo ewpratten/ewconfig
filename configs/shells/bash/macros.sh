@@ -249,3 +249,12 @@ gh-emulated() {
 if ! command -v gh &> /dev/null; then
     alias gh=gh-emulated
 fi
+
+# Convert an SVG to a PNG
+svg2png() {
+    if [ $# != 1 ]; then
+        echo "Usage: svg2png <file>"
+    else
+        inkscape -z "$1.png" "$1" --export-type=png
+    fi
+}
