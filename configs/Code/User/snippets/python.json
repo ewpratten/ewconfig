@@ -56,15 +56,19 @@
 		"body": "from pathlib import Path"
 	},
 	"Get a logger instance": {
-		"prefix": "getlogger",
-		"body": "logger = logging.getLogger(__name__)"
+		"prefix": "logger",
+		"body": "logger = logging.getLogger(${1|__name__,'werkzeug'|})"
 	},
 	"Import dataclass": {
 		"prefix":"impdataclass",
-		"body": "from dataclasses import dataclass, field"
+		"body": "from dataclasses import dataclass${1:, field}"
+	},
+	"Import datetime": {
+		"prefix":"impdatetime",
+		"body": "from datetime import datetime"
 	},
 	"Import enums": {
 		"prefix":"impenum",
-		"body": "from enum import Enum, auto"
+		"body": "from enum import Enum${1:, auto}"
 	}
 }
