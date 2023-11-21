@@ -25,7 +25,10 @@
 	lscommits = ! ( echo -e "Commits\tFile" && git log --pretty=format: --name-only | sed '/^$/d' | sort | uniq -c | sort -g -r ) | less
     lsc = lscommits
     diff-against = diff --merge-base 
-	fix-recreated-branch = reset --hard @{u}
+    fix-recreated-branch = reset --hard @{u}
+    fa = fetch --all
+    c = commit
+    aa = add .
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
