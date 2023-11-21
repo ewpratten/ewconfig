@@ -45,6 +45,9 @@ ln -sf $EWCONFIG_ROOT/configs/git/.gitconfig ~/.gitconfig
 ln -sf $EWCONFIG_ROOT/configs/sssh/allowed_signers ~/.ssh/allowed_signers || true
 ln -sf $EWCONFIG_ROOT/configs/git/.mailmap ~/.config/git/.mailmap
 
+# Configure Vim
+ln -sf $EWCONFIG_ROOT/configs/vim/.vimrc ~/.vimrc
+
 # Remove Microsoft's fake python executables
 rm $LOCALAPPDATA/Microsoft/WindowsApps/python.exe || true
 rm $LOCALAPPDATA/Microsoft/WindowsApps/python3.exe || true
