@@ -56,8 +56,14 @@ if !exists('g:vscode')
     set spell
     set spelllang=en_ca,en_us
     set spelloptions=camel
+    
+    " Hide spellcheck highlights I don't care about
     hi clear SpellCap
     hi clear SpellRare
+
+    " Change the spellcheck highlight to an underline
+    hi clear SpellBad
+    hi SpellBad cterm=underline ctermfg=DarkRed
 
     " Disable spellcheck for some file formats
     autocmd FileType man setlocal nospell
