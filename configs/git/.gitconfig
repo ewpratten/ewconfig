@@ -27,6 +27,7 @@
     diff-against = diff --merge-base 
     fix-recreated-branch = reset --hard @{u}
     fa = fetch --all
+    pa = pull --all
     c = commit
     aa = add .
 
