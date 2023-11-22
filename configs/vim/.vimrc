@@ -27,11 +27,6 @@ inoremap <C-BS> <C-W>
 inoremap <C-Del> <Esc>lcw
 nnoremap <C-Del> cw<Esc>l
 
-" VSCode-style comment toggling
-nnoremap <C-_> :Commentary<CR>
-vnoremap <C-_> :Commentary<CR>
-inoremap <C-_> <C-O>:Commentary<CR>
-
 " Force VIM to use system clipboard
 set clipboard=unnamedplus
 

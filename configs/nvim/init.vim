@@ -30,6 +30,11 @@ endif
 " Enable Leap
 lua require('leap').add_default_mappings()
 
+" VSCode-style comment toggling
+nnoremap <C-_> :Commentary<CR>
+vnoremap <C-_> :Commentary<CR>
+inoremap <C-_> <C-O>:Commentary<CR>
+
 " Custom functions
 function! MkdirAndWrite()
     let dir = expand('%:p:h')
