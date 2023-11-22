@@ -151,7 +151,7 @@ def main() -> int:
         "--keep-case", help="Keep the case of the text", action="store_true"
     )
     ap.add_argument("--output", "-o", help="Output file path")
-    ap.add_argument("--show", help="Show the image after creation", action="store_true")
+    ap.add_argument("--no-show", help="Don't show the image after creation", action="store_true")
     ap.add_argument(
         "-v", "--verbose", help="Enable verbose logging", action="store_true"
     )
@@ -207,7 +207,7 @@ def main() -> int:
         if args.output
         else (
             DEFAULT_OUTPUT_DIR
-            / f"{args.template}-{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}.png"
+            / f"meme-{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}.{args.template}.png"
         )
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -216,7 +216,7 @@ def main() -> int:
     image.save(output_path)
 
     # Show the image
-    if args.show:
+    if not args.no_show:
         subprocess.run(["xdg-open", str(output_path)])
 
     return 0
