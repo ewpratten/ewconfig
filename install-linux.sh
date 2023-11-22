@@ -119,6 +119,9 @@ if [ -d ~/.var/app/org.prismlauncher.PrismLauncher ]; then
     flatpak override --user --filesystem=~/.config/minecraft org.prismlauncher.PrismLauncher
 fi
 
+# Memegen
+ln -nsf $EWCONFIG_ROOT/configs/memegen ~/.config/memegen
+
 # -- Optional Configs --
 set +x
 

@@ -2,6 +2,8 @@
 
 This repository stores most of my common config files. It is designed to be deployable to pretty much any system. Assuming ideal conditions, any machine is one `sh ./install-<os>` away from behaving like my personal workstation.
 
+*I know its called ew**config**, but at this point, its more of a monorepo of scripts*
+
 ## Setup
 
 The scripts in this repository have the following dependencies:
