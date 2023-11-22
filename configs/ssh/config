@@ -70,7 +70,7 @@ Host *.ring.nlnog.net
 
 # SDF.org
 Host sdf.org *.sdf.org
-    user ewpratten
+    User ewpratten
 Host sdf
     HostName sdf.org
 Host otaku
@@ -81,6 +81,8 @@ Host *.gurustudio.com
     User "guru-domain\\epratten"
 Host td-prod td-prod2 td-prod3 td-prod4
     User guru
+Host w6421
+    User "guru-domain\\epratten"
 
 # Personal Infra
 Host oci-arm

@@ -48,6 +48,10 @@
 		"prefix": "uni_hypercubed",
 		"body": "⁴"
 	},
+	"Unicode: Power of N": {
+		"prefix": "uni_power_n",
+		"body": "ⁿ"
+	},
 	"Unicode: Degree": {
 		"prefix": "uni_degree",
 		"body": "°"
