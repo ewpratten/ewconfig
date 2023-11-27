@@ -1,4 +1,5 @@
 #! /usr/bin/env python3
+# Installation: pip install exif asyncio blinkpy
 import argparse
 import sys
 import logging
