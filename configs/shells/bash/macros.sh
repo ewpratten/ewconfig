@@ -24,6 +24,7 @@ alias rdns="dig +short -x"
 alias ufw-status="sudo ufw status numbered"
 alias genuuid="python -c 'import uuid; print(uuid.uuid4())'"
 alias clipboard="xclip -selection clipboard"
+alias filesize="du -hs"
 
 # WHOIS macros
 alias whois-afrinic="whois -h whois.afrinic.net"
