@@ -4,7 +4,7 @@ Host * !*.github.com !github.com
     IdentityFile %d/.ssh/id_ed25519_sk_rk_yk20572395
     IdentityFile %d/.ssh/id_ed25519
     IdentityFile %d/.ssh/id_rsa
-    VisualHostKey yes
+    # VisualHostKey yes
 
 # Github SSH adapter for restricted networks
 Host github.com gist.github.com
@@ -57,6 +57,14 @@ Host 10.50.24.2
     User admin
 
 # Sheridan College
+Host db6.fast.sheridanc.on.ca
+    User user03
+Host dbr.fast.sheridanc.on.ca
+    User DataIntegrator
+Host *.fast.sheridanc.on.ca
+    ProxyJump prattene@atlas.sheridanc.on.ca
+Host atlas.sheridanc.on.ca
+    User prattene
 Host *.sheridanc.on.ca
     User prattene
     RequestTTY yes
