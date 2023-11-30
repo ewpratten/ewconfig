@@ -11,7 +11,7 @@ def main() -> int:
     # Handle program arguments
     ap = argparse.ArgumentParser(prog='blink-check', description='Check on a running blink-fetch cron task')
     ap.add_argument("hostname", help="[user@]hostname[:port] for SSH")
-    ap.add_argument("--image-dir", help="Remote directory containing fetched images", default="/tmp/blink")
+    ap.add_argument("--image-dir", help="Remote directory containing fetched images", default="/home/ewpratten/Pictures/blink")
     ap.add_argument("--camera-id", help="Camera ID", default="155295")
     ap.add_argument("--show-latest", "--show", "-s", help="Download and display the latest image (if possible)", action="store_true")
     ap.add_argument('-v', '--verbose', help='Enable verbose logging', action='store_true')

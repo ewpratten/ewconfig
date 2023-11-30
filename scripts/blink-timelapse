@@ -16,7 +16,7 @@ def main() -> int:
         description="Generates timelapses from blink image captures",
     )
     ap.add_argument("--camera-id", help="Camera ID", default="155295")
-    ap.add_argument("--image-dir", help="Image directory", default="/tmp/blink")
+    ap.add_argument("--image-dir", help="Image directory", default="~/Pictures/blink")
     ap.add_argument(
         "--output-dir", help="Output directory", default="~/Videos/BlinkTimelapse"
     )

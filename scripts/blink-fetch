@@ -14,11 +14,13 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
+
 def decdeg2dms(dd):
     mult = -1 if dd < 0 else 1
-    mnt,sec = divmod(abs(dd)*3600, 60)
-    deg,mnt = divmod(mnt, 60)
-    return mult*deg, mult*mnt, mult*sec
+    mnt, sec = divmod(abs(dd) * 3600, 60)
+    deg, mnt = divmod(mnt, 60)
+    return mult * deg, mult * mnt, mult * sec
+
 
 async def main() -> int:
     # Handle program arguments
@@ -28,12 +30,18 @@ async def main() -> int:
     ap.add_argument("--username", help="Blink username", required=True)
     ap.add_argument("--password", help="Blink password")
     ap.add_argument("--camera-id", help="Camera ID", default="155295")
-    ap.add_argument("--output-dir", help="Output directory", default="/tmp/blink")
-    ap.add_argument("--no-2fa", help="Don't try to get 2FA credentials", action="store_true")
+    ap.add_argument("--output-dir", help="Output directory", default="~/Pictures/blink")
+    ap.add_argument(
+        "--no-2fa", help="Don't try to get 2FA credentials", action="store_true"
+    )
     ap.add_argument("--no-exif", help="Don't write EXIF data", action="store_true")
     ap.add_argument("--exif-camera", help="Camera name", default="Blink Mini")
-    ap.add_argument("--exif-latitude", "--exif-lat", help="Camera latitude (Decimal Degrees)")
-    ap.add_argument("--exif-longitude", "--exif-lng", help="Camera longitude (Decimal Degrees)")
+    ap.add_argument(
+        "--exif-latitude", "--exif-lat", help="Camera latitude (Decimal Degrees)"
+    )
+    ap.add_argument(
+        "--exif-longitude", "--exif-lng", help="Camera longitude (Decimal Degrees)"
+    )
     ap.add_argument(
         "-v", "--verbose", help="Enable verbose logging", action="store_true"
     )
@@ -50,7 +58,9 @@ async def main() -> int:
         args.password = getpass.getpass(prompt="Blink Password: ")
 
     # Authenticate with Blink servers
-    auth = Auth({"username": args.username, "password": args.password}, no_prompt=args.no_2fa)
+    auth = Auth(
+        {"username": args.username, "password": args.password}, no_prompt=args.no_2fa
+    )
     blink = Blink()
     blink.auth = auth
     await blink.start()
@@ -72,8 +82,9 @@ async def main() -> int:
 
     # Create the output directory if it doesn't exist
     now = datetime.now()
-    out_file = Path(
-        f"{args.output_dir}/camera_{args.camera_id}.{now.strftime('%Y%m%d_%H%M%S')}.jpg"
+    out_file = (
+        Path(args.output_dir).expanduser()
+        / f"camera_{args.camera_id}.{now.strftime('%Y%m%d_%H%M%S')}.jpg"
     )
     out_file.parent.mkdir(parents=True, exist_ok=True)
 
@@ -88,7 +99,7 @@ async def main() -> int:
 
         # Set the camera type
         image.model = args.exif_camera
-        
+
         # If the user provided a latitude and longitude, set it
         # if args.exif_latitude and args.exif_longitude:
         #     image.gps_latitude = decdeg2dms(float(args.exif_latitude))
@@ -98,7 +109,7 @@ async def main() -> int:
 
         # Set the timestamp
         image.datetime_original = now.strftime(exif.DATETIME_STR_FORMAT)
-        
+
         # Write the EXIF data back to the file
         logger.info("Writing EXIF data")
         with open(out_file, "wb") as f:
