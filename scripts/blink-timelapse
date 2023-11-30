@@ -36,7 +36,8 @@ def main() -> int:
     )
 
     # Find all frames
-    frames = Path(args.image_dir).expanduser().glob(f"camera_{args.camera_id}.*.jpg")
+    image_dir = Path(args.image_dir).expanduser()
+    frames = image_dir.glob(f"camera_{args.camera_id}.*.jpg")
     frames = sorted(frames, key=lambda frame: frame.stat().st_mtime)
     logger.info(f"Found {len(frames)} frames")
     logger.info(
@@ -61,7 +62,7 @@ def main() -> int:
             "-pattern_type",
             "glob",
             "-i",
-            f"{args.image_dir}/camera_{args.camera_id}.*.jpg",
+            f"{str(image_dir)}/camera_{args.camera_id}.*.jpg",
             "-c:v",
             "libx264",
             "-pix_fmt",
