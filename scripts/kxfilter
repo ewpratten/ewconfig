@@ -12,7 +12,8 @@ def set_apf(s: serial.Serial, state: str) -> None:
         s.write(b"AP1;")
     elif state == "off":
         s.write(b"AP0;")
-        
+
+
 def set_nb(s: serial.Serial, state: str) -> None:
     if state == "on":
         s.write(b"NB1;")
@@ -21,21 +22,25 @@ def set_nb(s: serial.Serial, state: str) -> None:
     else:
         s.write("NL{:0>2}00;".format(state).encode("ascii"))
         s.write(b"NB1;")
-        
+
+
 def set_preamp(s: serial.Serial, state: str) -> None:
     if state == "on":
         s.write(b"PA1;")
     elif state == "off":
         s.write(b"PA0;")
-        
+
+
 def set_attenuator(s: serial.Serial, state: str) -> None:
     if state == "on":
         s.write(b"RA01;")
     elif state == "off":
         s.write(b"RA00;")
-        
+
+
 def set_filter_bandwidth(s: serial.Serial, bandwidth: float) -> None:
     s.write("BW{:0>4};".format(int(bandwidth * 100)).encode("ascii"))
+
 
 def main() -> int:
     # Handle program arguments
@@ -106,27 +111,27 @@ def main() -> int:
     # Connect to the radio
     logger.debug(f"Connecting to radio: {args.device}")
     serial_conn = serial.Serial(args.device, args.baud)
-    
+
     # Handle APF
     if args.audio_peaking_filter:
         logger.info(f"Setting APF: {args.audio_peaking_filter}")
         set_apf(serial_conn, args.audio_peaking_filter)
-        
+
     # Handle NB
     if args.noise_blanker:
         logger.info(f"Setting Noise Blanker: {args.noise_blanker}")
         set_nb(serial_conn, args.noise_blanker)
-        
+
     # Handle PA
     if args.pre_amp:
         logger.info(f"Setting Pre-Amp: {args.pre_amp}")
         set_preamp(serial_conn, args.pre_amp)
-        
+
     # Handle RX ATT
     if args.attenuator:
         logger.info(f"Setting RX Attenuator: {args.attenuator}")
         set_attenuator(serial_conn, args.attenuator)
-        
+
     # Handle filter bandwidth
     if args.filter_bandwidth:
         logger.info(f"Setting Filter Bandwidth: {args.filter_bandwidth}")
