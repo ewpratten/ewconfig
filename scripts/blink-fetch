@@ -11,6 +11,7 @@ from blinkpy.blinkpy import Blink
 from blinkpy.auth import Auth
 from blinkpy.helpers.util import json_load
 from pathlib import Path
+from PIL import Image, ImageDraw
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +32,9 @@ async def main() -> int:
     ap.add_argument("--password", help="Blink password")
     ap.add_argument("--camera-id", help="Camera ID", default="155295")
     ap.add_argument("--output-dir", help="Output directory", default="~/Pictures/blink")
+    ap.add_argument(
+        "--copy-latest", help="Copies the latest frame to this path", type=Path
+    )
     ap.add_argument(
         "--no-2fa", help="Don't try to get 2FA credentials", action="store_true"
     )
@@ -90,6 +94,12 @@ async def main() -> int:
 
     logger.info(f"Writing image to: {out_file}")
     await camera.image_to_file(str(out_file))
+    
+    # Draw the timestamp on the image in the bottom left corner
+    image = Image.open(out_file)
+    draw = ImageDraw.Draw(image)
+    draw.text((0, image.height - 10), now.strftime("%Y-%m-%d %H:%M:%S"), fill=(255, 255, 255), stroke_width=2, stroke_fill=(0, 0, 0))
+    image.save(out_file)
 
     # Handle EXIF data
     if not args.no_exif:
@@ -114,6 +124,12 @@ async def main() -> int:
         logger.info("Writing EXIF data")
         with open(out_file, "wb") as f:
             f.write(image.get_file())
+            
+    # If we were asked to copy the latest frame, do so
+    if args.copy_latest:
+        logger.info(f"Copying latest frame to: {args.copy_latest}")
+        args.copy_latest.parent.mkdir(parents=True, exist_ok=True)
+        args.copy_latest.write_bytes(out_file.read_bytes())
 
     return 0
 
