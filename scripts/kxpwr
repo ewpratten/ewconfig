@@ -1,0 +1,51 @@
+#! /usr/bin/env python3
+import argparse
+import sys
+import logging
+import serial
+
+logger = logging.getLogger(__name__)
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="kxpwr", description="Set the TX power on a KX2"
+    )
+    ap.add_argument("watts", help="Power level in watts", type=int)
+    ap.add_argument("--retune", help="Re-tunes the antenna after setting power", action="store_true")
+    ap.add_argument("--device", "-d", help="Serial device", default="/dev/ttyUSB0")
+    ap.add_argument("--baud", "-b", help="Serial baud rate", default=38400, type=int)
+    ap.add_argument(
+        "-v", "--verbose", help="Enable verbose logging", action="store_true"
+    )
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s:	%(message)s",
+    )
+
+    # Connect to the radio
+    logger.debug(f"Connecting to radio: {args.device}")
+    serial_conn = serial.Serial(args.device, args.baud)
+    
+    # Set the power level
+    cmd = "PC{:0>3};".format(args.watts)
+    logger.debug(f"Sending command: {cmd}")
+    serial_conn.write(cmd.encode("ascii"))
+    
+    # Re-tune the antenna if needed 
+    if args.retune:
+        cmd = "SWT20;"
+        logger.warning("Re-tuning antenna")
+        logger.debug(f"Sending command: {cmd}")
+        serial_conn.write(cmd.encode("ascii"))
+
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
