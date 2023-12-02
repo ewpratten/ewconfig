@@ -122,6 +122,9 @@ fi
 # Memegen
 ln -nsf $EWCONFIG_ROOT/configs/memegen ~/.config/memegen
 
+# Tmux
+ln -sf $EWCONFIG_ROOT/configs/tmux/.tmux.conf ~/.tmux.conf
+
 # -- Optional Configs --
 set +x
 
