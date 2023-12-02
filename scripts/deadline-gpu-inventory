@@ -1,0 +1,100 @@
+#! /usr/bin/env python
+import argparse
+import sys
+import logging
+import pyperclip
+import re
+
+logger = logging.getLogger(__name__)
+
+GPU_FILTERS = [
+    re.compile(r"(Intel\(R\)[a-zA-Z\d ]+)"),
+    re.compile(r"(NVIDIA [a-zA-Z\d ]+)"),
+]
+
+MSRP_ESTIMATES = {
+    "NVIDIA RTX A5000": 5400,
+    "NVIDIA RTX A4000": 1600,
+    "NVIDIA Quadro M5000": 2000,
+    "NVIDIA Geforce RTX 2070": 800
+}
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(prog='deadline-gpu-inventory', description='Reads Deadline machine info from the clipboard and displays the GPU inventory')
+    ap.add_argument("--format", "-f", help="Output format", choices=["pretty", "tsv", "csv"], default="pretty")
+    ap.add_argument("--guess-cost", "-g", help="Guess the cost of the GPUs", action="store_true")
+    ap.add_argument('-v', '--verbose', help='Enable verbose logging', action='store_true')
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format='%(levelname)s:	%(message)s',
+    )
+    
+    # Read from clipboard
+    clipboard = pyperclip.paste()
+    
+    # Split clipboard into lines
+    lines = clipboard.splitlines()
+    
+    # Search for GPUs
+    gpus = []
+    for line in lines:
+        for gpu_filter in GPU_FILTERS:
+            # Find any matches
+            match = gpu_filter.search(line)
+            if match:
+                # Add to list of GPUs
+                gpus.append(match.group(1))
+                
+    # If we don't have any GPUs, exit
+    if not gpus:
+        logger.error("No GPUs found.")
+        logger.info("Are you sure you have copied the machine info to the clipboard?")
+        return 1
+                
+    # Reshape the list into [(gpu, count)]
+    gpu_counts = {}
+    for gpu in gpus:
+        gpu_counts[gpu] = gpu_counts.get(gpu, 0) + 1
+    max_count = max(gpu_counts.values())
+    gpu_counts = list(gpu_counts.items())
+    
+    # Sort the list by count
+    gpu_counts.sort(key=lambda x: x[1], reverse=True)
+    
+    if args.format == "pretty":
+        # Figure out the width of the largest count
+        count_width = len(str(max_count))
+        
+        # Print the list
+        for gpu, count in gpu_counts:
+            print(f"{count:>{count_width}} {gpu}")
+    
+    elif args.format == "tsv":
+        # Print the list
+        for gpu, count in gpu_counts:
+            print(f"{count}\t{gpu}")
+    
+    elif args.format == "csv":
+        # Print the list
+        print("Count,GPU")
+        for gpu, count in gpu_counts:
+            print(f"{count},{gpu}")
+    
+    # If cost guessing is enabled, print the estimated cost
+    if args.guess_cost:
+        total_cost = 0
+        known_cost_gpu_count = 0
+        for gpu, count in gpu_counts:
+            if gpu in MSRP_ESTIMATES:
+                total_cost += MSRP_ESTIMATES[gpu] * count
+                known_cost_gpu_count += 1
+        print(f"Estimated cost: ${total_cost}. ({known_cost_gpu_count} models included in estimate)")
+
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())
