@@ -37,6 +37,9 @@ gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-2 "['<Super>2
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-3 "['<Super>3']" # Switch to ws 3
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-4 "['<Super>4']" # Switch to ws 4
 
+# Match the Windows screenshot behavior while also allowing the regular print screen key to work
+gsettings set org.gnome.shell.keybindings show-screenshot-ui "['<Shift><Super>s', 'Print']"
+
 # Generate custom keybinds if they do not yet exist
 keybindings=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings)
 if [ "$keybindings" = "[]" ] || [ "$keybindings" = "@as []" ]; then
