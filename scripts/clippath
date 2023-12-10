@@ -1,0 +1,83 @@
+#! /usr/bin/env python
+import pyperclip
+import argparse
+import sys
+import logging
+import pathlib
+import platform
+
+logger = logging.getLogger(__name__)
+
+
+def convert_to_unix(path: str, args: argparse.Namespace) -> str:
+    output = path
+    
+    # Switch the slashes to forward slashes
+    output = output.replace("\\", "/")
+    
+    # If the path starts with a drive letter, handle it
+    if len(output) >= 2 and output[1] == ":":
+        # Get the drive letter
+        drive_letter = output[0]
+        
+        # Strip the front of the path
+        output = output[2:]
+        
+        # Add the mount point
+        output = f"{args.drive_letter_mount}/{drive_letter}{output}"
+    
+    return output
+
+
+def convert_to_windows(path: str, args: argparse.Namespace) -> str:
+    output = path
+    
+    # Flip the path separators
+    output = output.replace("/", "\\")
+    
+    return output
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="clippath", description="Manipulates file paths in the clipboard"
+    )
+    ap.add_argument(
+        "--destination-format", "-d", help="Destination format", choices=["windows", "unix"], default="windows"
+    )
+    ap.add_argument("--drive-letter-mount", "-m", help="Mount point for drive letters", default="/mnt")
+    ap.add_argument(
+        "-v", "--verbose", help="Enable verbose logging", action="store_true"
+    )
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s:	%(message)s",
+    )
+
+    # Read from clipboard
+    clipboard = pyperclip.paste()
+
+    # Convert to the desired format
+    if args.destination_format == "windows":
+        converted = convert_to_windows(clipboard, args)
+    elif args.destination_format == "unix":
+        converted = convert_to_unix(clipboard, args)
+    else:
+        logger.error("Invalid destination format")
+        return 1
+
+    # Put the new path back into the clipboard
+    converted = converted.replace("\n", "").strip().lstrip()
+    pyperclip.copy(converted)
+    logger.info("New path copied to clipboard")
+    logger.info(converted)
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
