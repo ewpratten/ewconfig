@@ -165,7 +165,7 @@ wg-reload() {
     if [ $# != 1 ]; then
         echo "Usage: wg-reload <interface>"
     else
-        sudo wg syncconf $1 <(wg-quick strip $1)
+        sudo wg syncconf $1 <(sudo wg-quick strip $1)
     fi
 }
 
