@@ -19,10 +19,21 @@ PROFILES = {
         "comment": "Zola",
         "ports": [(1111, "tcp")],
     },
-    "kdeconnect":{
-        "comment":"KDE Connect",
-        "ports":[("1714:1764", "udp"), ("1714:1764", "tcp")]
-    }
+    "kdeconnect": {
+        "comment": "KDE Connect",
+        "ports": [("1714:1764", "udp"), ("1714:1764", "tcp")],
+    },
+    "asterisk": {
+        "comment": "Asterisk",
+        "ports": [
+            (5060, "udp"),
+            (4569, "udp"),
+            (4569, "tcp"),
+            (5060, "tcp"),
+            (5061, "tcp"),
+            ("10000:20000", "udp"),
+        ],
+    },
 }
 
 
