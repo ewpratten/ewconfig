@@ -60,7 +60,7 @@ def classify_traffic(
             for pattern in patterns:
                 if pattern.match(str(hostname)):
                     return service
-                
+
     # Fallbacks in case we can't figure anything else out
     if packet_proto == "TCP" and destination_port == 443:
         return f"HTTPS ({hostname})"
@@ -81,6 +81,11 @@ def main() -> int:
         "-l",
         help="Subnet(s) to consider local",
         action="append",
+    )
+    ap.add_argument(
+        "--ignore-ssh",
+        help="Ignore SSH traffic",
+        action="store_true",
     )
     ap.add_argument(
         "-v", "--verbose", help="Enable verbose logging", action="store_true"
@@ -153,6 +158,10 @@ def main() -> int:
         classification = classify_traffic(
             destination, int(destination_port), metadata.lstrip().split(" ")[0]
         )
+        
+        # Handle ignoring SSH traffic
+        if args.ignore_ssh and classification == "SSH":
+            continue
 
         print(f"{source}\t{classification}")
 
