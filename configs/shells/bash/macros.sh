@@ -25,6 +25,7 @@ alias ufw-status="sudo ufw status numbered"
 alias genuuid="python -c 'import uuid; print(uuid.uuid4())'"
 alias clipboard="xclip -selection clipboard"
 alias filesize="du -hs"
+alias arp-watch="sudo tcpdump -nn -tt -q \"arp and arp[6:2] == 2\""
 
 # WHOIS macros
 alias whois-afrinic="whois -h whois.afrinic.net"
