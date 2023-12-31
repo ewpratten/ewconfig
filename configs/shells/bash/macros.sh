@@ -66,8 +66,8 @@ fi
 
 # If we are running in a studio environment
 if [ ! -z "$EWP_IN_GURU_ENVIRONMENT" ]; then
-   alias guru_launcher3="python $GURU_PYTHON_ROOT/env/guru_launcher3.py"
-   alias cd-dev="cd /s/development/epratten"
+    alias guru_launcher3="python $GURU_PYTHON_ROOT/env/guru_launcher3.py"
+    alias cd-dev="cd /s/development/epratten"
 fi
 
 # Kill via pgrep
@@ -75,7 +75,7 @@ nkill() {
     if [ $# != 1 ]; then
         echo "Usage: nkill <name>"
     else
-        kill -9 $(pgrep $1) 
+        kill -9 $(pgrep $1)
     fi
 }
 
@@ -90,29 +90,29 @@ mkcd() {
 
 # Sources a .env
 source_env() {
-  env=${1:-.env}
-  [ ! -f "${env}" ] && { echo "Env file ${env} doesn't exist"; return 1; }
-  eval $(sed -e '/^\s*$/d' -e '/^\s*#/d' -e 's/=/="/' -e 's/$/"/' -e 's/^/export /' "${env}")
+    env=${1:-.env}
+    [ ! -f "${env}" ] && { echo "Env file ${env} doesn't exist"; return 1; }
+    eval $(sed -e '/^\s*$/d' -e '/^\s*#/d' -e 's/=/="/' -e 's/$/"/' -e 's/^/export /' "${env}")
 }
 
 # Auto-extract anything
 extract() {
     if [ -f $1 ]; then
         case $1 in
-        *.tar.bz2) tar xvjf $1 ;;
-        *.tar.gz) tar xvzf $1 ;;
-        *.bz2) bunzip2 $1 ;;
-        *.rar) unrar x $1 ;;
-        *.gz) gunzip $1 ;;
-        *.tar) tar xvf $1 ;;
-        *.tbz2) tar xvjf $1 ;;
-        *.tgz) tar xvzf $1 ;;
-        *.zip) unzip $1 ;;
-        *.Z) uncompress $1 ;;
-        *.7z) 7z x $1 ;;
-        *.tar.zst) tar --use-compress-program=unzstd -xvf $1 ;;
-        *.zst) zstd -d $1 ;;
-        *) echo "don't know how to extract '$1'..." ;;
+            *.tar.bz2) tar xvjf $1 ;;
+            *.tar.gz) tar xvzf $1 ;;
+            *.bz2) bunzip2 $1 ;;
+            *.rar) unrar x $1 ;;
+            *.gz) gunzip $1 ;;
+            *.tar) tar xvf $1 ;;
+            *.tbz2) tar xvjf $1 ;;
+            *.tgz) tar xvzf $1 ;;
+            *.zip) unzip $1 ;;
+            *.Z) uncompress $1 ;;
+            *.7z) 7z x $1 ;;
+            *.tar.zst) tar --use-compress-program=unzstd -xvf $1 ;;
+            *.zst) zstd -d $1 ;;
+            *) echo "don't know how to extract '$1'..." ;;
         esac
     else
         echo "'$1' is not a valid file!"
@@ -126,7 +126,7 @@ genpass() {
     else
         echo $(openssl rand -base64 $1 | tr -d "\n")
     fi
-
+    
 }
 
 # Sign a file with an SSH key
@@ -177,7 +177,7 @@ wg-edit() {
     else
         sudo nvim /etc/wireguard/$1.conf
     fi
-} 
+}
 
 # Print a wireguard config file
 wg-cat() {
@@ -204,7 +204,7 @@ ewconfig-pull-zip(){
         echo "You can't run this command when ~/.config/ewconfig is a git repo!"
         return 1
     fi
-
+    
     # Download the latest zip
     cd ~/Downloads
     curl -L https://ewp.fyi/config.zip -o ewconfig.zip
@@ -212,7 +212,7 @@ ewconfig-pull-zip(){
     unzip ewconfig.zip
     mv ewconfig-master ~/.config/ewconfig
     rm ewconfig.zip
-
+    
     # Return to the original directory
     cd $cwd
 }
@@ -232,7 +232,7 @@ ewconfig-reinstall() {
         echo "Usage: ewconfig-reinstall <platform>"
         return 1
     fi
-
+    
     # Execute through ewconfig-run
     ewconfig-run sh ./install-$1.sh
 }
@@ -258,5 +258,25 @@ svg2png() {
         echo "Usage: svg2png <file>"
     else
         inkscape -z "$1.png" "$1" --export-type=png
+    fi
+}
+
+# Get the AS Path to an IP
+aspath() {
+    # There must be at least one argument (cab be more)
+    if [ $# -lt 1 ]; then
+        echo "Usage: aspath <ip> [args]"
+    else
+        mtr $@ -z -rw -c1 -G0.25 | tail -n +3 | awk '{print $2}' | grep -v AS\?\?\? | uniq | cut -c 3- | tr '\n' ',' | sed 's/,/ -> /g' | rev | cut -c 5- | rev
+    fi
+}
+
+# Get the AS Path to an IP (include unknown hops)
+aspath-long() {
+    # There must be at least one argument (cab be more)
+    if [ $# -lt 1 ]; then
+        echo "Usage: aspath-long <ip> [args]"
+    else
+        mtr $@ -z -rw -c1 -G0.25 | tail -n +3 | awk '{print $2}' | uniq | cut -c 3- | tr '\n' ',' | sed 's/,/ -> /g' | rev | cut -c 5- | rev
     fi
 }
