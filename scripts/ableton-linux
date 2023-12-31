@@ -101,16 +101,18 @@ def main() -> int:
 
     # Configure discord presence
     discord_presence = pypresence.Presence(DISCORD_CLIENT_ID)
-    discord_presence.connect()
+    if not args.no_presence:
+        discord_presence.connect()
     launch_start = int(time.time())
 
     # Ensure we have wineasio
     if not (WINEASIO_SRC_PATH / "build64").exists():
-        discord_presence.update(
-            start=launch_start,
-            large_image=DISCORD_ICON,
-            details="Compiling WineASIO...",
-        )
+        if not args.no_presence:
+            discord_presence.update(
+                start=launch_start,
+                large_image=DISCORD_ICON,
+                details="Compiling WineASIO...",
+            )
         build_wineasio()
 
     # Figure out the wineprefix
@@ -120,11 +122,12 @@ def main() -> int:
     # Ensure that the bottle has the wineasio dll
     if not (wineprefix / ".wineasio-installed").is_file():
         logger.info("Registering wineasio")
-        discord_presence.update(
-            start=launch_start,
-            large_image=DISCORD_ICON,
-            details="Registering WineASIO with Ableton...",
-        )
+        if not args.no_presence:
+            discord_presence.update(
+                start=launch_start,
+                large_image=DISCORD_ICON,
+                details="Registering WineASIO with Ableton...",
+            )
         subprocess.check_call(
             [WINEASIO_SRC_PATH / "wineasio-register"],
             env={"WINEPREFIX": str(wineprefix)},
@@ -156,18 +159,15 @@ def main() -> int:
     )
 
     # Update the presence message
-    discord_presence.update(
-        start=launch_start,
-        large_image=DISCORD_ICON,
-        details="Working on a project",
-        buttons=[
-            {"label": "Check out my music!", "url": "https://ewpratten.com/music"}
-        ],
-    )
-    
-    # Immediately cancel the presence if requested
-    if args.no_presence:
-        discord_presence.close()
+    if not args.no_presence:
+        discord_presence.update(
+            start=launch_start,
+            large_image=DISCORD_ICON,
+            details="Working on a project",
+            buttons=[
+                {"label": "Check out my music!", "url": "https://ewpratten.com/music"}
+            ],
+        )
 
     # Launch Ableton via bottles
     if not args.dry_run:
@@ -176,14 +176,16 @@ def main() -> int:
             ["bottles-cli", "run", "-b", args.bottle, "-p", args.program],
             env=ableton_env,
         )
-        discord_presence.close()
+        if not args.no_presence:
+            discord_presence.close()
         return return_code
 
     else:
         logger.info("Dry run, not launching Ableton")
         logger.info("Press enter to continue")
         input()
-        discord_presence.close()
+        if not args.no_presence:
+            discord_presence.close()
         return 0
 
 
