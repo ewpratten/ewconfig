@@ -96,3 +96,17 @@ Host w6421
 Host oci-arm
     HostName oci-arm.vpn.ewp.fyi
     User ubuntu
+
+# Pratten Machines
+Host warren-desktop
+    HostName workstation.warren.vpn
+
+Host gianna-desktop
+    HostName workstation.gianna.vpn
+
+# Various Aliases
+Host desktop
+    HostName desktop.evan.vpn.ewp.fyi
+
+Host laptop
+    HostName laptop.evan.vpn.ewp.fyi
