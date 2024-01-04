@@ -61,7 +61,7 @@ def handle_connect(args: argparse.Namespace) -> int:
         return 1
 
     # If we are connected to AS54041, we need to briefly kill the connection
-    if is_interface_up("vpn"):
+    if args.wireguard_support and is_interface_up("vpn"):
         print("Bringing down AS54041 VPN")
         subprocess.run(["sudo", "wg-quick", "down", "vpn"], check=True)
 
@@ -95,7 +95,8 @@ def handle_connect(args: argparse.Namespace) -> int:
 
     # Bring AS54041 back up
     print("Bringing up AS54041 VPN")
-    subprocess.run(["sudo", "wg-quick", "up", "vpn"], check=True)
+    if args.wireguard_support:
+        subprocess.run(["sudo", "wg-quick", "up", "vpn"], check=True)
 
 
 def handle_disconnect(args: argparse.Namespace) -> int:
@@ -114,6 +115,12 @@ def main() -> int:
         "operation",
         choices=["connect", "disconnect", "reconnect"],
         help="Operation to perform",
+    )
+    ap.add_argument(
+        "-w",
+        "--wireguard-support",
+        help="Handles wireguard interfaces",
+        action="store_true",
     )
     args = ap.parse_args()
 
