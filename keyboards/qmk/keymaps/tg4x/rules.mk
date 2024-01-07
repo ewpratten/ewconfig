@@ -3,3 +3,7 @@ BOOTLOADER = qmk-dfu
 
 # Enable bootloader keys
 BOOTMAGIC_ENABLE = yes
+
+# Enable Unicode
+UNICODE_COMMON = yes
+UNICODE_ENABLE = yes
