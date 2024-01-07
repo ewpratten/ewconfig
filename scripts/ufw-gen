@@ -34,6 +34,10 @@ PROFILES = {
             ("10000:20000", "udp"),
         ],
     },
+    "elproxy": {
+        "comment": "ElProxy",
+        "ports": [(8100, "tcp"), (5198, "udp"), (5199, "udp"), (5200, "tcp")],
+    },
 }
 
 
