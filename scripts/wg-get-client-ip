@@ -3,7 +3,7 @@ set -e
 
 # We need 1 argument
 if [ $# -ne 1 ]; then
-    echo "Usage: $0 <pubkey>"
+    echo "Usage: wg-get-client-ip <pubkey>"
     exit 1
 fi
 
