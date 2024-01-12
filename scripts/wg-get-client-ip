@@ -1,0 +1,11 @@
+#! /bin/bash
+set -e
+
+# We need 1 argument
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <pubkey>"
+    exit 1
+fi
+
+# NOTE: The final `grep` call is needed to make this fail if the pubkey is not found
+sudo wg show all dump | grep $1 | cut -f 4 | cut -d: -f1 | grep ""
