@@ -21,3 +21,6 @@
 [submodule "configs/nvim/third_party/usda-syntax"]
 	path = configs/nvim/third_party/usda-syntax
 	url = https://github.com/superfunc/usda-syntax
+[submodule "third_party/ufw-application-profiles"]
+	path = third_party/ufw-application-profiles
+	url = https://github.com/ageis/ufw-application-profiles
