@@ -176,7 +176,7 @@ wg-edit() {
     if [ $# != 1 ]; then
         echo "Usage: wg-edit <interface>"
     else
-        sudo nvim /etc/wireguard/$1.conf
+        sudoedit /etc/wireguard/$1.conf
     fi
 }
 
