@@ -24,3 +24,12 @@
 [submodule "third_party/ufw-application-profiles"]
 	path = third_party/ufw-application-profiles
 	url = https://github.com/ageis/ufw-application-profiles
+[submodule "configs/nvim/pack/smolck/start/command-completion.nvim"]
+	path = configs/nvim/pack/smolck/start/command-completion.nvim
+	url = https://github.com/smolck/command-completion.nvim
+[submodule "configs/nvim/pack/echasnovski/start/mini.trailspace"]
+	path = configs/nvim/pack/echasnovski/start/mini.trailspace
+	url = https://github.com/echasnovski/mini.trailspace
+[submodule "configs/nvim/pack/neovim/start/nvim-lspconfig"]
+	path = configs/nvim/pack/neovim/start/nvim-lspconfig
+	url = https://github.com/neovim/nvim-lspconfig
