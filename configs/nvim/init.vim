@@ -30,6 +30,15 @@ endif
 " Enable Leap
 lua require('leap').add_default_mappings()
 
+" Enable Helix-style command suggestions
+"lua require('command-completion').setup()
+
+" Enable trailing space detection
+lua require('mini.trailspace').setup()
+
+" Configure floating window colours
+highlight Pmenu ctermbg=none ctermfg=white
+
 " VSCode-style comment toggling
 nnoremap <C-_> :Commentary<CR>
 vnoremap <C-_> :Commentary<CR>
@@ -42,3 +51,7 @@ function! MkdirAndWrite()
     exec 'w'
 endfunction
 command Wmk call MkdirAndWrite()
+
+" LSP Support
+"lua require "lspconfig".rust_analyzer.setup {}
+"lua vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)

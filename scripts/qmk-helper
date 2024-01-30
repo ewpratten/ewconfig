@@ -152,7 +152,7 @@ def main() -> int:
         build_keymap(args.keyboard)
     elif args.mode == "flash":
         # Make sure that the flash mode is valid
-        if args.keyboard == "ferris-sweep" and args.flash_mode not in ["dfu-split-left", "dfu-split-right"]:
+        if args.keyboard == "ferris/sweep" and args.flash_mode not in ["dfu-split-left", "dfu-split-right"]:
             logger.error(
                 "Invalid flash mode. Must be one of: dfu-split-left, dfu-split-right"
             )

@@ -1,11 +1,9 @@
 //waypoints config options
 usingMultiworldDetection:false
 ignoreServerLevelId:false
-defaultMultiworldId:mw-3,1,-4
+defaultMultiworldId:mw0,0,0
 teleportationEnabled:true
-usingDefaultTeleportCommand:false
-serverTeleportCommandFormat:^col^warp add {x},{y},{z}
-serverTeleportCommandRotationFormat:^col^warp add {x},{y},{z}
+usingDefaultTeleportCommand:true
 sortType:NONE
 sortReversed:false
 
@@ -13,4 +11,5 @@ sortReversed:false
 ignoreHeightmaps:false
 
 //dimension types (DO NOT EDIT)
+dimensionType:minecraft$the_nether:minecraft$the_nether
 dimensionType:minecraft$overworld:minecraft$overworld

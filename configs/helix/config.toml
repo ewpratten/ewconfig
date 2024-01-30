@@ -1,0 +1,13 @@
+[editor]
+mouse = true
+middle-click-paste = true
+line-number = "absolute"
+auto-completion = true
+auto-format = false
+
+[editor.cursor-shape]
+normal = "block"
+insert = "bar"
+select = "block"
+
+

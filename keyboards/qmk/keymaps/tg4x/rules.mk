@@ -7,3 +7,6 @@ BOOTMAGIC_ENABLE = yes
 # Enable Unicode
 UNICODE_COMMON = yes
 UNICODE_ENABLE = yes
+
+# Enable RGB lighting
+RGBLIGHT_ENABLE = yes
