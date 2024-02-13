@@ -1,0 +1,20 @@
+#! /bin/bash
+
+git submodule foreach git authors | grep -v "^Entering" | python3 -c '
+
+import sys
+lines = sys.stdin.read().splitlines()
+stats = {}
+for line in lines:
+    count, author = line.lstrip().split("\t")
+    if author not in stats:
+        stats[author] = 0
+    stats[author] += int(count)
+
+stats = list(stats.items())
+stats.sort(key=lambda s: s[1], reverse=True)
+
+for author, count in stats:
+    print(f"{count}\t{author}")
+
+'
