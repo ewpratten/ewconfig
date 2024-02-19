@@ -103,6 +103,10 @@ waypoint:[NDK] North Docks Station:S:-187:41:-1519:14:false:0:Subway Stations:fa
 waypoint:[BOH] Boathouse Station:S:-187:42:-839:14:false:0:Subway Stations:false:0:0:false
 waypoint:[RST] Riverside Station:S:-189:42:-321:14:false:0:Subway Stations:false:0:0:false
 waypoint:Spawn Central Station:S:-213:42:-258:13:false:0:Subway Stations:false:0:0:false
+waypoint:Slime Farm:S:4975:4:5854:1:false:0:gui.xaero_default:false:0:0:false
+waypoint:Northern Village:N:37:74:-10056:8:false:0:gui.xaero_default:false:0:0:false
+waypoint:Creeper Farm:C:5092:5:5481:9:false:0:gui.xaero_default:false:0:0:false
+waypoint:Warp Room:W:-4328:7:-2168:14:false:0:gui.xaero_default:false:0:0:false
 waypoint:New Base:N:-532:73:-2308:4:false:0:gui.xaero_default:false:0:1:false
 waypoint:Percy Home:X:-131:66:-102:9:false:0:gui.xaero_default:false:0:1:false
 waypoint:End Portal:E:921:23:1221:5:false:0:gui.xaero_default:false:0:0:false
