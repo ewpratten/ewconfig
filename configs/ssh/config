@@ -5,6 +5,7 @@ Host * !*.github.com !github.com
     IdentityFile %d/.ssh/id_ed25519
     IdentityFile %d/.ssh/id_rsa
     # VisualHostKey yes
+    VerifyHostKeyDNS ask
 
 # Github SSH adapter for restricted networks
 Host github.com gist.github.com
@@ -91,6 +92,8 @@ Host td-prod td-prod2 td-prod3 td-prod4
     User guru
 Host w6421
     User "guru-domain\\epratten"
+    #RequestTTY yes
+    #    RemoteCommand "C:\Program Files\Git\bin\bash.exe" --login
 
 # Personal Infra
 Host oci-arm

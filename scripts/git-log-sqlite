@@ -1,0 +1,182 @@
+#! /usr/bin/env python3
+import subprocess
+import sqlite3
+import argparse
+import sys
+import logging
+from pathlib import Path
+from typing import Dict
+
+logger = logging.getLogger(__name__)
+
+FIELDS = {
+    "ct": "timestamp",
+    "aN": "author",
+    "aE": "email",
+    "cN": "committer",
+    "cE": "committer_email",
+    "s": "subject",
+    "b": "body",
+    "N": "notes",
+}
+
+
+def read_properties() -> Dict[str, Dict[str, str]]:
+    output = {}
+    for field in FIELDS:
+        # Construct the log request
+        format_str = f"%H %{field}%x00"
+
+        # Get the results
+        repo_results = subprocess.run(
+            ["git", "log", f"--format=format:{format_str}"],
+            capture_output=True,
+            text=True,
+        ).stdout
+        submodule_results = subprocess.run(
+            [
+                "git",
+                "submodule",
+                "foreach",
+                "git",
+                "log",
+                f"--format=format:{format_str}",
+            ],
+            capture_output=True,
+            text=True,
+        ).stdout
+
+        # Parse the results
+        all_results = repo_results + submodule_results
+        all_results = all_results.split("\x00")
+        for result in all_results:
+            if " " not in result or result == "":
+                continue
+            commit_hash, value = result.split(" ", 1)
+            if commit_hash.startswith("Entering"):
+                continue
+            if commit_hash.startswith("\n"):
+                commit_hash = commit_hash[1:]
+            if commit_hash not in output:
+                output[commit_hash] = {}
+            output[commit_hash][field] = value
+
+    return output
+
+
+def create_table(cursor: sqlite3.Cursor) -> None:
+    sql = "CREATE TABLE IF NOT EXISTS commits (hash TEXT PRIMARY KEY, "
+    for field in FIELDS.values():
+        ty = "TEXT"
+        if field == "timestamp":
+            ty = "INTEGER"
+        if field == "hash":
+            ty = "TEXT PRIMARY KEY"
+
+        sql += f"{field} {ty}, "
+    sql = sql[:-2] + ")"
+    logger.debug(f"Creating table with SQL: {sql}")
+    cursor.execute(sql)
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="git-log-sqlite", description="Interact with the git log using SQL"
+    )
+    ap.add_argument(
+        "--dump",
+        help="Path to a sqlite3 database file to dump contents to. DELETES EXISTING FILE",
+        type=Path,
+    )
+    ap.add_argument(
+        "--interactive",
+        "-i",
+        help="Start an interactive SQL session",
+        action="store_true",
+    )
+    ap.add_argument("--query", "-q", help="Run a query and print the results")
+    ap.add_argument("--no-header", help="Do not print the header", action="store_true")
+    ap.add_argument("--mode", help="Set the mode for the sqlite3 command", default="table")
+    ap.add_argument(
+        "-v", "--verbose", help="Enable verbose logging", action="store_true"
+    )
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s:	%(message)s",
+    )
+
+    # Interactive mode and query mode are mutually exclusive
+    if args.interactive and args.query:
+        logger.error("Interactive mode and query mode are mutually exclusive")
+        return 1
+
+    # If the user didn't specify anything, print the help message
+    if not (args.interactive or args.query):
+        ap.print_help()
+        return 1
+
+    # Read the properties
+    commits = read_properties()
+    logger.debug(f"Read {len(commits)} commits")
+
+    # Open a connection to the database
+    if args.dump:
+        args.dump.parent.mkdir(parents=True, exist_ok=True)
+        args.dump.unlink(missing_ok=True)
+    conn = sqlite3.connect(args.dump if args.dump else ":memory:")
+    cursor = conn.cursor()
+
+    # Create a table to store the data
+    create_table(cursor)
+
+    # Insert the data into the table
+    rows = list(commits.items())
+    rows.sort(key=lambda x: x[1]["ct"])
+    for commit_hash, data in rows:
+        sql = "INSERT INTO commits VALUES (" + ",".join(["?"] * (len(FIELDS) + 1)) + ")"
+        values = [commit_hash] + [data.get(field, None) for field in FIELDS.keys()]
+        cursor.execute(sql, values)
+
+    # Commit the changes
+    conn.commit()
+
+    # If just dumping, we are done
+    if args.dump:
+        conn.close()
+        return 0
+
+    # Dump to a temp file
+    import tempfile
+
+    temp_file = Path(tempfile.mkstemp()[1])
+    temp_conn = sqlite3.connect(temp_file)
+    temp_conn.executescript("\n".join(conn.iterdump()))
+    temp_conn.commit()
+    conn.close()
+
+    # Build the base sqlite command
+    sqlite_cmd = ["sqlite3", "--cmd", f".mode {args.mode}"]
+    if not args.no_header:
+        sqlite_cmd.append("--cmd")
+        sqlite_cmd.append(".headers on")
+
+    # If running a query, do so
+    if args.query:
+        subprocess.run(sqlite_cmd + [temp_file, args.query])
+
+    # If running interactively, do so
+    if args.interactive:
+        subprocess.run(sqlite_cmd + ["--interactive", temp_file])
+        
+    # Delete the temp file
+    temp_file.unlink()
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

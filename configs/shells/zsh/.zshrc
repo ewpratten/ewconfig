@@ -52,3 +52,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 # Flutter
 [[ -s "$HOME/pkg/flutter/bin" ]] && export PATH="$HOME/pkg/flutter/bin:$PATH"
+
+# Rye
+[[ -s "$HOME/.rye/env" ]] && source "$HOME/.rye/env"
+. "$HOME/.cargo/env"
