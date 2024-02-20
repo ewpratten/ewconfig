@@ -1,0 +1,28 @@
+#! /usr/bin/env python3
+import argparse
+import sys
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="aprs-passcode",
+        description="Calculate the passcode used for APRS-IS authentication",
+    )
+    ap.add_argument("callsign", help="APRS callsign")
+    args = ap.parse_args()
+
+    # Perform passcode calculation
+    callsign = args.callsign.upper().split("-")[0]
+    code = 0x73E2
+    for i, char in enumerate(callsign):
+        code ^= ord(char) << (8 if not i % 2 else 0)
+    passcode = code & 0x7FFF
+
+    print(passcode)
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
