@@ -5,7 +5,8 @@ Host * !*.github.com !github.com
     IdentityFile %d/.ssh/id_ed25519
     IdentityFile %d/.ssh/id_rsa
     # VisualHostKey yes
-    VerifyHostKeyDNS ask
+    #VerifyHostKeyDNS ask
+
 
 # Github SSH adapter for restricted networks
 Host github.com gist.github.com
@@ -34,6 +35,9 @@ Host 10.80.0.218
     PubkeyAuthentication no
     PubkeyAcceptedKeyTypes +ssh-rsa
     HostKeyAlgorithms=+ssh-rsa
+
+Host sniffr.home
+    User pi
 
 # Default hostnames I may encounter in the wild
 Host openrepeater.local
