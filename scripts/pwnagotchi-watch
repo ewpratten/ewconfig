@@ -40,11 +40,24 @@ def main() -> int:
     
     # Continuously fetch the pwnagotchi screen
     while True:
+        
+        # If the window is closed, exit
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return 0
+        
+        # Attempt to fetch the pwnagotchi screen
         try:
             # Fetch the pwnagotchi screen
             logger.debug(f"Fetching pwnagotchi screen from {args.host}:{args.port}")
-            response = requests.get(f"http://{args.host}:{args.port}/ui", auth=(args.username, args.password))
-            response.raise_for_status()
+            try:
+                response = requests.get(f"http://{args.host}:{args.port}/ui", auth=(args.username, args.password), timeout=1)
+                response.raise_for_status()
+            except Exception as e: 
+                logger.error(f"Failed to connect to pwnagotchi at {args.host}:{args.port}")
+                logger.error(f"Error: {e}")
+                time.sleep(args.refresh_rate)
+                continue
             screen_data = response.content
             
             # Draw the screen to the window
@@ -64,10 +77,6 @@ def main() -> int:
             
         time.sleep(args.refresh_rate)
         
-        # If the window is closed, exit
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return 0
 
     return 0
 
