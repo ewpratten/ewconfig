@@ -1,6 +1,6 @@
 bl_info = {
     "name": "Evan's Y-aligned Camera Creator",
-    "author": "Evan Pratten <ewpratten@gmail.com>",
+    "author": "Evan Pratten <evan@ewpratten.com>",
     "version": (1, 0),
     "blender": (3, 0, 0),
     "description": "Adds a camera that is aligned with the Y axis by default",

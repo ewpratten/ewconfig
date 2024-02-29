@@ -21,8 +21,8 @@ Host github.com gist.github.com
 Host unifi
     HostName dreammachinepro.local
     User root
-    #PreferredAuthentications password
-    #    PubkeyAuthentication no
+    PreferredAuthentications password
+    PubkeyAuthentication no
 
 Host ewpratten-steamdeck
     HostName ewpratten-steamdeck.local
@@ -35,9 +35,6 @@ Host 10.80.0.218
     PubkeyAuthentication no
     PubkeyAcceptedKeyTypes +ssh-rsa
     HostKeyAlgorithms=+ssh-rsa
-
-Host sniffr.home
-    User pi
 
 # Default hostnames I may encounter in the wild
 Host openrepeater.local
@@ -113,7 +110,7 @@ Host gianna-desktop
 
 # Various Aliases
 Host desktop
-    HostName desktop.evan.vpn.ewp.fyi
+    HostName ewpratten-desktop.home
 
 Host laptop
-    HostName laptop.evan.vpn.ewp.fyi
+    HostName ewpratten-laptop.home
