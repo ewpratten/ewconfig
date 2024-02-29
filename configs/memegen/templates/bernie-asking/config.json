@@ -1,0 +1,17 @@
+{
+    "font": "impact.ttf",
+    "fill_color": [255, 255, 255],
+    "stroke_color": [0, 0, 0],
+    "stroke_width": 2,
+    "zones": {
+        "bottom": {
+            "horizontal_align": "center",
+            "horizontal_offset": 0,
+            "vertical_align": "bottom",
+            "vertical_offset": -50,
+            "width": "80%",
+            "max_line_height": 50,
+            "line_spacing": 5
+        }
+    }
+}

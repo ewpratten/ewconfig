@@ -1,0 +1,63 @@
+#! /usr/bin/env python
+import subprocess
+import argparse
+import sys
+from pathlib import Path
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        description="git authors, but for multiple repos at once"
+    )
+    ap.add_argument(
+        "--start",
+        help="Directory to start walking from",
+        default=Path("."),
+        type=Path,
+    )
+    ap.add_argument("--log-repos", help="Log the repos found", action="store_true")
+    args = ap.parse_args()
+
+    # Find every subdirectory that is a git repo
+    git_dirs = []
+    all_dirs_recursive = list(args.start.glob("**/*.git"))
+    for path in all_dirs_recursive:
+        git_dirs.append(path.parent)
+        if args.log_repos:
+            print(f"Reading GIT repo at: {path.parent}")
+
+    # Collect the results of `git authors` from each repo
+    authors = []
+    for git_dir in git_dirs:
+        output = subprocess.check_output(["git", "authors"], cwd=git_dir)
+        lines = output.split(b"\n")
+        for line in lines:
+            try:
+                line = line.decode("utf-8")
+            except UnicodeDecodeError:
+                continue
+            if line and len(line.split("\t")) >1:
+                commits, author = line.split("\t", 1)
+                authors.append((int(commits.strip()), author))
+
+    # Combine the results
+    combined = {}
+    for author in authors:
+        if author[1] not in combined:
+            combined[author[1]] = 0
+        combined[author[1]] += author[0]
+
+    # Convert back to a list
+    authors = [(combined[author], author) for author in combined]
+    authors.sort(reverse=True)
+
+    # Print
+    for author in authors:
+        print(f"{author[0]}\t{author[1]}")
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

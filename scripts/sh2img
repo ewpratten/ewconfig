@@ -1,0 +1,47 @@
+#! /usr/bin/env python
+import sys
+import os
+import subprocess
+import argparse
+from pathlib import Path
+from rich.console import Console
+from rich.syntax import Syntax
+from datetime import datetime
+
+def main() -> int:
+    # Read the arguments
+    ap = argparse.ArgumentParser(prog="sh2img", description="Generate images from shell commands")
+    ap.add_argument("command", help="The command to execute", nargs="+")
+    ap.add_argument("--shell", "-s", help="The shell to use")
+    args = ap.parse_args()
+    
+    # Figure out if we are root
+    is_root = os.geteuid() == 0
+    shell_char = "#" if is_root else "$"
+    
+    # Set up the console
+    console = Console(record=True)
+    
+    # Print out the arguments as a command being executed
+    console.print(f"{shell_char} {' '.join(args.command)}", style="white", highlight=False)
+    if args.shell:
+        args.command = [args.shell, "-c", " ".join(args.command)]
+    
+    # Execute the program, capturing all output together in one string
+    output = subprocess.run(args.command, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+    output = output.stdout.decode("utf-8").strip()
+    
+    console.width = min(max(len(line) for line in output.splitlines()), 150)
+    
+    # Print the output
+    console.print(output, highlight=False)
+    
+    # Save to a file
+    out_file = Path("~/Pictures/sh2img").expanduser() / f"{datetime.now().timestamp()}.svg"
+    out_file.parent.mkdir(parents=True, exist_ok=True)
+    console.save_svg(out_file, title=args.command[0])
+    
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())

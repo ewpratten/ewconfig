@@ -1,0 +1,55 @@
+#! /bin/bash
+set -e
+
+# If //qs does not exist
+if [ ! -d "//qs" ]; then
+    echo "This command must be executed on a studio machine!"
+    return 1
+fi
+
+# Figure out the appropriate prefix
+if [ $(uname -o | grep -c Msys) -gt 0 ]; then
+    s_drive="S:/"
+    pathsep=";"
+else
+    s_drive="//qs/resources"
+    pathsep=":"
+fi
+
+# Ask if we want to use the development env
+echo -n "Do you want to use the development environment? (Y/n)"
+read dev_env
+if [ "$dev_env" == "n" ]; then
+    studio2023_path="studio/studio2023"
+    ps1_mode=""
+else
+    studio2023_path="development/epratten/studio2023"
+    ps1_mode="-dev"
+fi
+
+# Ask if we want to force debugging for all processes
+echo -n "Do you want to force debugging for all processes? (y/N)"
+read force_debug
+if [ "$force_debug" == "y" ]; then
+    export GURU_DEBUG=10
+fi
+
+# Set PYTHONPATH based on the data we learned
+export GURU_PYTHON_ROOT="$s_drive/$studio2023_path"
+export PYTHONPATH="$GURU_PYTHON_ROOT/env$pathsep$PYTHONPATH" 
+export PYTHONPATH="$GURU_PYTHON_ROOT$pathsep$PYTHONPATH" 
+
+# Remove anything from PYTHONPATH that contains Maya_Shared. 
+export PYTHONPATH=$(echo $PYTHONPATH | sed "s/[^$pathsep]*Maya_Shared[^$pathsep]*//g" | sed "s/$pathsep$pathsep/$pathsep/g" | sed "s/^$pathsep//g" | sed "s/$pathsep$//g")
+
+# Update the PATH to point to the studio's install of python
+if [ -d "/c/Programs/software/win/core/python/python_3.7.7" ]; then 
+    export PATH="/c/Programs/software/win/core/python/python_3.7.7:$PATH"
+fi
+
+# Configure the prompt
+export PS1_CTX="guru$ps1_mode bash"
+
+# Finally, start bash
+export EWP_IN_GURU_ENVIRONMENT=1
+bash

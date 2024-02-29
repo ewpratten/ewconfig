@@ -1,0 +1,10 @@
+#
+#waypoint:name:initials:x:y:z:color:disabled:type:set:rotate_on_tp:tp_yaw:global
+#
+waypoint:e:E:392:49:-2200:2:false:0:gui.xaero_default:false:0:false
+waypoint:XP Farm:X:375:1:-8:0:false:0:gui.xaero_default:false:0:false
+waypoint:Portal:P:0:68:0:5:false:0:gui.xaero_default:false:0:false
+waypoint:another portal:A:289:60:1365:2:false:0:gui.xaero_default:false:0:false
+waypoint:island:I:-576:62:1050:3:false:0:gui.xaero_default:false:0:false
+waypoint:island:I:-576:62:1050:12:false:0:gui.xaero_default:false:0:false
+

@@ -1,0 +1,7 @@
+#! /bin/bash
+set -e
+
+LAST_MODIFIED_FILE="$(git rev-parse --git-dir)"/info/web/last-modified
+
+mkdir -p "$(dirname "$LAST_MODIFIED_FILE")"
+git for-each-ref --sort=-authordate --count=1 --format='%(authordate:iso8601)' >"$LAST_MODIFIED_FILE"

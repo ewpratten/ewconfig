@@ -1,0 +1,193 @@
+#! /usr/bin/env python3
+import argparse
+import os
+import sys
+import logging
+import subprocess
+import shutil
+import time
+import pypresence
+from pathlib import Path
+
+logger = logging.getLogger(__name__)
+
+WINEASIO_SRC_PATH = Path("~/src/wineasio").expanduser()
+DISCORD_CLIENT_ID = 1175091631913963610
+DISCORD_ICON = "ableton_grey"
+
+
+def build_wineasio():
+    # If the wineasio source directory doesn't exist, clone it
+    if not WINEASIO_SRC_PATH.is_dir():
+        logger.info("Cloning wineasio source")
+        subprocess.check_call(
+            [
+                "git",
+                "clone",
+                "https://github.com/wineasio/wineasio",
+                str(WINEASIO_SRC_PATH),
+            ]
+        )
+        subprocess.check_call(
+            ["git", "submodule", "update", "--init", "--recursive"],
+            cwd=str(WINEASIO_SRC_PATH),
+        )
+
+    # Make sure `pipewire-jack` is installed
+    logger.info("Installing pipewire-jack")
+
+    # Call make to build 64-bit libs
+    logger.info("Building wineasio")
+    try:
+        subprocess.check_call(["make", "64"], cwd=str(WINEASIO_SRC_PATH))
+    except subprocess.CalledProcessError:
+        logger.error("Failed to build wineasio")
+        logger.info(
+            "Make sure you have `pipewire-jack-audio-connection-kit-devel` installed"
+        )
+        logger.info("Make sure you have `wine-devel` installed")
+        sys.exit(1)
+
+    # We need to copy the libs for wine to find them
+    logger.info("Copying wineasio libs")
+    subprocess.check_call(
+        ["sudo", "cp", "build64/wineasio64.dll", "/usr/lib64/wine/x86_64-windows/"],
+        cwd=str(WINEASIO_SRC_PATH),
+    )
+    subprocess.check_call(
+        ["sudo", "cp", "build64/wineasio64.dll.so", "/usr/lib64/wine/x86_64-unix/"],
+        cwd=str(WINEASIO_SRC_PATH),
+    )
+
+
+def bottles_winepfx_from_name(bottle_name: str) -> Path:
+    return Path("~/.local/share/bottles/bottles/").expanduser() / (
+        bottle_name.replace(" ", "-")
+    )
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="ableton-linux", description="Executes Ableton on Linux"
+    )
+    ap.add_argument(
+        "--no-presence", "-n", help="Hide activity from Discord", action="store_true"
+    )
+    ap.add_argument(
+        "--bottle", "-b", help="Use the specified bottle", default="Ableton 11 Suite"
+    )
+    ap.add_argument(
+        "--program", "-p", help="Program to run", default="Ableton Live 11 Suite"
+    )
+    ap.add_argument(
+        "--dry-run", help="Don't actually launch Ableton", action="store_true"
+    )
+    ap.add_argument(
+        "-v", "--verbose", help="Enable verbose logging", action="store_true"
+    )
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s:	%(message)s",
+    )
+
+    # Ensure we have bottles
+    if not shutil.which("bottles-cli"):
+        logger.error("You can't do this without bottles installed")
+        return 1
+
+    # Configure discord presence
+    discord_presence = pypresence.Presence(DISCORD_CLIENT_ID)
+    if not args.no_presence:
+        discord_presence.connect()
+    launch_start = int(time.time())
+
+    # Ensure we have wineasio
+    if not (WINEASIO_SRC_PATH / "build64").exists():
+        if not args.no_presence:
+            discord_presence.update(
+                start=launch_start,
+                large_image=DISCORD_ICON,
+                details="Compiling WineASIO...",
+            )
+        build_wineasio()
+
+    # Figure out the wineprefix
+    wineprefix = bottles_winepfx_from_name(args.bottle)
+    logger.info(f"Wine prefix is: {wineprefix}")
+
+    # Ensure that the bottle has the wineasio dll
+    if not (wineprefix / ".wineasio-installed").is_file():
+        logger.info("Registering wineasio")
+        if not args.no_presence:
+            discord_presence.update(
+                start=launch_start,
+                large_image=DISCORD_ICON,
+                details="Registering WineASIO with Ableton...",
+            )
+        subprocess.check_call(
+            [WINEASIO_SRC_PATH / "wineasio-register"],
+            env={"WINEPREFIX": str(wineprefix)},
+        )
+        shutil.copy(
+            WINEASIO_SRC_PATH / "build64" / "wineasio64.dll.so",
+            wineprefix / "drive_c" / "windows" / "system" / "wineasio64.dll",
+        )
+        shutil.copy(
+            WINEASIO_SRC_PATH / "build64" / "wineasio64.dll.so",
+            wineprefix / "drive_c" / "windows" / "system32" / "wineasio64.dll",
+        )
+        (wineprefix / ".wineasio-installed").touch()
+
+        logger.info("Waiting 15 seconds to let wine do its thing")
+        time.sleep(15)
+
+    # Build a modified environment for ableton
+    ableton_env = os.environ.copy()
+    ableton_env.update(
+        {
+            "WINEASIO_NUMBER_INPUTS": "16",
+            "WINEASIO_NUMBER_OUTPUTS": "16",
+            "WINEASIO_CONNECT_TO_HARDWARE": "1",
+            "WINEASIO_PREFERRED_BUFFERSIZE": "2048",
+            "WINEASIO_FIXED_BUFFERSIZE": "1",
+            # "PIPEWIRE_LATENCY": "2048/48000", # Buffer size / sample rate
+        }
+    )
+
+    # Update the presence message
+    if not args.no_presence:
+        discord_presence.update(
+            start=launch_start,
+            large_image=DISCORD_ICON,
+            details="Working on a project",
+            buttons=[
+                {"label": "Check out my music!", "url": "https://ewpratten.com/music"}
+            ],
+        )
+
+    # Launch Ableton via bottles
+    if not args.dry_run:
+        logger.info("Launching Ableton")
+        return_code = subprocess.call(
+            ["bottles-cli", "run", "-b", args.bottle, "-p", args.program],
+            env=ableton_env,
+        )
+        if not args.no_presence:
+            discord_presence.close()
+        return return_code
+
+    else:
+        logger.info("Dry run, not launching Ableton")
+        logger.info("Press enter to continue")
+        input()
+        if not args.no_presence:
+            discord_presence.close()
+        return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

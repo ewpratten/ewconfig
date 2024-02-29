@@ -1,0 +1,36 @@
+#! /bin/bash
+set -e
+
+WEBSERVER_PATH=$HOME/www
+
+# If NAUTILUS_SCRIPT_SELECTED_FILE_PATHS is empty, error and exit
+if [ -z "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" ]; then
+    notify-send "Copy to web" "No local files selected"
+    exit 1
+fi
+
+# For every file in NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
+echo "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" | while read file; do
+    # Get the last segment of the path
+    filename=$(basename "$file")
+
+    # If the file comes from ~/Pictures/Screenshots, use a path in ~/$WEBSERVER_PATH/screenshots
+    if [[ "$file" == "$HOME/Pictures/Screenshots/"* ]]; then
+        OUTPUT_PATH="$WEBSERVER_PATH/screenshots/$filename"
+        RES_PATH="/screenshots/$filename"
+        mkdir -p "$WEBSERVER_PATH/screenshots"
+    else
+        OUTPUT_PATH="$WEBSERVER_PATH/$filename"
+        RES_PATH="/$filename"
+    fi
+
+    # Copy the file to the webserver
+    cp -r "$file" "$OUTPUT_PATH"
+
+    # Write the resource path to the clipbaord
+    echo -n "$RES_PATH" | xsel -i -b 
+
+done
+
+# Show a success message
+notify-send "Copy to web" "Files copied to ~/www"

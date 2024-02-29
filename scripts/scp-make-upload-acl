@@ -1,0 +1,17 @@
+#! /bin/sh
+set -e
+
+# Require an argument containing a directory
+if [ $# -ne 3 ]; then
+    echo "Usage: scp-make-upload-acl <directory> <key> <comment>"
+    exit 1
+fi
+
+# Require the directory to exist
+if [ ! -d "$1" ]; then
+    echo "Directory $1 does not exist"
+    exit 1
+fi
+
+# If all is ok, then print out the authorized_keys line that restricts that key to that directory
+echo "command=\"scp -t $1\",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding $2 $3"

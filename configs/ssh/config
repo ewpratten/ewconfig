@@ -1,0 +1,116 @@
+# vim: nospell
+# Global Rules
+Host * !*.github.com !github.com
+    IdentityFile %d/.ssh/id_ed25519_sk_rk_yk20572395
+    IdentityFile %d/.ssh/id_ed25519
+    IdentityFile %d/.ssh/id_rsa
+    # VisualHostKey yes
+    #VerifyHostKeyDNS ask
+
+
+# Github SSH adapter for restricted networks
+Host github.com gist.github.com
+    HostName ssh.github.com
+    Port 443
+    # This solves a VSCode bug
+    IdentityFile %d/.ssh/id_ed25519
+    IdentityFile %d/.ssh/id_ed25519_sk_rk_yk20572395
+    #    IdentityFile %d/.ssh/id_rsa
+
+# Home network
+Host unifi
+    HostName dreammachinepro.local
+    User root
+    PreferredAuthentications password
+    PubkeyAuthentication no
+
+Host ewpratten-steamdeck
+    HostName ewpratten-steamdeck.local
+    User deck
+    ForwardX11 yes
+
+Host 10.80.0.218
+    User root
+    PreferredAuthentications password
+    PubkeyAuthentication no
+    PubkeyAcceptedKeyTypes +ssh-rsa
+    HostKeyAlgorithms=+ssh-rsa
+
+# Default hostnames I may encounter in the wild
+Host openrepeater.local
+    HostName openrepeater.local
+    User root
+    StrictHostKeyChecking no
+
+Host raspberrypi.local
+    StrictHostKeyChecking no
+    User pi
+
+Host 192.168.8.1
+    User root
+    PreferredAuthentications password
+    PubkeyAuthentication no
+    PubkeyAcceptedKeyTypes +ssh-rsa
+    HostKeyAlgorithms=+ssh-rsa
+
+# Raider Robotics
+Host 10.50.24.2
+    StrictHostKeyChecking no
+    User admin
+
+# Sheridan College
+Host db6.fast.sheridanc.on.ca
+    User user03
+Host dbr.fast.sheridanc.on.ca
+    User DataIntegrator
+Host *.fast.sheridanc.on.ca
+    ProxyJump prattene@atlas.sheridanc.on.ca
+Host atlas.sheridanc.on.ca
+    User prattene
+Host *.sheridanc.on.ca
+    User prattene
+    RequestTTY yes
+    PubkeyAcceptedKeyTypes +ssh-rsa
+    HostKeyAlgorithms +ssh-rsa
+
+# NLNOG
+Host *.ring.nlnog.net
+    User ewpratten
+    IdentitiesOnly yes
+
+# SDF.org
+Host sdf.org *.sdf.org
+    User ewpratten
+Host sdf
+    HostName sdf.org
+Host otaku
+    HostName otaku.sdf.org
+
+# Guru
+Host *.gurustudio.com
+    User "guru-domain\\epratten"
+Host td-prod td-prod2 td-prod3 td-prod4
+    User guru
+Host w6421
+    User "guru-domain\\epratten"
+    #RequestTTY yes
+    #    RemoteCommand "C:\Program Files\Git\bin\bash.exe" --login
+
+# Personal Infra
+Host oci-arm
+    HostName oci-arm.vpn.ewp.fyi
+    User ubuntu
+
+# Pratten Machines
+Host warren-desktop
+    HostName workstation.warren.vpn
+
+Host gianna-desktop
+    HostName workstation.gianna.vpn
+
+# Various Aliases
+Host desktop
+    HostName ewpratten-desktop.home
+
+Host laptop
+    HostName ewpratten-laptop.home

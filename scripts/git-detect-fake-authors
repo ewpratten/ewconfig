@@ -1,0 +1,6 @@
+#! /bin/bash
+# This script finds every time someone makes a commit under someone else's name
+# NOTE: This includes co-authoring
+set -e
+
+git-log-sqlite -q 'SELECT committer as Real, author as Fake, count(*) as Count FROM commits WHERE author NOT LIKE committer GROUP BY author, committer ORDER BY count DESC;'

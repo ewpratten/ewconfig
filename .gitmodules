@@ -1,0 +1,35 @@
+[submodule "configs/nvim/pack/tpope/start/repeat"]
+	path = configs/nvim/pack/tpope/start/repeat
+	url = https://tpope.io/vim/repeat.git
+	ignore = dirty
+[submodule "configs/nvim/pack/ggandor/start/leap.nvim"]
+	path = configs/nvim/pack/ggandor/start/leap.nvim
+	url = https://github.com/ggandor/leap.nvim
+	ignore = dirty
+[submodule "configs/nvim/pack/tpope/start/commentary"]
+	path = configs/nvim/pack/tpope/start/commentary
+	url = https://tpope.io/vim/commentary.git
+	ignore = dirty
+[submodule "configs/nvim/pack/jiangmiao/start/auto-pairs"]
+	path = configs/nvim/pack/jiangmiao/start/auto-pairs
+	url = https://github.com/jiangmiao/auto-pairs
+	ignore = dirty
+[submodule "configs/nvim/pack/airblade/start/vim-gitgutter"]
+	path = configs/nvim/pack/airblade/start/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter.git
+	ignore = dirty
+[submodule "configs/nvim/third_party/usda-syntax"]
+	path = configs/nvim/third_party/usda-syntax
+	url = https://github.com/superfunc/usda-syntax
+[submodule "third_party/ufw-application-profiles"]
+	path = third_party/ufw-application-profiles
+	url = https://github.com/ageis/ufw-application-profiles
+[submodule "configs/nvim/pack/smolck/start/command-completion.nvim"]
+	path = configs/nvim/pack/smolck/start/command-completion.nvim
+	url = https://github.com/smolck/command-completion.nvim
+[submodule "configs/nvim/pack/echasnovski/start/mini.trailspace"]
+	path = configs/nvim/pack/echasnovski/start/mini.trailspace
+	url = https://github.com/echasnovski/mini.trailspace
+[submodule "configs/nvim/pack/neovim/start/nvim-lspconfig"]
+	path = configs/nvim/pack/neovim/start/nvim-lspconfig
+	url = https://github.com/neovim/nvim-lspconfig

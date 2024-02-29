@@ -1,0 +1,199 @@
+{
+	// Symbols
+	"Unicode: PI": {
+		"prefix": "uni_pi",
+		"body": "π"
+	},
+	"Unicode: Infinity": {
+		"prefix": "uni_infinity",
+		"body": "∞"
+	},
+	"Unicode: Square Root": {
+		"prefix": "uni_sqrt",
+		"body": "√"
+	},
+	"Unicode: Real": {
+		"prefix": "uni_real",
+		"body": "ℝ"
+	},
+	"Unicode: Natural": {
+		"prefix": "uni_natural",
+		"body": "ℕ"
+	},
+	"Unicode: Integer": {
+		"prefix": "uni_integer",
+		"body": "ℤ"
+	},
+	"Unicode: Rational": {
+		"prefix": "uni_rational",
+		"body": "ℚ"
+	},
+	"Unicode: Complex": {
+		"prefix": "uni_complex",
+		"body": "ℂ"
+	},
+	"Unicode: Plus or Minus": {
+		"prefix": "uni_plus_minus",
+		"body": "±"
+	},
+	"Unicode: Squared": {
+		"prefix": "uni_squared",
+		"body": "²"
+	},
+	"Unicode: Cubed": {
+		"prefix": "uni_cubed",
+		"body": "³"
+	},
+	"Unicode: Hypercubed": {
+		"prefix": "uni_hypercubed",
+		"body": "⁴"
+	},
+	"Unicode: Power of N": {
+		"prefix": "uni_power_n",
+		"body": "ⁿ"
+	},
+	"Unicode: Degree": {
+		"prefix": "uni_degree",
+		"body": "°"
+	},
+	"Unicode: Half": {
+		"prefix": "uni_half",
+		"body": "½"
+	},
+	"Unicode: Third": {
+		"prefix": "uni_third",
+		"body": "⅓"
+	},
+	"Unicode: Two Thirds": {
+		"prefix": "uni_two_thirds",
+		"body": "⅔"
+	},
+	"Unicode: Quarter": {
+		"prefix": "uni_quarter",
+		"body": "¼"
+	},
+	"Unicode: Three Quarters": {
+		"prefix": "uni_three_quarters",
+		"body": "¾"
+	},
+
+	// Equality
+	"Unicode: Not Equal To": {
+		"prefix": "uni_neq",
+		"body": "≠"
+	},
+	"Unicode: Approximately Equal To": {
+		"prefix": "uni_approx",
+		"body": "≈"
+	},
+	"Unicode: Greater Than or Equal To": {
+		"prefix": "uni_gte",
+		"body": "≥"
+	},
+	"Unicode: Less Than or Equal To": {
+		"prefix": "uni_lte",
+		"body": "≤"
+	},
+
+	// Set Operations
+	"Unicode: Union": {
+		"prefix": "uni_union",
+		"body": "∪"
+	},
+	"Unicode: Intersection": {
+		"prefix": "uni_intersect",
+		"body": "∩"
+	},
+	"Unicode: Element Of": {
+		"prefix": "uni_element",
+		"body": "∈"
+	},
+	"Unicode: Not Element Of": {
+		"prefix": "uni_not_element",
+		"body": "∉"
+	},
+	"Unicode: Subset Of": {
+		"prefix": "uni_subset",
+		"body": "⊂"
+	},
+	"Unicode: Superset Of": {
+		"prefix": "uni_superset",
+		"body": "⊃"
+	},
+	"Unicode: Subset Of or Equal To": {
+		"prefix": "uni_subset_eq",
+		"body": "⊆"
+	},
+	"Unicode: Superset Of or Equal To": {
+		"prefix": "uni_superset_eq",
+		"body": "⊇"
+	},
+	"Unicode: Empty Set": {
+		"prefix": "uni_empty",
+		"body": "∅"
+	},
+
+	// Vectors
+	"Unicode: Vector Multiplication": {
+		"prefix": "uni_vector_mult",
+		"body": "⋅"
+	},
+	"Unicode: Vector Cross Product": {
+		"prefix": "uni_vector_cross",
+		"body": "×"
+	},
+	"Unicode: Vector Dot Product": {
+		"prefix": "uni_vector_dot",
+		"body": "·"
+	},
+	"Unicode: Vector Diacritic": {
+		"prefix": "uni_vector",
+		"body": "$1\u20D7$2"
+	},
+	"Unicode: Unit Vector Diacritic": {
+		"prefix": "uni_hat",
+		"body": "$1\u0302$2"
+	},
+	
+	// Arrows
+	"Unicode: Left Arrow": {
+		"prefix": "uni_left_arrow",
+		"body": "←"
+	},
+	"Unicode: Right Arrow": {
+		"prefix": "uni_right_arrow",
+		"body": "→"
+	},
+	"Unicode: Up Arrow": {
+		"prefix": "uni_up_arrow",
+		"body": "↑"
+	},
+	"Unicode: Down Arrow": {
+		"prefix": "uni_down_arrow",
+		"body": "↓"
+	},
+	"Unicode: Left Right Arrow": {
+		"prefix": "uni_left_right_arrow",
+		"body": "↔"
+	},
+	"Unicode: Up Down Arrow": {
+		"prefix": "uni_up_down_arrow",
+		"body": "↕"
+	},
+	"Unicode: Top Left Arrow": {
+		"prefix": "uni_top_left_arrow",
+		"body": "↖"
+	},
+	"Unicode: Top Right Arrow": {
+		"prefix": "uni_top_right_arrow",
+		"body": "↗"
+	},
+	"Unicode: Bottom Right Arrow": {
+		"prefix": "uni_bottom_right_arrow",
+		"body": "↘"
+	},
+	"Unicode: Bottom Left Arrow": {
+		"prefix": "uni_bottom_left_arrow",
+		"body": "↙"
+	},
+}

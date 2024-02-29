@@ -1,0 +1,26 @@
+#! /bin/bash
+set -e
+
+# Ensure we were passed a host argument
+if [ -z "$1" ]; then
+    echo "Usage: $0 <host>"
+    exit 1
+fi
+
+# Parse out the ASNs
+asns=$( mtr -jzc1 -Z1 -G0.25 $1 | jq ".report.hubs[].ASN" | tr -d "\"" | uniq )
+
+# For each line
+for asn in $asns; do
+    # Skip "AS???" lines
+    if [[ $asn =~ ^AS\?\?\?$ ]]; then
+        echo "Private Hop"
+        continue
+    fi    
+
+    # Get the AS name
+    as_name=$( whois -h whois.radb.net $asn | grep -i ^descr: | cut -d : -f 2- | grep -o -E '\S.*\S|\S' )
+
+    # Print the ASN and AS name
+    echo "$asn - $as_name"
+done

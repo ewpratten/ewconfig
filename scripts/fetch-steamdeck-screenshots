@@ -1,0 +1,38 @@
+#! /bin/bash
+set -e
+
+# If no arguments are given, print usage and exit
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <ssh_host>"
+    exit 1
+fi
+
+# Prepare the script to run on the remote host
+cat <<EOF > /tmp/steamdeck-screenshot.sh
+#!/bin/bash
+set -e
+
+# Clean the screenshots directory
+rm -rf /tmp/screenshot-bundle || true
+mkdir -p /tmp/screenshot-bundle
+
+# Copy all screenshots to the bundle directory
+IMAGES=\$(find /home/deck/.local/share/Steam/userdata | grep "screenshots/[0-9]")
+for pathname in \$IMAGES; do
+    echo "Copying \$pathname"
+    cp --preserve=timestamps "\$pathname" /tmp/screenshot-bundle
+done
+
+# Compress the bundle directory
+tar -czf /tmp/screenshot-bundle.tar.gz /tmp/screenshot-bundle
+EOF
+
+# Copy the script to the remote host
+scp /tmp/steamdeck-screenshot.sh $1:/tmp/steamdeck-screenshot.sh
+
+# Run the script on the remote host
+ssh $1 bash /tmp/steamdeck-screenshot.sh
+
+# Copy the bundle from the remote host
+TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+scp $1:/tmp/screenshot-bundle.tar.gz ~/Downloads/steamdeck_screenshots_${TIMESTMAP}.tar.gz

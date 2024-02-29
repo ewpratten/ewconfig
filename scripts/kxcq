@@ -1,0 +1,4 @@
+#! /bin/bash
+set -ex
+
+kxsend "CQ CQ CQ DE VA3ZZA VA3ZZA CQ CQ K" -v 
