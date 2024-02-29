@@ -13,7 +13,7 @@ fi
 if [ $(uname -s | grep -c BSD) -gt 0 ]; then # BSD
     echo -e "${green}Platform:$reset_color $(uname -s) $(uname -r) $(uname -p)"
     
-    elif [ $(uname -o | grep -c Msys) -gt 0 ]; then # Windows
+elif [ $(uname -s | grep -c MINGW) -gt 0 ]; then # Windows
     echo -e "${green}Platform:$reset_color $(uname -o) $(uname -r)"
     
 else # Linux-y things
@@ -24,7 +24,7 @@ fi
 # Determine if $EWCONFIG_ROOT contains uncommitted changes
 # Skip this if on Windows
 if [ -d $EWCONFIG_ROOT/.git ]; then
-    if [ $(uname -o | grep -c Msys) -eq 0 ]; then
+    if [ $(uname -s | grep -c MINGW) -eq 0 ]; then
         if [ -n "$(git -C $EWCONFIG_ROOT status --porcelain)" ]; then
             echo -e "${red}ewconfig contains uncommitted changes$reset_color"
         fi
