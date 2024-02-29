@@ -55,4 +55,3 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 # Rye
 [[ -s "$HOME/.rye/env" ]] && source "$HOME/.rye/env"
-. "$HOME/.cargo/env"
