@@ -5,18 +5,23 @@ RUN echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf
 RUN echo "fastestmirror=true" >> /etc/dnf/dnf.conf
 RUN dnf -y update
 
-# Core system utils
-RUN dnf install -y procps-ng 
-
-# Install basic packages
-RUN dnf install -y git zsh neovim htop wget curl
-
-# Python
-RUN dnf install -y python3 python3-pip
-
-# Networking tools
-RUN dnf install -y iproute iputils bind-utils
-RUN dnf install -y tcpdump mtr netcat
+# Install utilities
+RUN dnf install -y \
+        procps-ng \
+        git \
+        zsh \
+        neovim \
+        htop \
+        wget \
+        curl \
+        python3 \
+        python3-pip \
+        iproute \
+        iputils \
+        bind-utils \
+        tcpdump \
+        mtr \
+        netcat
 
 # Copy this repo into the container
 COPY . /tmp/ewconfig
