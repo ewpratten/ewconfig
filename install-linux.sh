@@ -35,6 +35,7 @@ mkdir -p ~/.config/systemd/user
 mkdir -p ~/.config/git
 mkdir -p ~/.config/git/config-fragments
 mkdir -p ~/.config/user-tmpfiles.d
+mkdir -p ~/.config/gqrx
 mkdir -p ~/.cargo
 mkdir -p ~/.ssh
 
