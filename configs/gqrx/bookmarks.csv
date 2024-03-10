@@ -1,0 +1,57 @@
+# Tag name          ;  color
+GTA Repeaters       ; #dc8add
+HF                  ; #c0c0c0
+London Repeaters    ; #99c1f1
+Simplex Channels    ; #c0c0c0
+Untagged            ; #c0c0c0
+
+# Frequency ; Name                     ; Modulation          ;  Bandwidth; Tags
+     7030000; QRP CW Calling Frequency ; CW-L                ;        500; HF
+   144390000; APRS                     ; Narrow FM           ;      10000; Untagged
+   145210000; VE3ZMG                   ; Narrow FM           ;      10000; GTA Repeaters
+   145350000; VE3YRA                   ; Narrow FM           ;      10000; GTA Repeaters
+   145350000; VE3GYQ                   ; Narrow FM           ;      10000; London Repeaters
+   145390000; VA3MGI                   ; Narrow FM           ;      10000; London Repeaters
+   145450000; VE3OME                   ; Narrow FM           ;      10000; London Repeaters
+   146400000; CH 01                    ; Narrow FM           ;      10000; Simplex Channels
+   146415000; CH 02                    ; Narrow FM           ;      10000; Simplex Channels
+   146430000; CH 03                    ; Narrow FM           ;      10000; Simplex Channels
+   146445000; CH 04                    ; Narrow FM           ;      10000; Simplex Channels
+   146460000; CH 05                    ; Narrow FM           ;      10000; Simplex Channels
+   146475000; CH 06                    ; Narrow FM           ;      10000; Simplex Channels
+   146490000; CH 07                    ; Narrow FM           ;      10000; Simplex Channels
+   146505000; CH 08                    ; Narrow FM           ;      10000; Simplex Channels
+   146520000; CH 09                    ; Narrow FM           ;      10000; Simplex Channels
+   146520000; FM Calling Frequency     ; Narrow FM           ;      10000; Simplex Channels
+   146535000; CH 10                    ; Narrow FM           ;      10000; Simplex Channels
+   146550000; CH 11                    ; Narrow FM           ;      10000; Simplex Channels
+   146565000; CH 12                    ; Narrow FM           ;      10000; Simplex Channels
+   146580000; CH 13                    ; Narrow FM           ;      10000; Simplex Channels
+   146595000; CH 14                    ; Narrow FM           ;      10000; Simplex Channels
+   146880000; VE3PRC                   ; Narrow FM           ;      10000; GTA Repeaters
+   146985000; VE3SKY                   ; Narrow FM           ;      10000; GTA Repeaters
+   147015000; VE3OAK                   ; Narrow FM           ;      10000; GTA Repeaters
+   147060000; VA3LON                   ; Narrow FM           ;      10000; London Repeaters
+   147180000; VE3TTT                   ; Narrow FM           ;      10000; London Repeaters
+   147225000; VE3MMX                   ; Narrow FM           ;      10000; London Repeaters
+   147420000; CH 15                    ; Narrow FM           ;      10000; Simplex Channels
+   147450000; CH 16                    ; Narrow FM           ;      10000; Simplex Channels
+   147480000; CH 17                    ; Narrow FM           ;      10000; Simplex Channels
+   147510000; CH 18                    ; Narrow FM           ;      10000; Simplex Channels
+   147540000; CH 19                    ; Narrow FM           ;      10000; Simplex Channels
+   147570000; CH 20                    ; Narrow FM           ;      10000; Simplex Channels
+   442300000; VE3HAL                   ; Narrow FM           ;      10000; GTA Repeaters
+   442450000; VE3OKR                   ; Narrow FM           ;      10000; GTA Repeaters
+   442750000; VE3WOO                   ; Narrow FM           ;      10000; GTA Repeaters
+   442900000; VE3GRW                   ; Narrow FM           ;      10000; GTA Repeaters
+   443075000; VE3ZOE                   ; Narrow FM           ;      10000; GTA Repeaters
+   443550900; VE3PRC                   ; Narrow FM           ;      10000; GTA Repeaters
+   443750000; VE3MMX                   ; Narrow FM           ;      10000; London Repeaters
+   443900000; VE3WOO                   ; Narrow FM           ;      10000; GTA Repeaters
+   444075000; VE3NCF                   ; Narrow FM           ;      10000; GTA Repeaters
+   444100000; VA3FEZ                   ; Narrow FM           ;      10000; London Repeaters
+   444125000; VE3ADT                   ; Narrow FM           ;      10000; GTA Repeaters
+   444175000; VE3WOO                   ; Narrow FM           ;      10000; GTA Repeaters
+   444775000; VA3ATL                   ; Narrow FM           ;      10000; GTA Repeaters
+   444825000; VE3RSB                   ; Narrow FM           ;      10000; GTA Repeaters
+   444875900; VE3RBM                   ; Narrow FM           ;      10000; GTA Repeaters

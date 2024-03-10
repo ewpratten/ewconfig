@@ -104,6 +104,9 @@ ln -sf $EWCONFIG_ROOT/configs/user-tmpfiles.d/* ~/.config/user-tmpfiles.d/
 # Logid config
 ln -sf $EWCONFIG_ROOT/configs/logid/logid.cfg ~/.config/logid/logid.cfg
 
+# GQRX
+ln -sf $EWCONFIG_ROOT/configs/gqrx/bookmarks.csv ~/.config/gqrx/bookmarks.csv
+
 # Minecraft global configs
 ln -nsf $EWCONFIG_ROOT/configs/minecraft ~/.config/minecraft
 if [ -d ~/.var/app/org.prismlauncher.PrismLauncher ]; then
