@@ -1,0 +1,9 @@
+[Unit]
+Description = Sync Fedora's Screenshot Directory
+
+[Path]
+PathModified = %h/Pictures/Screenshots
+Unit = sync-screenshots-google-photos.service
+
+[Install]
+WantedBy = default.target

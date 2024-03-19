@@ -108,6 +108,10 @@ ln -sf $EWCONFIG_ROOT/configs/logid/logid.cfg ~/.config/logid/logid.cfg
 # GQRX
 ln -sf $EWCONFIG_ROOT/configs/gqrx/bookmarks.csv ~/.config/gqrx/bookmarks.csv
 
+# Systemd
+ln -sf $EWCONFIG_ROOT/configs/systemd/user/* ~/.config/systemd/user/
+ln -nsf $EWCONFIG_ROOT/configs/systemd/scripts ~/.config/systemd/scripts
+
 # Minecraft global configs
 ln -nsf $EWCONFIG_ROOT/configs/minecraft ~/.config/minecraft
 if [ -d ~/.var/app/org.prismlauncher.PrismLauncher ]; then

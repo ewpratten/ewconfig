@@ -1,0 +1,6 @@
+[Unit]
+Description = Sync screenshots to Google Photos
+
+[Service]
+Type = oneshot
+ExecStart = python3 %h/.config/systemd/scripts/sync-screenshots-google-photos.py

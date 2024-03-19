@@ -36,6 +36,10 @@ Host 10.80.0.218
     PubkeyAcceptedKeyTypes +ssh-rsa
     HostKeyAlgorithms=+ssh-rsa
 
+Host controller.home
+    User root
+    Port 2222
+
 # Default hostnames I may encounter in the wild
 Host openrepeater.local
     HostName openrepeater.local
