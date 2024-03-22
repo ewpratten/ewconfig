@@ -77,3 +77,13 @@ gsettings set org.gnome.mutter edge-tiling true # Enable edge tiling
 gsettings set org.gnome.mutter dynamic-workspaces false # Use a fixed number of workspaces
 gsettings set org.gnome.desktop.wm.preferences num-workspaces 4 # Use 4 workspaces
 gsettings set org.gnome.mutter workspaces-only-on-primary true # Only use workspaces on primary monitor
+
+# Gnome TextEditor settings
+gsettings set org.gnome.TextEditor restore-session false # Don't open old documents on startup
+gsettings set org.gnome.TextEditor show-map true # Show a minimap
+gsettings set org.gnome.TextEditor spellcheck true # Enable spellcheck
+gsettings set org.gnome.TextEditor wrap-text false # Disable text wrapping
+gsettings set org.gnome.TextEditor highlight-current-line true # Highlight the current line
+gsettings set org.gnome.TextEditor indent-style 'space' # Use spaces for indentation
+gsettings set org.gnome.TextEditor indent-width 4 # Use 4 spaces for indentation
+gsettings set org.gnome.TextEditor show-line-numbers true # Show line numbers
