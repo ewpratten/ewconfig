@@ -167,7 +167,7 @@ def main() -> int:
 
             # Build params
             card_params = {
-                "idList": TRELLO_TAGS["company"],
+                "idList": TRELLO_LIST_ID,
                 "name": issue.title,
                 "key": TRELLO_KEY,
                 "token": trello_api_token,
@@ -180,7 +180,7 @@ def main() -> int:
                 ---
                 """
                 ),
-                "idLabels": TRELLO_TAG_ID,
+                "idLabels": TRELLO_TAGS["company"],
             }
 
             # Make the card
