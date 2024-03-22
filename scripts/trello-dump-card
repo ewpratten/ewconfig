@@ -1,0 +1,81 @@
+#! /usr/bin/env python3
+import argparse
+import sys
+import logging
+import subprocess
+import requests
+import json
+from pathlib import Path
+
+logger = logging.getLogger(__name__)
+
+
+TRELLO_KEY = "fba640a85f15c91e93e6b3f88e59489c"
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="trello-dump-card", description="Dump a Trello card for debugging"
+    )
+    ap.add_argument("card_short_link", help="Trello card short link")
+    ap.add_argument("--board", help="Trello board ID", default="tw3Cn3L6")
+    ap.add_argument(
+        "-v", "--verbose", help="Enable verbose logging", action="store_true"
+    )
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s:	%(message)s",
+    )
+
+    # Call `ewp-secrets` to obtain the Trello API token
+    secrets_proc = subprocess.run(
+        [
+            (Path(__file__).parent / "ewp-secrets").as_posix(),
+            "load",
+            "-n",
+            "ewpratten",
+            "-k",
+            "trello-api-token",
+        ],
+        capture_output=True,
+    )
+
+    # If the secret manager failed, exit
+    if secrets_proc.returncode != 0:
+        print("Failed to load Trello API token", file=sys.stderr)
+        print(
+            "Please run `ewp-secrets store -n ewpratten -k trello-api-token` to set a token",
+            file=sys.stderr,
+        )
+        return 1
+
+    # Extract the Trello API token
+    trello_api_token = secrets_proc.stdout.decode().strip()
+    
+    # Get all cards
+    response = requests.get(
+        f"https://api.trello.com/1/boards/{args.board}/cards",
+        params=dict(key=TRELLO_KEY, token=trello_api_token),
+    )
+    response.raise_for_status()
+    cards = response.json()
+    
+    # Find the card
+    card = next((card for card in cards if card["shortLink"] == args.card_short_link), None)
+    
+    # If no card was found, fail
+    if not card:
+        logger.error(f"Card {args.card_short_link} not found")
+        return 1
+    
+    # Dump the card
+    print(json.dumps(card, indent=4))
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
