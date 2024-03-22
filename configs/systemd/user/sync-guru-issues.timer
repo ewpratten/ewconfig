@@ -1,0 +1,9 @@
+[Unit]
+Description = Sync Guru GitLab issues to Trello
+
+[Timer]
+OnCalendar = hourly
+Persistent = true
+
+[Install]
+WantedBy = timers.target

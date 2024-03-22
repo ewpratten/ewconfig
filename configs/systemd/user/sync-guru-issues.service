@@ -1,0 +1,6 @@
+[Unit]
+Description = Sync Guru GitLab issues to Trello
+
+[Service]
+Type = oneshot
+ExecStart = python3 %h/.config/ewconfig/scripts/guru-sync-issues

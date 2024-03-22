@@ -1,4 +1,5 @@
 #! /usr/bin/env python3
+# NOTE: This script might be called by systemd. Run `systemctl --user list-timers --all` to see if it is active
 
 # fmt:off
 import sys
@@ -175,6 +176,13 @@ def main() -> int:
         level=logging.DEBUG if args.verbose else logging.INFO,
         format="%(levelname)s:	%(message)s",
     )
+    
+    # Try to ping the gitlab server, and exit if it fails
+    try:
+        requests.get(GITLAB_ENDPOINT)
+    except requests.exceptions.ConnectionError:
+        logger.error("Could not connect to GitLab server")
+        return 1
 
     # Find all issues
     issues = get_personal_gitlab_issues()
