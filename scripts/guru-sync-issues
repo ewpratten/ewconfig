@@ -1,170 +1,36 @@
 #! /usr/bin/env python3
-# NOTE: This script might be called by systemd. Run `systemctl --user list-timers --all` to see if it is active
-
-# fmt:off
-import sys
-import os
-from pathlib import Path
-sys.path.append((Path(os.environ["EWCONFIG_ROOT"]) / "python_modules").as_posix())
-# fmt:on
-
 import argparse
 import sys
 import logging
 import requests
-import json
-from dataclasses import dataclass, field
+import subprocess
+from textwrap import dedent
 from pathlib import Path
-from typing import List, Optional, Dict, Any
-from enum import Enum, auto
-from datetime import datetime
-from ewconfig.secret_manager import get_semi_secret_string
-from ewconfig.trello import TRELLO_API_KEY, get_trello_api_token
-from ewconfig.trello.cards import get_all_trello_cards, create_card
-from ewconfig.trello.boards import PERSONAL_TASKS_BOARD
+
+try:
+    import gitlab
+except ImportError:
+    print("Please install the 'python-gitlab' package from pip", file=sys.stderr)
+    sys.exit(1)
+
+TRELLO_KEY = "fba640a85f15c91e93e6b3f88e59489c"
+TRELLO_BOARD_ID = "tw3Cn3L6"
+TRELLO_LIST_ID = "6593166e9dd338621ed6848d"
+TRELLO_TAGS = {
+    "company": "64e03ac77d27032282436d28",  # Tag used to sort by company
+    "waiting_to_merge": "65524315edf2d2edb0cc5d09",  # Tag used to indicate a MR is waiting to merge
+    "draft": "65fdd81c83e5d6e00f1b9721", # Tag used to indicate a draft MR
+}
+GITLAB_ENDPOINT = "http://gitlab.guru-domain.gurustudio.com"
+MY_ID = 64
 
 logger = logging.getLogger(__name__)
-
-GITLAB_PAT = get_semi_secret_string("guru_gitlab_pat", namespace="trello-sync")
-GITLAB_ENDPOINT = "http://gitlab.guru-domain.gurustudio.com/api/v4"
-MY_USER_ID = 64
-TRELLO_API_TOKEN = get_trello_api_token()
-
-TrelloCardId = str
-
-
-class IssueState(Enum):
-    OPEN = "opened"
-    CLOSED = "closed"
-
-
-@dataclass
-class GitLabIssue:
-    title: str
-    issue_id: int
-    global_id: int
-    kind: str
-    state: IssueState
-    created: datetime
-    updated: datetime
-    web_url: str
-    reference_string: str
-    due_date: Optional[datetime] = None
-
-    def get_fmt_id(self) -> str:
-        if self.kind == "merge_request":
-            return f"!{self.global_id}"
-        return f"#{self.global_id}"
-
-    def list_contains_this(self, list_of_ids: List[str]) -> bool:
-        if self.kind == "issue" and self.global_id in list_of_ids:
-            return True
-            
-        return self.get_fmt_id() in [str(x) for x in list_of_ids]
-
-
-def get_personal_gitlab_issues(user_id: int = MY_USER_ID) -> List[GitLabIssue]:
-    # Make an API call
-    issues = []
-    response = requests.get(
-        f"{GITLAB_ENDPOINT}/issues",
-        params={
-            "assignee_id": user_id,
-            "private_token": GITLAB_PAT,
-            "per_page": 100,
-            "scope": "all",
-        },
-    )
-    response.raise_for_status()
-    issues.extend(response.json())
-    response = requests.get(
-        f"{GITLAB_ENDPOINT}/merge_requests",
-        params={
-            "assignee_id": user_id,
-            "private_token": GITLAB_PAT,
-            "per_page": 100,
-            "scope": "all",
-            "state": "opened",
-        },
-    )
-    response.raise_for_status()
-    issues.extend(response.json())
-
-    # Parse the response
-    output = []
-    for issue in issues:
-        output.append(
-            GitLabIssue(
-                title=issue["title"],
-                issue_id=issue["iid"],
-                global_id=issue["id"],
-                kind=issue.get("type", "merge_request").lower(),
-                state=IssueState(issue["state"]),
-                created=datetime.fromisoformat(issue["created_at"]),
-                updated=datetime.fromisoformat(issue["updated_at"]),
-                web_url=issue["web_url"],
-                reference_string=issue["references"]["full"],
-                due_date=datetime.fromisoformat(issue["due_date"])
-                if issue.get("due_date")
-                else None,
-            )
-        )
-
-    return output
-
-
-def find_or_create_trello_issue_for(
-    trello_cards: List[Dict[str, Any]], gitlab_issue: GitLabIssue, dry_run: bool = False
-) -> TrelloCardId:
-    # Look for a card that matches the issue
-    for card in trello_cards:
-        # Check the first line of the description for metadata
-        description = card["desc"]
-        desc_first_line = description.split("\n")[0]
-        if not desc_first_line.startswith("**Sync Metadata:** "):
-            continue
-
-        # Parse the metadata
-        metadata = json.loads(desc_first_line.split("`")[1])
-
-        # Check if the card matches
-        if metadata.get("ns") == "guru-gitlab" and gitlab_issue.list_contains_this(
-            metadata.get("ids", [])
-        ):
-            print(card["labels"], card["idLabels"])
-            logger.info(f"Found matching card {card['id']}")
-            return card["id"]
-
-    # Build the description
-    issue_kind = " ".join([part.capitalize() for part in gitlab_issue.kind.split("_")])
-    card_description = "\n\n".join(
-        [
-            f"**Sync Metadata:** `{json.dumps({'ns': 'guru-gitlab', 'ids': [gitlab_issue.get_fmt_id()]})}`",
-            f"**GitLab {issue_kind}:** [`{gitlab_issue.reference_string}`]({gitlab_issue.web_url})\n",
-            "---",
-        ]
-    )
-
-    # Make a new card
-    if not dry_run:
-        return create_card(
-            list_id=PERSONAL_TASKS_BOARD.lists["To Do"],
-            name=gitlab_issue.title,
-            description=card_description,
-            label_ids=[PERSONAL_TASKS_BOARD.tags["GURU"]],
-            position="top",
-            api_key=TRELLO_API_KEY,
-            api_token=TRELLO_API_TOKEN,
-        )
-    else:
-        return "dry-run"
 
 
 def main() -> int:
     # Handle program arguments
-    ap = argparse.ArgumentParser(description="Syncs issues from GitLab to Trello")
-    ap.add_argument(
-        "--dry-run", help="Don't actually make any changes", action="store_true"
+    ap = argparse.ArgumentParser(
+        prog="guru-sync-issues", description="Sync issues from GitLab to Trello"
     )
     ap.add_argument(
         "-v", "--verbose", help="Enable verbose logging", action="store_true"
@@ -176,33 +42,195 @@ def main() -> int:
         level=logging.DEBUG if args.verbose else logging.INFO,
         format="%(levelname)s:	%(message)s",
     )
-    
+
+    # Call `ewp-secrets` to obtain the GitLab token
+    secrets_proc = subprocess.run(
+        [
+            (Path(__file__).parent / "ewp-secrets").as_posix(),
+            "load",
+            "-n",
+            "gurustudio",
+            "-k",
+            "gitlab-pat",
+        ],
+        capture_output=True,
+    )
+
+    # If the secret manager failed, exit
+    if secrets_proc.returncode != 0:
+        print("Failed to load GitLab PAT", file=sys.stderr)
+        print(
+            "Please run `ewp-secrets store -n gurustudio -k gitlab-pat` to set a token",
+            file=sys.stderr,
+        )
+        return 1
+
+    # Extract the GitLab token
+    gitlab_token = secrets_proc.stdout.decode().strip()
+
+    # Call `ewp-secrets` to obtain the Trello API token
+    secrets_proc = subprocess.run(
+        [
+            (Path(__file__).parent / "ewp-secrets").as_posix(),
+            "load",
+            "-n",
+            "ewpratten",
+            "-k",
+            "trello-api-token",
+        ],
+        capture_output=True,
+    )
+
+    # If the secret manager failed, exit
+    if secrets_proc.returncode != 0:
+        print("Failed to load Trello API token", file=sys.stderr)
+        print(
+            "Please run `ewp-secrets store -n ewpratten -k trello-api-token` to set a token",
+            file=sys.stderr,
+        )
+        return 1
+
+    # Extract the Trello API token
+    trello_api_token = secrets_proc.stdout.decode().strip()
+
     # Try to ping the gitlab server, and exit if it fails
     try:
-        requests.get(GITLAB_ENDPOINT)
+        logger.debug("Attempting to connect to GitLab server")
+        requests.get(GITLAB_ENDPOINT, timeout=2)
     except requests.exceptions.ConnectionError:
         logger.error("Could not connect to GitLab server")
         return 1
 
-    # Find all issues
-    issues = get_personal_gitlab_issues()
-    logger.info(f"Found {len(issues)} issues")
-
-    # Get a list of cards on the board
-    trello_cards = get_all_trello_cards(
-        board_id=PERSONAL_TASKS_BOARD.id,
-        api_key=TRELLO_API_KEY,
-        api_token=TRELLO_API_TOKEN,
+    # Authenticate with GitLab
+    gitlab_client = gitlab.Gitlab(
+        GITLAB_ENDPOINT, private_token=gitlab_token, user_agent="guru-sync-issues"
     )
-    logger.info(f"Found {len(trello_cards)} cards on the board")
 
-    # Handle each issue
-    for issue in issues:
-        # Find the trello card id for this issue
-        trello_card_id = find_or_create_trello_issue_for(
-            trello_cards, issue, dry_run=args.dry_run
+    # Access the main group
+    pp_group = gitlab_client.groups.get("pipeline-planning")
+
+    # Find all open issues I'm assigned to
+    open_issues = []
+    open_issues.extend(
+        gitlab_client.issues.list(state="opened", get_all=True, assignee_id=MY_ID)
+    )
+    open_issues.extend(
+        pp_group.issues.list(state="opened", get_all=True, assignee_id=MY_ID)
+    )
+
+    # De-dupe the issues
+    open_issues = list(set(open_issues))
+
+    # Find all open MRs I'm assigned to
+    open_mrs = []
+    open_mrs.extend(
+        gitlab_client.mergerequests.list(
+            state="opened", get_all=True, assignee_id=MY_ID
         )
-        logger.info(f"GitLab Issue {issue.global_id} is Trello Card {trello_card_id}")
+    )
+    open_mrs.extend(
+        pp_group.mergerequests.list(state="opened", get_all=True, assignee_id=MY_ID)
+    )
+
+    # De-dupe the MRs
+    open_mrs = list(set(open_mrs))
+
+    # Log findings
+    logger.info(f"Found {len(open_issues)} open issues")
+    logger.info(f"Found {len(open_mrs)} open merge requests")
+
+    # Get all cards in Trello
+    response = requests.get(
+        f"https://api.trello.com/1/boards/{TRELLO_BOARD_ID}/cards",
+        params={
+            "key": TRELLO_KEY,
+            "token": trello_api_token,
+        },
+    )
+    response.raise_for_status()
+    trello_cards = response.json()
+
+    # Iterate over each GitLab actionable
+    actionables = [("issue", issue) for issue in open_issues] + [
+        ("merge request", mr) for mr in open_mrs
+    ]
+    for ty, issue in actionables:
+        # Get the URL of the issue
+        issue_url = issue.web_url
+
+        # Check if there is a card that references this URL
+        card = next((c for c in trello_cards if issue_url in c["desc"]), None)
+
+        # If none exists, make a new card
+        if not card:
+            logger.info(f"Creating card for issue: {issue.title}")
+
+            # Build params
+            card_params = {
+                "idList": TRELLO_TAGS["company"],
+                "name": issue.title,
+                "key": TRELLO_KEY,
+                "token": trello_api_token,
+                "pos": "top",
+                "desc": dedent(
+                    f"""
+                ## Linked GitLab Issues
+                - {issue_url}
+                
+                ---
+                """
+                ),
+                "idLabels": TRELLO_TAG_ID,
+            }
+
+            # Make the card
+            response = requests.post(
+                "https://api.trello.com/1/cards",
+                params=card_params,
+            )
+            response.raise_for_status()
+
+            # Capture the card for later
+            card = response.json()
+            logger.info(f"Created card: {card['id']}")
+
+        # Apply lables to MRs
+        if ty == "merge request":
+            if issue.title.startswith("Draft:") or issue.title.startswith("WIP:"):
+                # Check if the card already has the 'Draft' label
+                if any(
+                    label["id"] == TRELLO_TAGS["draft"] for label in card["labels"]
+                ):
+                    continue
+                
+                logger.info(f"Adding 'Draft' label to card {card['id']}")
+                response = requests.post(
+                    f"https://api.trello.com/1/cards/{card['id']}/idLabels",
+                    params={
+                        "key": TRELLO_KEY,
+                        "token": trello_api_token,
+                        "value": TRELLO_TAGS["draft"],
+                    },
+                )
+                response.raise_for_status()
+            
+            else:
+                # Check if the card already has the 'Waiting to Merge' label
+                if any(
+                    label["id"] == TRELLO_TAGS["waiting_to_merge"] for label in card["labels"]
+                ):
+                    continue
+                
+                logger.info(f"Adding 'Waiting to Merge' label to card {card['id']}")
+                response = requests.post(
+                    f"https://api.trello.com/1/cards/{card['id']}/idLabels",
+                    params={
+                        "key": TRELLO_KEY,
+                        "token": trello_api_token,
+                        "value": TRELLO_TAGS["waiting_to_merge"],
+                    },
+                )
+                response.raise_for_status()
 
     return 0
 
