@@ -2,7 +2,7 @@
 Description = Sync Guru GitLab issues to Trello
 
 [Timer]
-OnCalendar = hourly
+OnCalendar = Mon..Fri *-*-* 9..17:0,30:0
 Persistent = true
 
 [Install]
