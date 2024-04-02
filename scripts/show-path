@@ -1,0 +1,12 @@
+#! /bin/bash
+set -e
+
+# Determine this platform's path separator
+if [ $(uname -o | grep -c Msys) -gt 0 ]; then
+    pathsep=";"
+else
+    pathsep=":"
+fi
+
+# Print each entry in $PATH on its own line
+echo $PATH | tr $pathsep '\n'
