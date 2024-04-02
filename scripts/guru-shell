@@ -48,7 +48,7 @@ if [ -d "/c/Programs/software/win/core/python/python_3.7.7" ]; then
 fi
 
 # Add the common cli scripts path to $PATH
-export PATH="$GURU_PYTHON_ROOT/common/util/cli:$PATH"
+export PATH="//qs/resources/$studio2023_path/common/util/cli:$PATH"
 
 # Configure the prompt
 export PS1_CTX="guru$ps1_mode bash"
