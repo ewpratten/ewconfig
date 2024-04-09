@@ -235,32 +235,33 @@ def main() -> int:
                 response.raise_for_status()
 
         # Determine the due date assigned in GitLab
-        due_date: Optional[str] = issue.due_date
-        if due_date:
-            # Check if the card already has a due date
-            card_due_date = card.get("due", None)
-            if card_due_date:
-                card_due_date = card_due_date.split("T")[0]
+        if ty != "merge request":
+            due_date: Optional[str] = issue.due_date
+            if due_date:
+                # Check if the card already has a due date
+                card_due_date = card.get("due", None)
+                if card_due_date:
+                    card_due_date = card_due_date.split("T")[0]
+                    
+                # Convert to a useful format
+                due_date = datetime.strptime(due_date, "%Y-%m-%d")
+                card_due_date = datetime.strptime(card_due_date, "%Y-%m-%d") if card_due_date else None
+                    
+                # If the card has an earlier due date, skip
+                if card_due_date and due_date < card_due_date:
+                    logger.debug(f"Skipping due date update for {card['id']} because it has an earlier due date already")
+                    continue
                 
-            # Convert to a useful format
-            due_date = datetime.strptime(due_date, "%Y-%m-%d")
-            card_due_date = datetime.strptime(card_due_date, "%Y-%m-%d") if card_due_date else None
-                
-            # If the card has an earlier due date, skip
-            if card_due_date and due_date < card_due_date:
-                logger.debug(f"Skipping due date update for {card['id']} because it has an earlier due date already")
-                continue
-            
-            # Update the due date
-            logger.info(f"Updating due date for card {card['id']} to {due_date}")
-            response = requests.put(
-                f"https://api.trello.com/1/cards/{card['id']}",
-                params={
-                    "key": TRELLO_KEY,
-                    "token": trello_api_token,
-                    "due": due_date.isoformat(),
-                },
-            )
+                # Update the due date
+                logger.info(f"Updating due date for card {card['id']} to {due_date}")
+                response = requests.put(
+                    f"https://api.trello.com/1/cards/{card['id']}",
+                    params={
+                        "key": TRELLO_KEY,
+                        "token": trello_api_token,
+                        "due": due_date.isoformat(),
+                    },
+                )
             
         
     return 0
