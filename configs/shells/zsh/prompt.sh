@@ -31,7 +31,7 @@ export PROMPT="${PROMPT}%{$fg[cyan]%}%~ ${USER_ICON} %{$reset_color%}"
 setopt prompt_subst
 
 # Don't bother rendering VCS info on weak systems. Just fallback to the time and status
-if [ -n "$EWCONFIG_IN_ISH" ]; then
+if [ -z "$EWCONFIG_IN_ISH" ]; then
     autoload -Uz vcs_info
     zstyle ':vcs_info:*' actionformats \
         '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
