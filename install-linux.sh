@@ -124,6 +124,15 @@ ln -nsf $EWCONFIG_ROOT/configs/memegen ~/.config/memegen
 # Tmux
 ln -sf $EWCONFIG_ROOT/configs/tmux/.tmux.conf ~/.tmux.conf
 
+# OBS Studio
+if [ -d ~/.var/app/com.obsproject.Studio ]; then
+    # NOTE: OBS Flatpak needs a hardlink to the config file
+    ln $EWCONFIG_ROOT/configs/obs-studio/basic/scenes/Webcam_Controls.json ~/.var/app/com.obsproject.Studio/config/obs-studio/basic/scenes/Webcam_Controls.json
+fi
+if [ -d ~/.config/obs-studio ]; then
+    ln -sf $EWCONFIG_ROOT/configs/obs-studio/basic/scenes/Webcam_Controls.json ~/.config/obs-studio/basic/scenes/Webcam_Controls.json
+fi
+
 # -- Optional Configs --
 set +x
 
