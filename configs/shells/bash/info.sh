@@ -20,7 +20,7 @@ else # Linux-y things
     echo -e "${green}Platform:$reset_color $(uname -o) $(uname -r)"
 
     # If the `uptime` binary is *not* busybox, we can show it
-    if [ $(uptime -V | grep -c busybox) -eq 0 ]; then
+    if [ $(uptime -V 2>&1 | grep -c busybox) -eq 0 ]; then
         echo -e "${green}Uptime:$reset_color $(uptime -p)"
     fi
 fi
