@@ -155,6 +155,36 @@
                     "deinterlace_field_order": 0,
                     "monitoring_type": 0,
                     "private_settings": {}
+                },
+                {
+                    "prev_ver": 503382018,
+                    "name": "Gaussian Blur",
+                    "uuid": "9d7e4b0b-2d83-4faf-aea8-48ac23cfc2ea",
+                    "id": "filter-gaussian-blur",
+                    "versioned_id": "filter-gaussian-blur",
+                    "settings": {
+                        "mask_image": "/home/ewpratten/.config/ewconfig/configs/obs-studio/masks/CameraBlurMask.png",
+                        "kernel_size": 18,
+                        "sigma": 3.3599999999999999,
+                        "use_mask": true,
+                        "invert_mask": false
+                    },
+                    "mixers": 0,
+                    "sync": 0,
+                    "flags": 0,
+                    "volume": 1.0,
+                    "balance": 0.5,
+                    "enabled": true,
+                    "muted": false,
+                    "push-to-mute": false,
+                    "push-to-mute-delay": 0,
+                    "push-to-talk": false,
+                    "push-to-talk-delay": 0,
+                    "hotkeys": {},
+                    "deinterlace_mode": 0,
+                    "deinterlace_field_order": 0,
+                    "monitoring_type": 0,
+                    "private_settings": {}
                 }
             ]
         },
