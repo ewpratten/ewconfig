@@ -1,0 +1,4 @@
+#! /bin/bash
+set -e
+
+docker run -v ~/.ssh:/root/.ssh:ro --rm -it $(docker build --load -q - < ~/.config/ewconfig/containers/legacy-ssh.dockerfile ) ssh $@
