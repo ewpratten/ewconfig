@@ -1,3 +1,4 @@
 /secrets
 /configs/remmina
 __pycache__
+.nvimlog
