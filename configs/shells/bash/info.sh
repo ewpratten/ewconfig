@@ -18,7 +18,11 @@ elif [ $(uname -s | grep -c MINGW) -gt 0 ]; then # Windows
     
 else # Linux-y things
     echo -e "${green}Platform:$reset_color $(uname -o) $(uname -r)"
-    echo -e "${green}Uptime:$reset_color $(uptime -p)"
+
+    # If the `uptime` binary is *not* busybox, we can show it
+    if [ $(uptime -V | grep -c busybox) -eq 0 ]; then
+        echo -e "${green}Uptime:$reset_color $(uptime -p)"
+    fi
 fi
 
 # Determine if $EWCONFIG_ROOT contains uncommitted changes
