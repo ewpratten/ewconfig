@@ -1,0 +1,4 @@
+#! /bin/bash
+set -e
+
+lnav <(journalctl --merge --priority 0..7 --since $(date "+%Y-%m-%d") -o json -f --no-tail)
