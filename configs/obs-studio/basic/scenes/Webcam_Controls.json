@@ -129,6 +129,32 @@
                     "deinterlace_field_order": 0,
                     "monitoring_type": 0,
                     "private_settings": {}
+                },
+                {
+                    "prev_ver": 503382018,
+                    "name": "UnFish/Fish Lens",
+                    "uuid": "9218e1a8-404f-4c23-8cc4-69f7cf5b7373",
+                    "id": "filter-fish-lens",
+                    "versioned_id": "filter-fish-lens",
+                    "settings": {
+                        "fish_power": -0.081000000000000003
+                    },
+                    "mixers": 0,
+                    "sync": 0,
+                    "flags": 0,
+                    "volume": 1.0,
+                    "balance": 0.5,
+                    "enabled": true,
+                    "muted": false,
+                    "push-to-mute": false,
+                    "push-to-mute-delay": 0,
+                    "push-to-talk": false,
+                    "push-to-talk-delay": 0,
+                    "hotkeys": {},
+                    "deinterlace_mode": 0,
+                    "deinterlace_field_order": 0,
+                    "monitoring_type": 0,
+                    "private_settings": {}
                 }
             ]
         },
@@ -143,7 +169,7 @@
                 "id_counter": 1,
                 "items": [
                     {
-                        "name": "Gopro",
+                        "name": "GoPro Hero 3 Silver",
                         "source_uuid": "8a1155d1-82a8-4565-b8ac-7149e06f67ef",
                         "visible": true,
                         "locked": false,
@@ -269,7 +295,16 @@
     "scaling_off_x": 0.0,
     "scaling_off_y": 0.0,
     "modules": {
-        "scripts-tool": [],
+        "scripts-tool": [
+            {
+                "path": "/home/ewpratten/.config/ewconfig/configs/obs-studio/scripts/filter-fish-lens.lua",
+                "settings": {}
+            },
+            {
+                "path": "/home/ewpratten/.config/ewconfig/configs/obs-studio/scripts/filter-gaussian-blur.lua",
+                "settings": {}
+            }
+        ],
         "output-timer": {
             "streamTimerHours": 0,
             "streamTimerMinutes": 0,
