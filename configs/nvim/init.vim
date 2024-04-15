@@ -27,11 +27,14 @@ if !exists('g:vscode')
     autocmd BufWritePost * GitGutter
 endif
 
-" Enable Leap
-lua require('leap').add_default_mappings()
+" Don't bother loading plugins if we are on a really old NeoVim installation
+if has('nvim-0.5')
+    " Enable Leap
+    lua require('leap').add_default_mappings()
 
-" Enable trailing space detection
-lua require('mini.trailspace').setup()
+    " Enable trailing space detection
+    lua require('mini.trailspace').setup()
+endif
 
 " Configure floating window colours
 highlight Pmenu ctermbg=none ctermfg=white
