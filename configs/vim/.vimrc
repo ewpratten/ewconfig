@@ -55,7 +55,11 @@ let g:netrw_browse_split = 3
 if !exists('g:vscode')
     set spell
     set spelllang=en_ca,en_us
-    set spelloptions=camel
+
+    " Note: This only works on vim 8.2.0953 or later (or nvim 0.5)
+    if has('nvim-0.5') || v:version >= 802 || has('patch-8.2.0953')
+        set spelloptions=camel
+    endif
     
     " Hide spellcheck highlights I don't care about
     hi clear SpellCap
