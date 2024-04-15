@@ -11,6 +11,7 @@ The scripts in this repository have the following dependencies:
 - Git (optional, extremely recommended)
 - ZSH (optional, recommended)
 - Neovim (optional, recommended)
+- `zsh-vcs` (*required on Alpine Linux*)
 
 Install and link everything with:
 
