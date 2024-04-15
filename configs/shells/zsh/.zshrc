@@ -2,6 +2,11 @@
 # There are some important env vars that need to exist
 export EWCONFIG_ROOT="$HOME/.config/ewconfig"
 
+# Auto-detect if we are running inside of ISH (IOS Shell)
+if [ $(uname -r | grep -c "\-ish$") -gt 0 ]; then
+    export EWCONFIG_IN_ISH=1
+fi
+
 # Load my custom prompt and macros
 . $EWCONFIG_ROOT/configs/shells/zsh/prompt.sh
 . $EWCONFIG_ROOT/configs/shells/zsh/macros.sh
