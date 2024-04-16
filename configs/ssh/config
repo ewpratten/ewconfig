@@ -17,6 +17,10 @@ Host github.com gist.github.com
     IdentityFile %d/.ssh/id_ed25519_sk_rk_yk20572395
     #    IdentityFile %d/.ssh/id_rsa
 
+# Default to myself when accessing my own machines
+Host ewpratten-*
+    User ewpratten
+
 # Home network
 Host unifi
     HostName dreammachinepro.local
