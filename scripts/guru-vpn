@@ -103,7 +103,8 @@ def handle_disconnect(args: argparse.Namespace) -> int:
     # Disconnect from Guru VPN
     print("Bringing down Guru VPN")
     result = subprocess.run(["nmcli", "connection", "down", "Guru VPN"])
-    return result.returncode
+    return 0
+   
 
 
 def main() -> int:
@@ -131,9 +132,8 @@ def main() -> int:
 
     # Handle subcommands
     cmd_fns = {
-        "connect": handle_connect,
+        "connect": lambda args: handle_disconnect(args) or handle_connect(args),
         "disconnect": handle_disconnect,
-        "reconnect": lambda args: handle_disconnect(args) or handle_connect(args),
     }
     return cmd_fns[args.operation](args)
 
