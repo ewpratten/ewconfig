@@ -48,5 +48,9 @@
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
 
+[credential "http://*.gurustudio.com"]
+	helper = 
+	helper = !/usr/bin/glab auth git-credential
+
 [push]
 	autoSetupRemote = true
