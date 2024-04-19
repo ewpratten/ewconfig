@@ -92,7 +92,7 @@ def print_changes(
         message = f"{proc_name} has {action} listening on {change['local']} port {change['port']}{proto_clean}"
         message = message[0].upper() + message[1:]
         if args.output_mode == "print":
-            print(message)
+            print(message, flush=True)
         else:
             logger.info(message)
 

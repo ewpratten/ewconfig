@@ -1,0 +1,11 @@
+[Unit]
+Description = Watch port open and close events
+After=network.target
+
+[Service]
+Type=simple
+StandardOutput=syslog+console
+ExecStart = python3 %h/.config/ewconfig/scripts/watch-ports
+
+[Install]
+WantedBy=multi-user.target
