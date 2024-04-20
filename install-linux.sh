@@ -87,6 +87,9 @@ ln -snf $EWCONFIG_ROOT/configs/nvim/third_party ~/.config/nvim/third_party
 # Nautilus right-click scripts
 ln -sf $EWCONFIG_ROOT/configs/nautilus/scripts/* ~/.local/share/nautilus/scripts/
 
+# XDG User Directories
+ln -sf $EWCONFIG_ROOT/configs/user-dirs.dirs ~/.config/user-dirs.dirs
+
 # Tabset configs
 ln -nsf $EWCONFIG_ROOT/configs/tabset ~/.config/tabset
 
