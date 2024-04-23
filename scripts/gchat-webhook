@@ -1,0 +1,50 @@
+#! /usr/bin/env python3
+"""Google chat webhook client
+
+Can be run in one of two ways:
+    gchat-webhook <url> -m <message> [--thread <thread_key>]
+or:
+    echo <message> | gchat-webhook <url> [--thread <thread_key>]
+    
+It will return a JSON raw response from the Google Chat API.
+"""
+
+import argparse
+import sys
+import logging
+import requests
+
+logger = logging.getLogger(__name__)
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(prog='gchat-webhook', description='Send messages to Google Chat via a webhook')
+    ap.add_argument("webhook", help="The Google Chat webhook URL")
+    ap.add_argument("-m", "--message", help="The message to send. If not set, reads from stdin")
+    ap.add_argument("--thread", help="Reply to this thread")
+    ap.add_argument('-v', '--verbose', help='Enable verbose logging', action='store_true')
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format='%(levelname)s:	%(message)s',
+    )
+    
+    # Build the request body
+    request_body = {
+        "text": args.message or sys.stdin.read(),
+    }
+    if args.thread:
+        request_body["thread"] = {"threadKey": args.thread}
+        
+    # Send the request
+    response = requests.post(args.webhook, json=request_body)
+    
+    # Print the response
+    print(response.text)
+
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())
