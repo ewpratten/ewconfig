@@ -1,0 +1,24 @@
+#! /bin/bash
+set -e
+
+# Expect either a domain, or a domain and a record type
+if [ $# -lt 1 ] || [ $# -gt 2 ]; then
+  echo "Usage: dig-authoritative <domain> [record type]"
+  exit 1
+fi
+
+DOMAIN=$1
+RECORD_TYPE=${2:-A}
+
+# Look up the authoritative name servers for the domain
+AUTH_NS=$(dig +short NS $DOMAIN | head -n 1)
+
+# If there are no authoritative name servers, the domain doesn't exist
+if [ -z "$AUTH_NS" ]; then
+  echo "Cannot find authoritative name servers for $DOMAIN" >&2
+  exit 1
+fi
+
+# Now, do a proper query
+dig @$AUTH_NS $DOMAIN $RECORD_TYPE
+exit $?
