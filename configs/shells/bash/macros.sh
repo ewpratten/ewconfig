@@ -113,6 +113,7 @@ extract() {
             *.7z) 7z x $1 ;;
             *.tar.zst) tar --use-compress-program=unzstd -xvf $1 ;;
             *.zst) zstd -d $1 ;;
+            *.rpm) rpm2cpio $1 | cpio -idmv ;;
             *) echo "don't know how to extract '$1'..." ;;
         esac
     else
