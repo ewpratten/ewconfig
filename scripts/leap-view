@@ -8,7 +8,6 @@ import numpy as np
 
 logger = logging.getLogger(__name__)
 
-
 def main() -> int:
     # Handle program arguments
     ap = argparse.ArgumentParser(
@@ -24,6 +23,7 @@ def main() -> int:
         default="640x480",
     )
     ap.add_argument("--only", help="Only show the left or right camera", choices=["left", "right"])
+    ap.add_argument("--no-brightness-normalization", help="Do not normalize the brightness of the frames", action="store_true")
     ap.add_argument(
         "-v", "--verbose", help="Enable verbose logging", action="store_true"
     )
@@ -62,6 +62,15 @@ def main() -> int:
         # Split into left and right frames (every other byte)
         left_frame = frame[:, 0::2]
         right_frame = frame[:, 1::2]
+        
+        # Ignore the last row of the frames
+        left_frame = left_frame[:-1]
+        right_frame = right_frame[:-1]
+        
+        # Normalize the frames so that the brightest pixel is 255
+        if not args.no_brightness_normalization:
+            left_frame = cv2.normalize(left_frame, None, 0, 255, cv2.NORM_MINMAX)
+            right_frame = cv2.normalize(right_frame, None, 0, 255, cv2.NORM_MINMAX)
 
         # Show the frame
         if not args.only or args.only == "left":
