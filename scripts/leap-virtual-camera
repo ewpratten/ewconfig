@@ -1,0 +1,111 @@
+#! /usr/bin/env python3
+
+import argparse
+import sys
+import logging
+import cv2
+import pyvirtualcam
+import subprocess
+import numpy as np
+
+logger = logging.getLogger(__name__)
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="leap-view",
+        description="View the camera feeds from a Leap Motion controller",
+    )
+    ap.add_argument("device", help="Path to the video device")
+    ap.add_argument(
+        "-r",
+        "--resolution",
+        help="Resolution of the camera",
+        choices=["640x120", "640x240", "640x480", "752x120", "752x240", "752x480"],
+        default="640x480",
+    )
+    ap.add_argument(
+        "-v", "--verbose", help="Enable verbose logging", action="store_true"
+    )
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s:	%(message)s",
+    )
+
+    # Open the video device
+    cap = cv2.VideoCapture(args.device)
+
+    if not cap.isOpened():
+        logger.error("Failed to open video device")
+        return 1
+
+    # Set the resolution
+    width, height = map(int, args.resolution.split("x"))
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+    cap.set(cv2.CAP_PROP_CONVERT_RGB, 0)
+
+    # Call v4l2loopback to create two virtual cameras
+    subprocess.run(
+        [
+            "sudo",
+            "modprobe",
+            "v4l2loopback",
+            "video_nr=31,32",
+            'card_label="Leap Motion Left","Leap Motion Right"',
+        ],
+        check=True,
+    )
+
+    # Create left and right virtual cameras
+    virtual_cam_left = pyvirtualcam.Camera(
+        width=width,
+        height=height,
+        fps=30,
+        fmt=pyvirtualcam.PixelFormat.GRAY,
+        device="/dev/video31",
+    )
+    virtual_cam_right = pyvirtualcam.Camera(
+        width=width,
+        height=height,
+        fps=30,
+        fmt=pyvirtualcam.PixelFormat.GRAY,
+        device="/dev/video32",
+    )
+
+    # Read frames
+    try:
+        while True:
+            ret, frame = cap.read()
+
+            if not ret:
+                logger.error("Failed to read frame")
+                break
+
+            # Reshape the frame
+            frame = np.reshape(frame, (height, width * 2))
+
+            # Split into left and right frames (every other byte)
+            left_frame = frame[:, 0::2]
+            right_frame = frame[:, 1::2]
+
+            # Write the frames to the virtual cameras
+            virtual_cam_left.send(left_frame)
+            virtual_cam_right.send(right_frame)
+
+    except KeyboardInterrupt:
+        pass
+    finally:
+        cap.release()
+        virtual_cam_left.close()
+        virtual_cam_right.close()
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
