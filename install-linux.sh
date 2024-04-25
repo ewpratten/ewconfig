@@ -32,6 +32,7 @@ mkdir -p ~/.config/nvim
 mkdir -p ~/.config/termux
 mkdir -p ~/.config/logid
 mkdir -p ~/.config/systemd/user
+mkdir -p ~/.config/glab-cli
 mkdir -p ~/.config/git
 mkdir -p ~/.config/git/config-fragments
 mkdir -p ~/.config/user-tmpfiles.d
@@ -114,6 +115,9 @@ ln -sf $EWCONFIG_ROOT/configs/gqrx/bookmarks.csv ~/.config/gqrx/bookmarks.csv
 # Systemd
 ln -sf $EWCONFIG_ROOT/configs/systemd/user/* ~/.config/systemd/user/
 ln -nsf $EWCONFIG_ROOT/configs/systemd/scripts ~/.config/systemd/scripts
+
+# GitLab CLI
+ln -sf $EWCONFIG_ROOT/configs/glab-cli/aliases.yml ~/.config/glab-cli/aliases.yml
 
 # Minecraft global configs
 ln -nsf $EWCONFIG_ROOT/configs/minecraft ~/.config/minecraft
