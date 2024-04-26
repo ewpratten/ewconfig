@@ -4,9 +4,24 @@ import argparse
 import sys
 import logging
 import cv2
+import subprocess
+import shutil
 import numpy as np
+from datetime import datetime
+from pathlib import Path
+from typing import Optional
 
 logger = logging.getLogger(__name__)
+
+
+def normalize_brightness(frame, mode):
+    if mode == "histogram":
+        frame = cv2.normalize(frame, None, 0, 255, cv2.NORM_MINMAX)
+        frame = cv2.equalizeHist(frame)
+        frame = cv2.normalize(frame, None, 0, 255, cv2.NORM_MINMAX)
+    elif mode == "basic":
+        frame = cv2.normalize(frame, None, 0, 255, cv2.NORM_MINMAX)
+    return frame
 
 
 def main() -> int:
@@ -17,20 +32,54 @@ def main() -> int:
     )
     ap.add_argument("device", help="Path to the video device")
     ap.add_argument(
-        "-r",
+        "-c",
+        "--camera",
+        help="Which camera(s) to display",
+        choices=["left", "right", "both", "raw"],
+        default="left",
+    )
+    ap.add_argument(
+        "-l",
+        "--led",
+        help="Which LEDs to enable",
+        choices=["left", "centre", "right", "sides", "all", "none"],
+        default="all",
+    )
+    ap.add_argument(
+        "-b",
+        "--brightness-normalization",
+        help="Brightness normalization modes",
+        choices=["none", "histogram", "basic"],
+        default="histogram",
+    )
+    ap.add_argument("--record", help="Record the video to a file", action="store_true")
+    ap.add_argument(
+        "--colour-non-linear", help="Enable non-linear colour", action="store_true"
+    )
+    ap.add_argument(
         "--resolution",
         help="Resolution of the camera",
         choices=["640x120", "640x240", "640x480", "752x120", "752x240", "752x480"],
-        default="640x480",
+        default="752x480",
     )
     ap.add_argument(
-        "--only", help="Only show the left or right camera", choices=["left", "right"]
+        "--upscale",
+        help="Upscaling factor",
+        type=int,
     )
-    ap.add_argument("--no-led", help="Disable the LEDs", action="store_true")
     ap.add_argument(
-        "--no-brightness-normalization",
-        help="Do not normalize the brightness of the frames",
-        action="store_true",
+        "--average-frames", help="Number of frames to average", type=int, default=0
+    )
+    ap.add_argument(
+        "--average-mode",
+        help="Averaging mode",
+        choices=["mean", "median", "min", "max"],
+        default="mean",
+    )
+    ap.add_argument(
+        "--video-root",
+        help="Root directory for video files",
+        default="~/Videos/leap-view",
     )
     ap.add_argument(
         "-v", "--verbose", help="Enable verbose logging", action="store_true"
@@ -42,6 +91,28 @@ def main() -> int:
         level=logging.DEBUG if args.verbose else logging.INFO,
         format="%(levelname)s:	%(message)s",
     )
+
+    # Properly parse the video root
+    args.video_root = Path(args.video_root).expanduser()
+
+    # Determine where to save the video
+    video_file_name = datetime.now().strftime("LeapMotion-%Y-%m-%d_%H-%M-%S.avi")
+
+    # If we need to record the video
+    if args.record:
+        video_file_path = args.video_root / video_file_name
+        video_file_path.parent.mkdir(parents=True, exist_ok=True)
+        logger.info(f"Recording video to {video_file_path}")
+        video_output = cv2.VideoWriter(
+            str(video_file_path),
+            cv2.VideoWriter_fourcc(*"MJPG"),
+            30,
+            (
+                int(args.resolution.split("x")[0]) * 2,
+                int(args.resolution.split("x")[1]) - 1,
+            ),
+            isColor=False,
+        )
 
     # Open the video device
     cap = cv2.VideoCapture(args.device)
@@ -55,13 +126,23 @@ def main() -> int:
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
     cap.set(cv2.CAP_PROP_CONVERT_RGB, 0)
-    
+
     # Configure the LEDs
     # NOTE: See the libuvc for leap documentation for info about this
     # https://github.com/ewpratten/leapuvc/blob/master/LeapUVC-Manual.pdf
-    cap.set(cv2.CAP_PROP_CONTRAST, (2 | (int(not args.no_led) << 6)))
-    cap.set(cv2.CAP_PROP_CONTRAST, (3 | (int(not args.no_led) << 6)))
-    cap.set(cv2.CAP_PROP_CONTRAST, (4 | (int(not args.no_led) << 6)))
+    cap.set(
+        cv2.CAP_PROP_CONTRAST, (2 | (int(args.led in ["left", "sides", "all"]) << 6))
+    )
+    cap.set(cv2.CAP_PROP_CONTRAST, (3 | (int(args.led in ["centre", "all"]) << 6)))
+    cap.set(
+        cv2.CAP_PROP_CONTRAST, (4 | (int(args.led in ["right", "sides", "all"]) << 6))
+    )
+
+    # Set non-linear color mode
+    cap.set(cv2.CAP_PROP_GAMMA, int(args.colour_non_linear))
+
+    # Allocate average frame buffer
+    average_frame_buf = []
 
     # Read frames
     while True:
@@ -71,31 +152,80 @@ def main() -> int:
             logger.error("Failed to read frame")
             break
 
+        # Check for a key press
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+            break
+
         # Reshape the frame
         frame = np.reshape(frame, (height, width * 2))
+
+        # Ignore the last row of pixels
+        frame = frame[:-1, :]
+
+        # If we need to be averaging frames
+        if args.average_frames and args.average_frames > 0:
+            average_frame_buf.append(frame)
+            if len(average_frame_buf) > args.average_frames:
+                average_frame_buf.pop(0)
+
+            # Handle the averaging mode
+            if args.average_mode == "mean":
+                frame = np.mean(average_frame_buf, axis=0).astype(np.uint8)
+            elif args.average_mode == "median":
+                frame = np.median(average_frame_buf, axis=0).astype(np.uint8)
+            elif args.average_mode == "min":
+                frame = np.min(average_frame_buf, axis=0).astype(np.uint8)
+            elif args.average_mode == "max":
+                frame = np.max(average_frame_buf, axis=0).astype(np.uint8)
+
+        # If asked for a raw frame, show it and continue
+        if args.camera == "raw":
+            frame = normalize_brightness(frame, args.brightness_normalization)
+            cv2.imshow("Raw", frame)
+            continue
 
         # Split into left and right frames (every other byte)
         left_frame = frame[:, 0::2]
         right_frame = frame[:, 1::2]
 
-        # Ignore the last row of the frames
-        left_frame = left_frame[:-1]
-        right_frame = right_frame[:-1]
+        # Fix brightness issues
+        left_frame = normalize_brightness(left_frame, args.brightness_normalization)
+        right_frame = normalize_brightness(right_frame, args.brightness_normalization)
 
-        # Normalize the frames so that the brightest pixel is 255
-        if not args.no_brightness_normalization:
-            left_frame = cv2.normalize(left_frame, None, 0, 255, cv2.NORM_MINMAX)
-            right_frame = cv2.normalize(right_frame, None, 0, 255, cv2.NORM_MINMAX)
+        # If we should be recording the video
+        if args.record:
+            # Create a new frame that is twice as wide with both images side by side
+            video_frame = np.concatenate((left_frame, right_frame), axis=1)
+
+            # Crop to the correct resolution
+            video_frame = video_frame[:height, : width * 2]
+
+            # Write the frame to the video
+            cv2.imshow("Recording", video_frame)
+            video_output.write(video_frame)
+
+        # If we need to do upscaling, do it now
+        if args.upscale:
+            left_frame = cv2.resize(
+                left_frame, (width * args.upscale, height * args.upscale)
+            )
+            right_frame = cv2.resize(
+                right_frame, (width * args.upscale, height * args.upscale)
+            )
 
         # Show the frame
-        if not args.only or args.only == "left":
+        if args.camera in ["left", "both"]:
             cv2.imshow("Left", left_frame)
-        if not args.only or args.only == "right":
+        if args.camera in ["right", "both"]:
             cv2.imshow("Right", right_frame)
 
-        # Check if one of the windows was closed
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            break
+    # Clean up
+    cap.release()
+    cv2.destroyAllWindows()
+
+    if args.record:
+        video_output.release()
+        logger.info(f"Video saved to {video_file_path}")
 
     return 0
 
