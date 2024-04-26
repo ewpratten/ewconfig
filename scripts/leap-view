@@ -59,7 +59,7 @@ def main() -> int:
     # Configure the LEDs
     # NOTE: See the libuvc for leap documentation for info about this
     # https://github.com/ewpratten/leapuvc/blob/master/LeapUVC-Manual.pdf
-    cap.set(cv2.CAP_PROP_CONTRAST, (0b0010 | (int(not args.no_led) << 6)))
+    cap.set(cv2.CAP_PROP_CONTRAST, (2 | (int(not args.no_led) << 6)))
     cap.set(cv2.CAP_PROP_CONTRAST, (3 | (int(not args.no_led) << 6)))
     cap.set(cv2.CAP_PROP_CONTRAST, (4 | (int(not args.no_led) << 6)))
 
