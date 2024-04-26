@@ -65,7 +65,10 @@ def main() -> int:
     ap.add_argument(
         "--upscale",
         help="Upscaling factor",
-        type=int,
+        type=float,
+    )
+    ap.add_argument(
+        "--squish", help="Downscale the image before upscaling", action="store_true"
     )
     ap.add_argument(
         "--average-frames", help="Number of frames to average", type=int, default=0
@@ -192,6 +195,14 @@ def main() -> int:
         left_frame = normalize_brightness(left_frame, args.brightness_normalization)
         right_frame = normalize_brightness(right_frame, args.brightness_normalization)
 
+        # Average down by a 2x2 square
+        if args.squish:
+            left_frame = cv2.resize(left_frame, (width // 2, height // 2))
+            right_frame = cv2.resize(right_frame, (width // 2, height // 2))
+
+            left_frame = cv2.resize(left_frame, (width, height))
+            right_frame = cv2.resize(right_frame, (width, height))
+
         # If we should be recording the video
         if args.record:
             # Create a new frame that is twice as wide with both images side by side
@@ -207,10 +218,10 @@ def main() -> int:
         # If we need to do upscaling, do it now
         if args.upscale:
             left_frame = cv2.resize(
-                left_frame, (width * args.upscale, height * args.upscale)
+                left_frame, (int(width * args.upscale), int(height * args.upscale))
             )
             right_frame = cv2.resize(
-                right_frame, (width * args.upscale, height * args.upscale)
+                right_frame, (int(width * args.upscale), int(height * args.upscale))
             )
 
         # Show the frame
