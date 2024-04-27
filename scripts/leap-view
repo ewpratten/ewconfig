@@ -15,10 +15,12 @@ logger = logging.getLogger(__name__)
 
 
 def normalize_brightness(frame, mode):
-    if mode == "histogram":
+    if mode == "hist-norm":
         frame = cv2.normalize(frame, None, 0, 255, cv2.NORM_MINMAX)
         frame = cv2.equalizeHist(frame)
         frame = cv2.normalize(frame, None, 0, 255, cv2.NORM_MINMAX)
+    elif mode == "hist":
+        frame = cv2.equalizeHist(frame)
     elif mode == "basic":
         frame = cv2.normalize(frame, None, 0, 255, cv2.NORM_MINMAX)
     return frame
@@ -36,7 +38,7 @@ def main() -> int:
         "--camera",
         help="Which camera(s) to display",
         choices=["left", "right", "both", "raw"],
-        default="left",
+        default="both",
     )
     ap.add_argument(
         "-l",
@@ -49,8 +51,8 @@ def main() -> int:
         "-b",
         "--brightness-normalization",
         help="Brightness normalization modes",
-        choices=["none", "histogram", "basic"],
-        default="histogram",
+        choices=["none", "hist", "hist-norm", "basic"],
+        default="hist",
     )
     ap.add_argument("--record", help="Record the video to a file", action="store_true")
     ap.add_argument(
@@ -212,7 +214,6 @@ def main() -> int:
             video_frame = video_frame[:height, : width * 2]
 
             # Write the frame to the video
-            cv2.imshow("Recording", video_frame)
             video_output.write(video_frame)
 
         # If we need to do upscaling, do it now
@@ -225,10 +226,15 @@ def main() -> int:
             )
 
         # Show the frame
-        if args.camera in ["left", "both"]:
+        if args.camera == "left":
             cv2.imshow("Left", left_frame)
-        if args.camera in ["right", "both"]:
+        if args.camera == "right":
             cv2.imshow("Right", right_frame)
+
+        # If we need to show both cameras
+        if args.camera == "both":
+            frame = np.concatenate((left_frame, right_frame), axis=1)
+            cv2.imshow("Both", frame)
 
     # Clean up
     cap.release()
