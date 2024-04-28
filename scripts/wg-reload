@@ -1,0 +1,17 @@
+#! /bin/bash
+set -e
+
+if [ $# != 1 ]; then
+    echo "Usage: wg-reload <interface>"
+    exit 1
+fi
+
+# Check if we have permission to run `wg`
+if [ "$(id -u)" -ne 0 ]; then
+    # Re-launch this script as root
+    exec sudo "$0" "$@"
+    exit $?
+fi
+
+# Reload the WireGuard interface
+wg syncconf $1 <(wg-quick strip $1)

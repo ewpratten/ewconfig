@@ -163,15 +163,6 @@ wg-restart() {
     fi
 }
 
-# Reload a wireguard link without stopping it
-wg-reload() {
-    if [ $# != 1 ]; then
-        echo "Usage: wg-reload <interface>"
-    else
-        sudo bash -c "wg syncconf $1 <(wg-quick strip $1)"
-    fi
-}
-
 # Edit a wireguard config file
 wg-edit() {
     if [ $# != 1 ]; then
