@@ -1,0 +1,28 @@
+#! /bin/bash
+set -e
+
+# Check if we have permission to run `wg`
+if [ "$(id -u)" -ne 0 ]; then
+    # Re-launch this script as root
+    exec sudo "$0" "$@"
+    exit $?
+fi
+
+# List all interfaces (space delimited)
+interfaces=$(wg show interfaces)
+
+# Display info about each interface
+for interface in $interfaces; do
+    echo "Interface: $interface"
+    echo " - Public Key: $(wg show $interface public-key)"
+    echo " - Listen Port: $(wg show $interface listen-port)"
+    echo " - Peers: $(wg show $interface peers | wc -l)"
+    echo " - Routes:"
+    ip route | grep "dev $interface" | cut -d " " -f 1,8,9 | while read route; do
+        echo "   - $route"
+    done
+    ip -6 route | grep "dev $interface" | cut -d " " -f 1,8,9 | while read route; do
+        echo "   - $route"
+    done
+    echo
+done
