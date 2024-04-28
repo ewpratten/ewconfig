@@ -21,8 +21,8 @@ for interface in $interfaces; do
     ip route | grep "dev $interface" | cut -d " " -f 1,8,9 | while read route; do
         echo "   - $route"
     done
-    ip -6 route | grep "dev $interface" | cut -d " " -f 1,8,9 | while read route; do
-        echo "   - $route"
-    done
+    # ip -6 route | grep "dev $interface" | cut -d " " -f 1,8,9 | while read route; do
+    #     echo "   - $route"
+    # done
     echo
 done
