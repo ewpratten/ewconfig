@@ -1,0 +1,209 @@
+#! /usr/bin/env python3
+import argparse
+import sys
+import logging
+import shutil
+import subprocess
+from textwrap import dedent
+from pathlib import Path
+
+OP_S3_CREDENTIAL_URI = "op://ieer6s7pb2di3x7tvpjwj24kki/qw4hf73666z37ivpahc7tsmoyq"
+S3_BUCKET_NAME = "yum-repo"
+REPOSITORIES = ["stable", "development"]
+
+logger = logging.getLogger(__name__)
+
+
+def read_1password_credential(uri: str) -> str:
+    process = subprocess.Popen(
+        ["op", "read", uri],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
+    # If there is no stdout, the command failed
+    if not process.stdout:
+        logger.error("Failed to read 1Password item")
+        raise KeyError("Failed to read 1Password item")
+
+    # Read the password from stdout
+    return process.stdout.read().decode("utf-8").strip()
+
+
+def build_rclone_env_vars():
+    return {
+        "RCLONE_CONFIG_EWPYUMREPO_TYPE": "s3",
+        "RCLONE_CONFIG_EWPYUMREPO_PROVIDER": "Cloudflare",
+        "RCLONE_CONFIG_EWPYUMREPO_ACCESS_KEY_ID": read_1password_credential(
+            f"{OP_S3_CREDENTIAL_URI}/S3 Access Key ID"
+        ),
+        "RCLONE_CONFIG_EWPYUMREPO_SECRET_ACCESS_KEY": read_1password_credential(
+            f"{OP_S3_CREDENTIAL_URI}/S3 Secret Access Key"
+        ),
+        "RCLONE_CONFIG_EWPYUMREPO_ENDPOINT": read_1password_credential(
+            f"{OP_S3_CREDENTIAL_URI}/hostname"
+        ),
+    }
+
+
+def ensure_repo_synced(temp_path: Path, side: str):
+    logger.info(f"Ensuring {side} repo copy is up-to-date")
+    temp_path.mkdir(parents=True, exist_ok=True)
+
+    # Build the command
+    cmd = ["rclone", "sync"]
+
+    # Set the correct source and destination
+    if side == "local":
+        cmd += ["ewpyumrepo:yum-repo", str(temp_path)]
+    else:
+        cmd += [str(temp_path), "ewpyumrepo:yum-repo"]
+
+    # Add dummy config
+    cmd += ["--config", "/dev/null"]
+
+    # Display progress
+    cmd += ["--progress"]
+
+    # Sync the entire directory locally
+    subprocess.run(
+        cmd,
+        check=True,
+        env=build_rclone_env_vars(),
+    )
+
+
+def update_repo(repo_path: Path):
+    logger.info("Updating the repo")
+    subprocess.run(
+        ["createrepo", "--update", repo_path],
+        check=True,
+    )
+
+
+def cmd_sync(args: argparse.Namespace) -> int:
+    logger.info("Beginning sync")
+    root_path = args.temp_path / "ewp-yum-repo"
+    ensure_repo_synced(root_path, "local")
+
+    # Generate a repo file that clients can download to use this repo
+    with open(root_path / "ewpratten.repo", "w") as f:
+        f.write(
+            dedent(
+                f"""
+                [ewpratten]
+                name = Evan's Software Repository
+                baseurl = https://yum.ewpratten.com/stable
+                enabled = 1
+                gpgcheck = 0
+                
+                [ewpratten-dev]
+                name = Evan's Software Repository (Development Builds)
+                baseurl = https://yum.ewpratten.com/development
+                enabled = 0
+                gpgcheck = 0                
+                """
+            )
+        )
+
+    # Find all repos
+    for repo in REPOSITORIES:
+        repo = root_path / repo
+        repo.mkdir(parents=True, exist_ok=True)
+
+        # Update
+        update_repo(repo)
+
+    # Sync the repos
+    ensure_repo_synced(root_path, "remote")
+
+    return 0
+
+
+def cmd_add(args: argparse.Namespace) -> int:
+    root_path = args.temp_path / "ewp-yum-repo"
+    ensure_repo_synced(root_path, "local")
+
+    # Check the RPM file
+    if not args.package.exists():
+        logger.error(f"Package file '{args.package}' does not exist")
+        return 1
+    if not args.package.is_file():
+        logger.error(f"Package file '{args.package}' is not a file")
+        return 1
+    if not args.package.suffix == ".rpm":
+        logger.error(f"Package file '{args.package}' is not an RPM file")
+        return 1
+
+    # Ensure the needed package path exists
+    package_root = root_path / args.branch / "Packages"
+    package_root.mkdir(parents=True, exist_ok=True)
+    logger.info(f"Adding package to: {package_root}")
+
+    # Copy the file to the local repo
+    shutil.copy(args.package, package_root)
+
+    # Update the repo
+    update_repo(package_root.parent)
+
+    # Sync the repo
+    ensure_repo_synced(root_path, "remote")
+
+    return 0
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="ewp-yum-repo", description="Manage yum.ewpratten.com"
+    )
+    subparsers = ap.add_subparsers(dest="command")
+    ap.add_argument(
+        "--temp-path",
+        help="Path to store temporary files",
+        type=Path,
+        default=Path("/tmp"),
+    )
+    ap.add_argument(
+        "-v", "--verbose", help="Enable verbose logging", action="store_true"
+    )
+
+    # Sync command
+    sync_cmd_parser = subparsers.add_parser("sync", help="Sync everything")
+
+    # Add command
+    add_cmd_parser = subparsers.add_parser("add", help="Add a new package")
+    add_cmd_parser.add_argument("package", help="Path to RPM file", type=Path)
+    add_cmd_parser.add_argument(
+        "--branch", help="Branch to add to", choices=REPOSITORIES, default="development"
+    )
+
+    # Parse everything
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s:	%(message)s",
+    )
+
+    # We require a few tools to be on this system
+    required_tools = ["op", "rclone"]
+    for tool in required_tools:
+        if shutil.which(tool) is None:
+            logger.error(f"Required tool '{tool}' not found in $PATH")
+            return 1
+
+    # Handle the subcommands
+    if args.command == "sync":
+        return cmd_sync(args)
+    elif args.command == "add":
+        return cmd_add(args)
+    else:
+        ap.print_help()
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
