@@ -1,0 +1,95 @@
+#! /usr/bin/env python3
+"""Python REGEX. A standalone tool by Evan Pratten <evan@ewpratten.com>
+
+usage: py-re [-h] [-g GROUPS] [-A] [-I] [-M] [-S] [-X] expression [file]
+
+A tool for REGEX using Python's re module.
+
+positional arguments:
+  expression            Regular Expression
+  file                  File to search (default: stdin)
+
+options:
+  -h, --help            show this help message and exit
+  -g GROUPS, --groups GROUPS
+                        Print these matching groups (comma-separated)
+  -A, --ascii           ASCII-only matching
+  -I, --ignore-case     Case-insensitive matching
+  -M, --multiline       Multiline matching
+  -S, --dotall          Dot matches all
+  -X, --verbose         Verbose regex
+"""
+
+import argparse
+import sys
+import re
+from pathlib import Path
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="py-re", description="A tool for REGEX using Python's re module."
+    )
+    ap.add_argument("expression", help="Regular Expression")
+    ap.add_argument(
+        "file",
+        help="File to search (default: stdin)",
+        default=None,
+        nargs="?",
+        type=Path,
+    )
+    ap.add_argument(
+        "-g",
+        "--groups",
+        help="Print these matching groups (comma-separated)",
+        default=None,
+        type=lambda x: [int(i) for i in x.split(",")],
+    )
+
+    # RE flags
+    ap.add_argument("-A", "--ascii", help="ASCII-only matching", action="store_true")
+    ap.add_argument(
+        "-I", "--ignore-case", help="Case-insensitive matching", action="store_true"
+    )
+    ap.add_argument("-M", "--multiline", help="Multiline matching", action="store_true")
+    ap.add_argument("-S", "--dotall", help="Dot matches all", action="store_true")
+    ap.add_argument("-X", "--verbose", help="Verbose regex", action="store_true")
+    args = ap.parse_args()
+    # args.groups = args.groups[0] if args.groups else None
+
+    # Build the regex flags
+    re_flags = re.NOFLAG
+    if args.ascii:
+        re_flags |= re.ASCII
+    if args.ignore_case:
+        re_flags |= re.IGNORECASE
+    if args.multiline:
+        re_flags |= re.MULTILINE
+    if args.dotall:
+        re_flags |= re.DOTALL
+    if args.verbose:
+        re_flags |= re.VERBOSE
+
+    # Compile the regular expression
+    regex = re.compile(args.expression)
+
+    # Read the file
+    file = args.file.open() if args.file else sys.stdin
+
+    # Search the file
+    for line in file:
+        match = regex.search(line)
+        if match:
+            if args.groups:
+                for group in args.groups:
+                    print(match.group(group), end=" ")
+            else:
+                print(match.group(0), end=" ")
+            print()
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
