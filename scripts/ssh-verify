@@ -1,0 +1,10 @@
+#! /bin/bash
+# Verify a file, using the ~/.ssh/allowed_signers file
+set -e
+
+# Check args
+if [ $# != 3 ]; then
+    echo "Usage: ssh-verify <author> <sigfile> <file>"
+fi
+
+ssh-keygen -Y verify -f ~/.ssh/allowed_signers -n file -I $1 -s $2 < $3

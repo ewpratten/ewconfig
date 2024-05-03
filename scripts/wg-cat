@@ -1,0 +1,9 @@
+#! /bin/bash
+set -e
+
+# Check args
+if [ $# != 1 ]; then
+    echo "Usage: wg-cat <interface>"
+fi
+
+sudo cat /etc/wireguard/$1.conf

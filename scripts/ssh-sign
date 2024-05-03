@@ -1,0 +1,16 @@
+#! /bin/bash
+set -e
+
+# Check args
+if [ $# != 2 ]; then
+    echo "Usage: ssh-sign <key_file> <file>"
+    exit 1
+fi
+
+
+if [ -f $2 ]; then
+    cat $2 | ssh-keygen -Y sign -f $1 -n file -
+else
+    >&2 echo "File not found: $2"
+    exit 1
+fi

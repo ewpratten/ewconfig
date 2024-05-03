@@ -1,0 +1,9 @@
+#! /bin/bash
+set -e
+
+# Check args
+if [ $# != 1 ]; then
+    echo "Usage: wg-edit <interface>"
+fi
+
+sudoedit /etc/wireguard/$1.conf

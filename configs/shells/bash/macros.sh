@@ -71,14 +71,6 @@ if [ ! -z "$EWP_IN_GURU_ENVIRONMENT" ]; then
     alias cd-dev="cd /s/development/epratten"
 fi
 
-# Kill via pgrep
-nkill() {
-    if [ $# != 1 ]; then
-        echo "Usage: nkill <name>"
-    else
-        kill -9 $(pgrep $1)
-    fi
-}
 
 # Makes a directory, then moves into it
 mkcd() {
@@ -118,66 +110,6 @@ extract() {
         esac
     else
         echo "'$1' is not a valid file!"
-    fi
-}
-
-# Generate a password
-genpass() {
-    if [ $# != 1 ]; then
-        echo "Usage: genpass <len>"
-    else
-        echo $(openssl rand -base64 $1 | tr -d "\n")
-    fi
-    
-}
-
-# Sign a file with an SSH key
-ssh-sign(){
-    if [ $# != 2 ]; then
-        echo "Usage: ssh-sign <key_file> <file>"
-    else
-        if [ -f $2 ]; then
-            cat $2 | ssh-keygen -Y sign -f $1 -n file -
-        else
-            >&2 echo "File not found: $2"
-        fi
-    fi
-}
-
-# Verify a file, using the ~/.ssh/allowed_signers file
-ssh-verify(){
-    if [ $# != 3 ]; then
-        echo "Usage: ssh-verify <author> <sigfile> <file>"
-    else
-        ssh-keygen -Y verify -f ~/.ssh/allowed_signers -n file -I $1 -s $2 < $3
-    fi
-}
-
-# Fully restart a wireguard link
-wg-restart() {
-    if [ $# != 1 ]; then
-        echo "Usage: wg-restart <interface>"
-    else
-        wg-quick down $1 || true;
-        wg-quick up $1
-    fi
-}
-
-# Edit a wireguard config file
-wg-edit() {
-    if [ $# != 1 ]; then
-        echo "Usage: wg-edit <interface>"
-    else
-        sudoedit /etc/wireguard/$1.conf
-    fi
-}
-
-# Print a wireguard config file
-wg-cat() {
-    if [ $# != 1 ]; then
-        echo "Usage: wg-cat <interface>"
-    else
-        sudo cat /etc/wireguard/$1.conf
     fi
 }
 
@@ -230,46 +162,14 @@ ewconfig-reinstall() {
     ewconfig-run sh ./install-$1.sh
 }
 
-# Define a function to emulate gh
-gh-emulated() {
-    if [ $# != 3 ]; then
-        echo "You don't have gh installed. Emulating its functionality."
-        echo "Usage: gh repo clone <user>/<repo>"
-    else
-        git clone https://github.com/$3
-    fi
-}
-
-# Only if `gh` is not installed
+# If `gh` is not installed, fake it so that I can save my muscle memory
 if ! command -v gh &> /dev/null; then
-    alias gh=gh-emulated
+    gh() {
+        if [ $# != 3 ]; then
+            echo "You don't have gh installed. Emulating its functionality."
+            echo "Usage: gh repo clone <user>/<repo>"
+        else
+            git clone https://github.com/$3
+        fi
+    }
 fi
-
-# Convert an SVG to a PNG
-svg2png() {
-    if [ $# != 1 ]; then
-        echo "Usage: svg2png <file>"
-    else
-        inkscape -z "$1.png" "$1" --export-type=png
-    fi
-}
-
-# Get the AS Path to an IP
-aspath() {
-    # There must be at least one argument (cab be more)
-    if [ $# -lt 1 ]; then
-        echo "Usage: aspath <ip> [args]"
-    else
-        mtr $@ -z -rw -c1 -G0.25 | tail -n +3 | awk '{print $2}' | grep -v AS\?\?\? | uniq | cut -c 3- | tr '\n' ',' | sed 's/,/ -> /g' | rev | cut -c 5- | rev
-    fi
-}
-
-# Get the AS Path to an IP (include unknown hops)
-aspath-long() {
-    # There must be at least one argument (cab be more)
-    if [ $# -lt 1 ]; then
-        echo "Usage: aspath-long <ip> [args]"
-    else
-        mtr $@ -z -rw -c1 -G0.25 | tail -n +3 | awk '{print $2}' | uniq | cut -c 3- | tr '\n' ',' | sed 's/,/ -> /g' | rev | cut -c 5- | rev
-    fi
-}

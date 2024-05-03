@@ -1,0 +1,12 @@
+#! /bin/bash
+# Fully restarts a wireguard link
+set -e
+
+# Check args
+if [ $# != 1 ]; then
+    echo "Usage: wg-restart <interface>"
+fi
+
+# Its ok if the down command fails
+wg-quick down $1 || true;
+wg-quick up $1
