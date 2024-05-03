@@ -16,16 +16,36 @@
     detachedHead = true
 
 [alias]
+	# Displays a ranked list of authors by number of commits
 	authors = shortlog --summary --numbered --email
+
+	# Displays a gitkraken-inspired commit tree
 	tree = log --graph --decorate --abbrev-commit --all \
 			--pretty=format:'%C(yellow)commit %h%C(auto)%d%n%C(cyan)Author:%Creset %aN %C(dim white)<%aE>%n%C(cyan)Date:%Creset %C(dim white)%ad (%ar)%n%s%n' \
 			--date=format:'%b %d %Y %H:%M:%S %z'
+	
+	# Lists all branches with their last commit
 	branches = branch -a -l -vv
+
+	# Displays a linear commit log
 	overview = log --all --pretty=format:'%C(green)commit %C(yellow)%h%C(green) by %C(reset)%C(yellow)%aN %C(dim white)(%ar) %n%C(dim white)%S%n%B%n'
+
+	# Ranks files by their activity
 	lscommits = ! ( echo -e "Commits\tFile" && git log --pretty=format: --name-only | sed '/^$/d' | sort | uniq -c | sort -g -r ) | less
-    lsc = lscommits
+
+	# Recursively list the current state of all repos
+	recursive-status = ! find . -type d -name .git -print0 \
+					   | xargs -0  -I{} sh -c \
+						'echo $(dirname "{}" | cut -d '/' -f 2-) "%" $(git -C "{}" rev-parse --abbrev-ref HEAD) "%" $(git -C "{}" log -1 --format=%s) "%" $(git -C "{}" log -1 --format=%ar)' \
+					   | column -s "%" -t
+	
+	# Diff against another branch
     diff-against = diff --merge-base 
+
+	# Un-fuck a branch that had a bit too much tinkering
     fix-recreated-branch = reset --hard @{u}
+
+	# Lazy macros
     fa = fetch --all
     pa = pull --all
     c = commit
