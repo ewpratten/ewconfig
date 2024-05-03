@@ -34,9 +34,9 @@
 	lscommits = ! ( echo -e "Commits\tFile" && git log --pretty=format: --name-only | sed '/^$/d' | sort | uniq -c | sort -g -r ) | less
 
 	# Recursively list the current state of all repos
-	recursive-status = ! find . -type d -name .git -print0 \
+	recursive-status = ! find . -type d -name .git -readable -prune -print0 2>/dev/null \
 					   | xargs -0  -I{} sh -c \
-						'echo $(dirname "{}" | cut -d '/' -f 2-) "%" $(git -C "{}" rev-parse --abbrev-ref HEAD) "%" $(git -C "{}" log -1 --format=%s) "%" $(git -C "{}" log -1 --format=%ar)' \
+						'echo $(dirname "{}" | cut -d '/' -f 2-) "%" $(git -C "{}" rev-parse --abbrev-ref HEAD) "%" $(git -C "{}" log -1 --format=%s)' \
 					   | column -s "%" -t
 	
 	# Diff against another branch
