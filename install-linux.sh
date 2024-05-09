@@ -119,6 +119,9 @@ ln -nsf $EWCONFIG_ROOT/configs/systemd/scripts ~/.config/systemd/scripts
 # GitLab CLI
 ln -sf $EWCONFIG_ROOT/configs/glab-cli/aliases.yml ~/.config/glab-cli/aliases.yml
 
+# RSS stuff
+ln -nsf $EWCONFIG_ROOT/configs/ewp-rss-feeds ~/.config/ewp-rss-feeds
+
 # Minecraft global configs
 ln -nsf $EWCONFIG_ROOT/configs/minecraft ~/.config/minecraft
 if [ -d ~/.var/app/org.prismlauncher.PrismLauncher ]; then
