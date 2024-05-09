@@ -1,0 +1,144 @@
+#! /usr/bin/env python3
+import argparse
+import sys
+import logging
+import launchpad_py
+import time
+import subprocess
+from pathlib import Path
+
+SCRIPT_DIR = Path("~/.config/launchpad-scripts").expanduser()
+logger = logging.getLogger(__name__)
+
+
+def blink_cell(
+    launchpad: launchpad_py.Launchpad, x: int, y: int, red: int, green: int, times: int
+):
+    for i in range(times):
+        launchpad.LedCtrlXY(x, y, red, green)
+        time.sleep(0.125)
+        launchpad.Reset()
+        time.sleep(0.125)
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="launchpad-script-launcher",
+        description="Allows a Launchpad Mini to run scripts",
+    )
+
+    ap.add_argument(
+        "-v", "--verbose", help="Enable verbose logging", action="store_true"
+    )
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s:	%(message)s",
+    )
+
+    # If the script directory doesn't exist, stop
+    if not SCRIPT_DIR.exists():
+        logger.error(f"Script directory {SCRIPT_DIR} does not exist")
+        return 1
+
+    # Set up an interface object
+    launchpad = launchpad_py.Launchpad()
+    logger.info("Found the following MIDI devices:")
+    launchpad.ListAll()
+
+    # Connect
+    logger.info("Connecting to Launchpad Mini")
+    result = launchpad.Open(0, "Launchpad Mini")
+    if not result:
+        logger.error("Failed to connect to Launchpad Mini")
+        return 1
+
+    # Do a start-up blink
+    logger.info("Blinking the Launchpad Mini")
+    launchpad.LedAllOn(1)
+    time.sleep(0.125)
+    launchpad.Reset()
+    launchpad.ButtonFlush()
+
+    # Watch for button press events
+    logger.info("Listening for button presses")
+    try:
+        while True:
+            # Check if there has been a button event
+            if launchpad.ButtonChanged():
+                event = launchpad.ButtonStateXY()
+                # Determine the normalized XY coordinate
+                x = event[0]
+                raw_y = event[1]
+                y = raw_y - 1
+
+                # If the button is outside of 0,0 - 7,7, ignore it
+                if x < 0 or x > 7 or y < 0 or y > 7:
+                    logger.info(f"Ignoring button press at {x},{y}")
+                    continue
+
+                # We can determine if this was a press or a release
+                was_pressed = event[2]
+
+                # Ignore release events
+                if not was_pressed:
+                    continue
+
+                # If the button was pressed, check for a script
+                script_name = f"lps_{x}_{y}"
+
+                # Check if there is a file with this name, and it is executable
+                all_scripts = list(SCRIPT_DIR.glob(f"{script_name}.*"))
+                if len(all_scripts) == 0:
+                    logger.info(f"No script found for button {x},{y}")
+                    blink_cell(launchpad, x, raw_y, 3, 3, 2)
+                    continue
+                if len(all_scripts) > 1:
+                    logger.error(f"Multiple scripts found for button {x},{y}")
+                    blink_cell(launchpad, x, raw_y, 3, 3, 2)
+                    continue
+                if not all_scripts[0].is_file():
+                    logger.error(f"Script for button {x},{y} is not a file")
+                    blink_cell(launchpad, x, raw_y, 3, 3, 2)
+                    continue
+                if not all_scripts[0].stat().st_mode & 0o111:
+                    logger.error(f"Script for button {x},{y} is not executable")
+                    blink_cell(launchpad, x, raw_y, 3, 3, 2)
+                    continue
+                
+                # Set the cell to orange to indicate that the script is running
+                launchpad.LedCtrlXY(x, raw_y, 3, 3)
+                
+                # Run the script
+                logger.info(f"Running script {all_scripts[0]}")
+                proc = subprocess.Popen([str(all_scripts[0])])
+                proc.wait()
+                
+                # If we get a bad return code, blink the cell red
+                if proc.returncode != 0:
+                    logger.error(f"Script {all_scripts[0]} returned {proc.returncode}")
+                    launchpad.LedCtrlXY(x, raw_y, 3, 0)
+                    time.sleep(0.5)
+                    launchpad.LedCtrlXY(x, raw_y, 0, 0)
+                    continue
+                    
+                # If we get a good return code, blink the cell green
+                launchpad.LedCtrlXY(x, raw_y, 0, 3)
+                time.sleep(0.5)
+                launchpad.LedCtrlXY(x, raw_y, 0, 0)
+                    
+                
+
+    except KeyboardInterrupt:
+        logger.info("Shutting down")
+        launchpad.Reset()
+        launchpad.Close()
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

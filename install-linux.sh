@@ -119,6 +119,10 @@ ln -nsf $EWCONFIG_ROOT/configs/systemd/scripts ~/.config/systemd/scripts
 # GitLab CLI
 ln -sf $EWCONFIG_ROOT/configs/glab-cli/aliases.yml ~/.config/glab-cli/aliases.yml
 
+# Launchpad Scripts
+chmod +x $EWCONFIG_ROOT/configs/launchpad-scripts/*
+ln -nsf $EWCONFIG_ROOT/configs/launchpad-scripts ~/.config/launchpad-scripts
+
 # Minecraft global configs
 ln -nsf $EWCONFIG_ROOT/configs/minecraft ~/.config/minecraft
 if [ -d ~/.var/app/org.prismlauncher.PrismLauncher ]; then
