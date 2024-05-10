@@ -1,186 +1,288 @@
-{
-    "subscriptions": [
-        {
-            "name": "Cloudflare: Speed & Reliability",
-            "url": "https://blog.cloudflare.com/tag/speed-and-reliability/rss"
-        },
-        {
-            "name": "Cloudflare: Deep Dive",
-            "url": "https://blog.cloudflare.com/tag/deep-dive/rss"
-        },
-        {
-            "name": "Mastodon Blog",
-            "url": "https://blog.joinmastodon.org/index.xml"
-        },
-        {
-            "name": "LWN.net Featured Content",
-            "url": "http://lwn.net/headlines/Features",
-            "filters":[
-                "lwn::hide-paid-articles"
-            ]
-        },
-        {
-            "name": "fasterthanlime",
-            "url": "https://fasterthanli.me/index.xml"
-        },
-        {
-            "name": "Tom Randall",
-            "url": "https://blog.randy.gg/index.xml"
-        },
-        {
-            "name": "Ben Cox",
-            "url": "https://blog.benjojo.co.uk/rss.xml"
-        },
-        {
-            "name": "brr",
-            "url": "https://brr.fyi/feed.xml"
-        },
-        {
-            "name": "Bartosz Ciechanowski",
-            "url": "https://ciechanow.ski/atom.xml"
-        },
-        {
-            "name": "Lily's Things",
-            "url": "https://www.lilysthings.org/blog/rss.xml"
-        },
-        {
-            "name": "Scott Conway",
-            "url": "https://conway.scot/feed.xml"
-        },
-        {
-            "name": "Akshay's blog",
-            "url": "https://peppe.rs/index.xml"
-        },
-        {
-            "name": "Cassidy James Blaede",
-            "url": "https://cassidyjames.com/feed.xml"
-        },
-        {
-            "name": "Evan Pratten",
-            "url": "https://ewpratten.com/rss.xml"
-        },
-        {
-            "name": "owen.cafe",
-            "url": "https://owen.cafe/posts/index.xml"
-        },
-        {
-            "name": "Daniel Skogly",
-            "url": "https://blog.klungo.no/atom.xml"
-        },
-        {
-            "name": "artemis.sh",
-            "url": "http://artemis.sh/feed.xml"
-        },
-        {
-            "name": "Xe Iaso",
-            "url": "http://xeiaso.net/blog.rss"
-        },
-        {
-            "name": "Filip Hruska",
-            "url": "https://blog.fhrnet.eu/feed/"
-        },
-        {
-            "name": "Adam Kujawski",
-            "url": "https://adamkuj.net/blog/feed/"
-        },
-        {
-            "name": "Matt Keeter",
-            "url": "http://mattkeeter.com/atom.xml"
-        },
-        {
-            "name": "Vincent Bernat",
-            "url": "http://vincent.bernat.ch/en/blog/atom.xml"
-        },
-        {
-            "name": "Cynthia's blog",
-            "url": "http://blog.cynthia.re/rss.xml"
-        },
-        {
-            "name": "John Graham-Cumming",
-            "url": "https://blog.jgc.org/feeds/posts/default"
-        },
-        {
-            "name": "Silly little things",
-            "url": "https://blog.goose.love/index.xml"
-        },
-        {
-            "name": "Hugo Landau",
-            "url": "https://www.devever.net/~hl/cat=computing.feed"
-        },
-        {
-            "name": "Tony Finch",
-            "url": "https://dotat.at/@/blog.atom"
-        },
-        {
-            "name": "Stephen's Site",
-            "url": "https://www.scd31.com/posts.rss"
-        },
-        {
-            "name": "This Week in GNOME",
-            "url": "https://thisweek.gnome.org/index.xml"
-        },
-        {
-            "name": "Wikimedia Technical Blog",
-            "url": "https://techblog.wikimedia.org/feed"
-        },
-        {
-            "name": "Thomas Karpiniec",
-            "url": "https://thomask.sdf.org/feed.xml"
-        },
-        {
-            "name": "QRPer QRPp",
-            "url": "https://qrper.com/category/qrpp/feed"
-        },
-        {
-            "name": "QRPer CW",
-            "url": "https://qrper.com/category/cw/feed"
-        },
-        {
-            "name": "Rafał Pastuszak",
-            "url": "https://sonnet.io/feed.xml"
-        },
-        {
-            "name": "Kevin Lynagh",
-            "url": "https://kevinlynagh.com/feed.xml"
-        },
-        {
-            "name": "Giles Turnbull",
-            "url": "https://gilest.org/feed/index.xml"
-        },
-        {
-            "name": "Troy Hunt",
-            "url": "https://feeds.feedburner.com/TroyHunt"
-        },
-        {
-            "name": "evilsocket",
-            "url": "https://www.evilsocket.net/atom.xml"
-        },
-        {
-            "name": "Julia Evans",
-            "url": "https://jvns.ca/atom.xml"
-        },
-        {
-            "name": "Chris Siebenmann",
-            "url": "https://utcc.utoronto.ca/~cks/space/blog/?atom"
-        },
-        {
-            "name": "ARDC Press Releases",
-            "url": "https://www.ardc.net/news-and-updates/press-releases/feed"
-        },
-        {
-            "name": "Discord Engineering & Developers",
-            "url": "https://discord.com/blog/rss.xml",
-            "filters":[
-                "discord::category('Engineering & Developers')"
-            ]
-        },
-        {
-            "name": "Raylib Releases",
-            "url": "https://github.com/raysan5/raylib/releases.atom"
-        },
-        {
-            "name": "Ben Vallack",
-            "url": "http://benvallack.com/rss/"
-        }
-    ]
-}
+[
+    {
+        "name": "Cloudflare",
+        "feeds": [
+            "https://blog.cloudflare.com/tag/speed-and-reliability/rss",
+            "https://blog.cloudflare.com/tag/deep-dive/rss"
+        ]
+    },
+    {
+        "name": "Mastodon Blog",
+        "feeds": [
+            "https://blog.joinmastodon.org/index.xml"
+        ]
+    },
+    {
+        "name": "LWN.net Featured Content",
+        "feeds": [
+            "http://lwn.net/headlines/Features"
+        ],
+        "filters": [
+            "lwn::hide-paid-articles"
+        ]
+    },
+    {
+        "name": "fasterthanlime",
+        "feeds": [
+            "https://fasterthanli.me/index.xml"
+        ]
+    },
+    {
+        "name": "Tom Randall",
+        "feeds": [
+            "https://blog.randy.gg/index.xml"
+        ]
+    },
+    {
+        "name": "Ben Cox",
+        "feeds": [
+            "https://blog.benjojo.co.uk/rss.xml"
+        ]
+    },
+    {
+        "name": "brr",
+        "feeds": [
+            "https://brr.fyi/feed.xml"
+        ]
+    },
+    {
+        "name": "Bartosz Ciechanowski",
+        "feeds": [
+            "https://ciechanow.ski/atom.xml"
+        ]
+    },
+    {
+        "name": "Lily's Things",
+        "feeds": [
+            "https://www.lilysthings.org/blog/rss.xml"
+        ]
+    },
+    {
+        "name": "Scott Conway",
+        "feeds": [
+            "https://conway.scot/feed.xml"
+        ]
+    },
+    {
+        "name": "Akshay's blog",
+        "feeds": [
+            "https://peppe.rs/index.xml"
+        ]
+    },
+    {
+        "name": "Cassidy James Blaede",
+        "feeds": [
+            "https://cassidyjames.com/feed.xml"
+        ]
+    },
+    {
+        "name": "Evan Pratten",
+        "feeds": [
+            "https://ewpratten.com/rss.xml"
+        ]
+    },
+    {
+        "name": "owen.cafe",
+        "feeds": [
+            "https://owen.cafe/posts/index.xml"
+        ]
+    },
+    {
+        "name": "Daniel Skogly",
+        "feeds": [
+            "https://blog.klungo.no/atom.xml"
+        ]
+    },
+    {
+        "name": "Artemis Everfree",
+        "feeds": [
+            "http://artemis.sh/feed.xml"
+        ]
+    },
+    {
+        "name": "Xe Iaso",
+        "feeds": [
+            "http://xeiaso.net/blog.rss"
+        ]
+    },
+    {
+        "name": "Filip Hruska",
+        "feeds": [
+            "https://blog.fhrnet.eu/feed/"
+        ]
+    },
+    {
+        "name": "Adam Kujawski",
+        "feeds": [
+            "https://adamkuj.net/blog/feed/"
+        ]
+    },
+    {
+        "name": "Matt Keeter",
+        "feeds": [
+            "http://mattkeeter.com/atom.xml"
+        ]
+    },
+    {
+        "name": "Vincent Bernat",
+        "feeds": [
+            "http://vincent.bernat.ch/en/blog/atom.xml"
+        ]
+    },
+    {
+        "name": "Cynthia Revström",
+        "feeds": [
+            "http://blog.cynthia.re/rss.xml"
+        ]
+    },
+    {
+        "name": "John Graham-Cumming",
+        "feeds": [
+            "https://blog.jgc.org/feeds/posts/default"
+        ]
+    },
+    {
+        "name": "Alejandra González",
+        "feeds": [
+            "https://blog.goose.love/index.xml"
+        ]
+    },
+    {
+        "name": "Hugo Landau",
+        "feeds": [
+            "https://www.devever.net/~hl/cat=computing.feed"
+        ]
+    },
+    {
+        "name": "Tony Finch",
+        "feeds": [
+            "https://dotat.at/@/blog.atom"
+        ]
+    },
+    {
+        "name": "Stephen D",
+        "feeds": [
+            "https://www.scd31.com/posts.rss"
+        ]
+    },
+    {
+        "name": "This Week in GNOME",
+        "feeds": [
+            "https://thisweek.gnome.org/index.xml"
+        ]
+    },
+    {
+        "name": "Wikimedia Technical Blog",
+        "feeds": [
+            "https://techblog.wikimedia.org/feed"
+        ]
+    },
+    {
+        "name": "Thomas Karpiniec",
+        "feeds": [
+            "https://thomask.sdf.org/feed.xml",
+            "https://octet-stream.net/feed/"
+        ]
+    },
+    {
+        "name": "QRPer",
+        "feeds": [
+            "https://qrper.com/category/qrpp/feed",
+            "https://qrper.com/category/cw/feed"
+        ]
+    },
+    {
+        "name": "Rafał Pastuszak",
+        "feeds": [
+            "https://sonnet.io/feed.xml"
+        ]
+    },
+    {
+        "name": "Kevin Lynagh",
+        "feeds": [
+            "https://kevinlynagh.com/feed.xml"
+        ]
+    },
+    {
+        "name": "Giles Turnbull",
+        "feeds": [
+            "https://gilest.org/feed/index.xml"
+        ]
+    },
+    {
+        "name": "Troy Hunt",
+        "feeds": [
+            "https://feeds.feedburner.com/TroyHunt"
+        ]
+    },
+    {
+        "name": "Simone Margaritelli",
+        "feeds": [
+            "https://www.evilsocket.net/atom.xml"
+        ]
+    },
+    {
+        "name": "Julia Evans",
+        "feeds": [
+            "https://jvns.ca/atom.xml"
+        ]
+    },
+    {
+        "name": "Chris Siebenmann",
+        "feeds": [
+            "https://utcc.utoronto.ca/~cks/space/blog/?atom"
+        ]
+    },
+    {
+        "name": "ARDC Press Releases",
+        "feeds": [
+            "https://www.ardc.net/news-and-updates/press-releases/feed"
+        ]
+    },
+    {
+        "name": "Discord Engineering & Developers",
+        "feeds": [
+            "https://discord.com/blog/rss.xml"
+        ],
+        "filters": [
+            "discord::category::engineering"
+        ]
+    },
+    {
+        "name": "Raylib Releases",
+        "feeds": [
+            "https://github.com/raysan5/raylib/releases.atom"
+        ]
+    },
+    {
+        "name": "Ben Vallack",
+        "feeds": [
+            "http://benvallack.com/rss/",
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UCy7FdWkDces3W5Yb6AQtfTQ"
+        ]
+    },
+    {
+        "name": "Bill Wurtz",
+        "feeds": [
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UCq6aw03lNILzV96UvEAASfQ"
+        ]
+    },
+    {
+        "name": "Grant Sanderson",
+        "feeds": [
+            "https://3blue1brown.substack.com/feed"
+        ]
+    },
+    {
+        "name": "Embark Studios",
+        "feeds": [
+            "https://medium.com/feed/embarkstudios"
+        ]
+    },
+    {
+        "name": "Deviant Ollam",
+        "feeds": [
+            "https://words.deviating.net/?feed=rss2"
+        ]
+    }
+]
