@@ -243,9 +243,6 @@
         "name": "Discord Engineering & Developers",
         "feeds": [
             "https://discord.com/blog/rss.xml"
-        ],
-        "filters": [
-            "discord::category::engineering"
         ]
     },
     {
