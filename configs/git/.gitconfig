@@ -45,11 +45,19 @@
 	# Un-fuck a branch that had a bit too much tinkering
     fix-recreated-branch = reset --hard @{u}
 
+	# Get the date a specific commit was authored
+	author-date = log -1 --pretty="%aD" 
+
+	# For working with git notes
+	pull-notes = fetch origin "refs/notes/*:refs/notes/*"
+	push-notes = push origin "refs/notes/*:refs/notes/*"
+
 	# Lazy macros
     fa = fetch --all
     pa = pull --all
     c = commit
     aa = add .
+    rebase-ch-i = rebase --reapply-cherry-picks -i
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
