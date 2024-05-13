@@ -28,7 +28,7 @@ if !exists('g:vscode')
 endif
 
 " Don't bother loading plugins if we are on a really old NeoVim installation
-if has('nvim-0.5')
+if has('nvim-0.8')
     " Enable Leap
     lua require('leap').add_default_mappings()
 
