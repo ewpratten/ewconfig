@@ -6,6 +6,9 @@ import requests
 import feedparser
 import json
 import sqlite3
+import subprocess
+import smtplib
+from datetime import datetime
 from pathlib import Path
 
 logger = logging.getLogger(__name__)

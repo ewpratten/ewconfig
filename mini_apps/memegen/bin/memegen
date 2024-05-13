@@ -12,7 +12,7 @@ from enum import Enum
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
-CONFIG_DIR = Path("~/.config/memegen").expanduser()
+CONFIG_DIR = Path(__file__).parent.parent / "data"
 DEFAULT_OUTPUT_DIR = Path("~/Pictures/memes").expanduser()
 
 
@@ -151,7 +151,9 @@ def main() -> int:
         "--keep-case", help="Keep the case of the text", action="store_true"
     )
     ap.add_argument("--output", "-o", help="Output file path")
-    ap.add_argument("--no-show", help="Don't show the image after creation", action="store_true")
+    ap.add_argument(
+        "--no-show", help="Don't show the image after creation", action="store_true"
+    )
     ap.add_argument(
         "-v", "--verbose", help="Enable verbose logging", action="store_true"
     )
