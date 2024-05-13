@@ -45,8 +45,9 @@
 	# Un-fuck a branch that had a bit too much tinkering
     fix-recreated-branch = reset --hard @{u}
 
-	# Get the date a specific commit was authored
+	# For working with dates
 	author-date = log -1 --pretty="%aD" 
+	set-all-commit-dates-to-author-dates = rebase --committer-date-is-author-date --root
 
 	# For working with git notes
 	pull-notes = fetch origin "refs/notes/*:refs/notes/*"
