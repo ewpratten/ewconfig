@@ -25,7 +25,6 @@ mkdir -p ~/Downloads    # For downloads
 mkdir -p ~/bin          # Personal bin dir. Reduces the risk of breaking ~/.local/bin
 mkdir -p ~/projects     # For my projects
 mkdir -p ~/src          # For compiling other people's projects
-mkdir -p ~/services     # Service dir for servers mostly
 
 # Build the directory structure if ~/.config
 mkdir -p ~/.config/nvim
