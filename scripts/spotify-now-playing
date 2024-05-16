@@ -4,12 +4,10 @@ import argparse
 import sys
 import logging
 import spotipy
-import subprocess
+import pyonepassword
 from pathlib import Path
 from spotipy.oauth2 import SpotifyOAuth
 from rich.console import Console
-
-SPOTIFY_CLIENT_ID = "bb39d914c6884316ac09cf0c928d975b"
 
 logger = logging.getLogger(__name__)
 
@@ -31,64 +29,54 @@ def main() -> int:
         format="%(levelname)s:	%(message)s",
     )
 
-    # Call `ewp-secrets` to read the Spotify client secret
-    secrets_proc = subprocess.run(
-        [
-            (Path(__file__).parent / "ewp-secrets").as_posix(),
-            "load",
-            "-n",
-            "spotify",
-            "-k",
-            "client-secret",
-        ],
-        capture_output=True,
-    )
-
-    # If the secret manager failed, exit
-    if secrets_proc.returncode != 0:
-        print("Failed to load Spotify Client Secret", file=sys.stderr)
-        print(
-            "Please run `ewp-secrets store -n spotify -k client-secret` and pass it the secret from:",
-            file=sys.stderr,
-        )
-        print(
-            f"https://developer.spotify.com/dashboard/{SPOTIFY_CLIENT_ID}/settings",
-            file=sys.stderr,
-        )
+    # Connect to 1Password
+    try:
+        op = pyonepassword.OP()
+    except Exception as e:
+        print(f"Failed to connect to 1Password: {e}", file=sys.stderr)
         return 1
+
+    # Read API credentials
+    spotify_creds = op.item_get("rio7e6skp6bhkkcdo5w3kmabgq", vault="ewconfig")
 
     # Connect to Spotify
     cache_path = Path("~/.cache/spotipy/spotify-now-playing.oauth").expanduser()
     cache_path.parent.mkdir(parents=True, exist_ok=True)
     oauth = SpotifyOAuth(
-        client_id=SPOTIFY_CLIENT_ID,
-        client_secret=secrets_proc.stdout.decode().strip(),
+        client_id=spotify_creds.first_field_by_label("Client ID").value,
+        client_secret=spotify_creds.first_field_by_label("credential").value,
         redirect_uri="http://localhost:8933",
         scope="user-read-playback-state,user-read-currently-playing",
         cache_path=cache_path.as_posix(),
-        open_browser=True
+        open_browser=True,
     )
     spotify = spotipy.Spotify(auth_manager=oauth)
 
     # Read the currently playing track
     current_track = spotify.current_user_playing_track()
-    
+
     # If nothing is playing
     if not current_track:
         print("Nothing is currently playing")
         return 1
-    
+
     # Pretty printing :)
     console = Console(highlight=False)
-    
+
     # Display basic info
-    console.print(f"[bold]{current_track['item']['name']}[/bold] by [bold]{' & '.join([artist['name'] for artist in current_track['item']['artists']])}[/bold]")
-    console.print(f"Album: [bold]{current_track['item']['album']['name']}[/bold] ({current_track['item']['album']['album_type'].capitalize()}, {current_track['item']['album']['release_date'][:4]})")
+    console.print(
+        f"[bold]{current_track['item']['name']}[/bold] by [bold]{' & '.join([artist['name'] for artist in current_track['item']['artists']])}[/bold]"
+    )
+    console.print(
+        f"Album: [bold]{current_track['item']['album']['name']}[/bold] ({current_track['item']['album']['album_type'].capitalize()}, {current_track['item']['album']['release_date'][:4]})"
+    )
     console.print(f"Popularity: [bold]{current_track['item']['popularity']}%[/bold]")
-    
+
     # Get this track's audio features
-    audio_features = spotify.audio_features([current_track['item']['id']])[0]
-    console.print(f"Tempo: [bold]{audio_features['tempo']} BPM[/bold] ({audio_features['time_signature']}/4)")
+    audio_features = spotify.audio_features([current_track["item"]["id"]])[0]
+    console.print(
+        f"Tempo: [bold]{audio_features['tempo']} BPM[/bold] ({audio_features['time_signature']}/4)"
+    )
     key = {
         -1: "???",
         0: "C",
@@ -102,11 +90,12 @@ def main() -> int:
         8: "G♯/A♭",
         9: "A",
         10: "A♯/B♭",
-        11: "B"
-    }[audio_features['key']]
-    console.print(f"Key: [bold]{key} {'Major' if audio_features['mode'] == 1 else 'Minor'}[/bold]")
+        11: "B",
+    }[audio_features["key"]]
+    console.print(
+        f"Key: [bold]{key} {'Major' if audio_features['mode'] == 1 else 'Minor'}[/bold]"
+    )
     console.print(f"Energy: [bold]{int(audio_features['energy'] * 100)}%[/bold]")
-    
 
     return 0
 
