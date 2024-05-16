@@ -51,6 +51,14 @@ if type -p nvim > /dev/null; then
     export MANWIDTH=80
 fi
 
+# Search for ewconfig modules that need to be loaded
+for module in $(find $EWCONFIG_ROOT/modules -maxdepth 1 -mindepth 1 -type d); do
+    # If this module contains a `bin` directory, add it to the PATH
+    if [ -d "$module/bin" ]; then
+        export PATH="$module/bin:$PATH"
+    fi
+done
+
 # SDKMAN!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
@@ -60,3 +68,4 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 # Rye
 [[ -s "$HOME/.rye/env" ]] && source "$HOME/.rye/env"
+

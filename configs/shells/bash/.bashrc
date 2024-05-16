@@ -18,3 +18,11 @@ export PYTHONSTARTUP="$EWCONFIG_ROOT/configs/python/python_startup.py"
 
 # A basic prompt to display user@host dir sign
 export PS1="(${PS1_CTX:-bash}) \[\e[0;32m\]\u@\h \[\e[0;36m\]\w \[\e[0;36m\]\$ \[\e[0m\]"
+
+# Search for ewconfig modules that need to be loaded
+for module in $(find $EWCONFIG_ROOT/modules -maxdepth 1 -mindepth 1 -type d); do
+    # If this module contains a `bin` directory, add it to the PATH
+    if [ -d "$module/bin" ]; then
+        export PATH="$module/bin:$PATH"
+    fi
+done
