@@ -36,7 +36,7 @@ def main() -> int:
         print(f"Failed to connect to 1Password: {e}", file=sys.stderr)
         return 1
 
-    # # Read API credentials
+    # Read API credentials
     spotify_creds = op.item_get("rio7e6skp6bhkkcdo5w3kmabgq", vault="ewconfig")
 
     # Connect to Spotify
