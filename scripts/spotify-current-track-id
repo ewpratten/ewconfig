@@ -2,9 +2,9 @@
 
 import argparse
 import sys
+import subprocess
 import logging
 import spotipy
-import pyonepassword
 from pathlib import Path
 from spotipy.oauth2 import SpotifyOAuth
 
@@ -17,7 +17,11 @@ def main() -> int:
         prog="spotify-current-track-id",
         description="Get the currently playing track ID from Spotify",
     )
-    ap.add_argument("--url", help="Print the URL of the currently playing track", action="store_true")
+    ap.add_argument(
+        "--url",
+        help="Print the URL of the currently playing track",
+        action="store_true",
+    )
     ap.add_argument(
         "-v", "--verbose", help="Enable verbose logging", action="store_true"
     )
@@ -29,43 +33,41 @@ def main() -> int:
         format="%(levelname)s:	%(message)s",
     )
 
-    # Connect to 1Password
-    try:
-        op = pyonepassword.OP()
-    except Exception as e:
-        print(f"Failed to connect to 1Password: {e}", file=sys.stderr)
-        return 1
-
-    # Read API credentials
-    spotify_creds = op.item_get("rio7e6skp6bhkkcdo5w3kmabgq", vault="ewconfig")
+    # Read API credentials from 1Password
+    client_id = subprocess.check_output(
+        "op read -n 'op://ewconfig/rio7e6skp6bhkkcdo5w3kmabgq/Client ID'", shell=True
+    ).decode("utf-8")
+    client_secret = subprocess.check_output(
+        "op read -n 'op://ewconfig/rio7e6skp6bhkkcdo5w3kmabgq/credential'", shell=True
+    ).decode("utf-8")
 
     # Connect to Spotify
     cache_path = Path("~/.cache/spotipy/spotify-current-track-id.oauth").expanduser()
     cache_path.parent.mkdir(parents=True, exist_ok=True)
     oauth = SpotifyOAuth(
-        client_id=spotify_creds.first_field_by_label("Client ID").value,
-        client_secret=spotify_creds.first_field_by_label("credential").value,
+        client_id=client_id,
+        client_secret=client_secret,
         redirect_uri="http://localhost:8933",
         scope="user-read-currently-playing",
         cache_path=cache_path.as_posix(),
-        open_browser=True
+        open_browser=True,
     )
     spotify = spotipy.Spotify(auth_manager=oauth)
 
     # Read the currently playing track
     current_track = spotify.current_user_playing_track()
-    
+
     # If nothing is playing
     if not current_track:
         print("Nothing is currently playing", file=sys.stderr)
         return 1
-    
+
     # Display info
     if args.url:
         print(current_track["item"]["external_urls"]["spotify"])
     else:
         print(current_track["item"]["id"])
-        
+
     return 0
 
 
