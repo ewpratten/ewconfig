@@ -1,9 +1,0 @@
-#! /bin/sh
-set -ex
-
-# Download the appimage to .local/bin
-mkdir -p ~/.local/bin
-wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage -O ~/.local/bin/nvim
-
-# Make it executable
-chmod +x ~/.local/bin/nvim
