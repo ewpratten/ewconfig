@@ -2,3 +2,7 @@
 /configs/remmina
 __pycache__
 .nvimlog
+
+# ewconfig modules
+/modules/*
+!/modules/README.md
