@@ -1,9 +1,5 @@
 #! /bin/bash
 set -e
 
-# Find hython
-HOUDINI_PATH=`python3 ~/.config/ewconfig/python_modules/ewpipe/houdini/installations.py`
-HYTHON_PATH=$HOUDINI_PATH/bin/hython
-
 # Execute hython, passing through all arguments
-$HYTHON_PATH $@
+$(houdini-path)/bin/hython $@

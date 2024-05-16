@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 import logging
 import platform
 import argparse
@@ -110,20 +111,23 @@ def get_houdini_installation_path(
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser()
+    ap = argparse.ArgumentParser(
+        prog="houdini-path",
+        description="Gets the appropriate path to a specified Houdini installation",
+    )
     ap.add_argument("--version", "-v", help="Houdini version", type=str)
     ap.add_argument("--base-path", "-b", help="Houdini base path", type=str)
     ap.add_argument("--not-exists-ok", help="Allow bad paths", action="store_true")
     args = ap.parse_args()
 
     result = get_houdini_installation_path(
-            version=args.version,
-            base_path=Path(args.base_path) if args.base_path else None,
-            not_exists_ok=args.not_exists_ok,
-        )
+        version=args.version,
+        base_path=Path(args.base_path) if args.base_path else None,
+        not_exists_ok=args.not_exists_ok,
+    )
     if not result:
         print("Could not find Houdini", file=sys.stderr)
         sys.exit(1)
-    
+
     print(result)
     sys.exit(0)
