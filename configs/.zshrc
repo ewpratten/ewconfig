@@ -7,7 +7,9 @@
 # That being said, if you are reading this on a machine I've done that on, you
 # might want to check out the main repository for more information about what
 # you are looking at: https://github.com/ewpratten/ewconfig
-
+#
+# This file has controlled my shell experience since 2015-ish, and originally targeted crosh.
+# Since then, I've adapted things to work in Bash and ZSH, and on a variety of systems that arent ChromeOS.
 
 # Firstly, if this machine has a copy of ewconfig, keep track of its location
 [[ -d "$HOME/.config/ewconfig" ]] && export EWCONFIG_ROOT="$HOME/.config/ewconfig"
