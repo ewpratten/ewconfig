@@ -45,8 +45,8 @@ mkdir -p ~/.local/share/nautilus/scripts/
 # -- Config Linking --
 
 # Configure the shell
-ln -sf $EWCONFIG_ROOT/configs/shells/zsh/.zshrc ~/.zshrc
-ln -sf $EWCONFIG_ROOT/configs/shells/bash/.bashrc ~/.bashrc
+ln -sf $EWCONFIG_ROOT/configs/.zshrc ~/.zshrc
+ln -sf $EWCONFIG_ROOT/configs/.zshrc ~/.bashrc
 
 # Configure Git
 ln -sf $EWCONFIG_ROOT/configs/git/.gitconfig ~/.gitconfig

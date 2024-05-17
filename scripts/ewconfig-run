@@ -1,0 +1,13 @@
+#! /bin/bash
+set -e
+
+# If $EWCONFIG_ROOT is not set, error
+if [ -z "$EWCONFIG_ROOT" ]; then
+    echo "Error: \$EWCONFIG_ROOT is not set"
+    exit 1
+fi
+
+cwd="$(pwd)"
+cd "$EWCONFIG_ROOT"
+$@
+cd "$cwd"

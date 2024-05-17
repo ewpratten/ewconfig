@@ -1,0 +1,39 @@
+#! /bin/bash
+set -e
+
+# Require at least 2 arguments
+if [ $# -lt 2 ]; then
+    echo "Usage: $0 <database> [whois options]"
+    exit 1
+fi
+
+# Select the correct database
+WHOIS_DB=""
+[[ $1 == "afrinic" ]] && WHOIS_DB="whois -h whois.afrinic.net"
+[[ $1 == "altdb" ]] && WHOIS_DB="whois -h whois.altdb.net"
+[[ $1 == "aoltw" ]] && WHOIS_DB="whois -h whois.aoltw.net"
+[[ $1 == "ampr" ]] && WHOIS_DB="whois -h whois.ampr.org"
+[[ $1 == "apnic" ]] && WHOIS_DB="whois -h whois.apnic.net"
+[[ $1 == "arin" ]] && WHOIS_DB="whois -h rr.arin.net"
+[[ $1 == "bell" ]] && WHOIS_DB="whois -h whois.in.bell.ca"
+[[ $1 == "bboi" ]] && WHOIS_DB="whois -h irr.bboi.net"
+[[ $1 == "bgptools" ]] && WHOIS_DB="whois -h bgp.tools"
+[[ $1 == "canarie" ]] && WHOIS_DB="whois -h whois.canarie.ca"
+[[ $1 == "epoch" ]] && WHOIS_DB="whois -h whois.epoch.net"
+[[ $1 == "jpirr" ]] && WHOIS_DB="whois -h jpirr.nic.ad.jp"
+[[ $1 == "lacnic" ]] && WHOIS_DB="whois -h irr.lacnic.net"
+[[ $1 == "level3" ]] && WHOIS_DB="whois -h rr.level3.net"
+[[ $1 == "nestegg" ]] && WHOIS_DB="whois -h whois.nestegg.net"
+[[ $1 == "panix" ]] && WHOIS_DB="whois -h rrdb.access.net"
+[[ $1 == "radb" ]] && WHOIS_DB="whois -h whois.radb.net"
+[[ $1 == "reach" ]] && WHOIS_DB="whois -h rr.telstraglobal.net"
+[[ $1 == "ripe" ]] && WHOIS_DB="whois -h whois.ripe.net"
+
+# If no database was selected, exit
+if [ -z "$WHOIS_DB" ]; then
+    echo "Unknown database: $1"
+    exit 1
+fi
+
+# Run the whois command
+$WHOIS_DB $2

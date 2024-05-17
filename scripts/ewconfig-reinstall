@@ -1,0 +1,11 @@
+#! /bin/bash
+set -e
+
+# Require an argument (linux, windows)
+if [ $# != 1 ]; then
+    echo "Usage: ewconfig-reinstall <platform>"
+    return 1
+fi
+
+# Execute through ewconfig-run
+ewconfig-run sh ./install-$1.sh
