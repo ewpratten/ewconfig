@@ -1,10 +1,6 @@
-[include]
-	# NOTE: These paths are imported if they exist and ignored if they don't
-	# This allows us to have a single config file for all our machines
-	# and control the specifics by symlinking the relevant files per-machine
-	path = ~/.config/git/config-fragments/global-mailmap.gitconfig
-	path = ~/.config/git/config-fragments/personal-info.gitconfig
-	path = ~/.config/git/config-fragments/enable-signing.gitconfig
+[user]
+	email = evan@ewpratten.com
+	name = Evan Pratten
 
 [init]
     defaultBranch = master
@@ -83,3 +79,8 @@
 
 [push]
 	autoSetupRemote = true
+
+# Allow machines to individually override settings
+# NOTE: THIS MUST BE AT THE BOTTOM
+[include]
+	path = ~/.gitconfig.local

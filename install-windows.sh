@@ -18,8 +18,6 @@ mkdir -p ~/bin          # Personal bin dir. Reduces the risk of breaking ~/.loca
 mkdir -p ~/projects     # For my projects
 
 # Build the directory structure if ~/.config
-mkdir -p ~/.config/git
-mkdir -p ~/.config/git/config-fragments
 mkdir -p ~/.cargo
 mkdir -p ~/.ssh
 
@@ -32,9 +30,7 @@ mkdir -p $LOCALAPPDATA/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalSta
 ln -sf $EWCONFIG_ROOT/configs/windows-terminal/settings.json $LOCALAPPDATA/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json
 
 # Configure Git
-ln -sf $EWCONFIG_ROOT/configs/git/.gitconfig ~/.gitconfig
-ln -sf $EWCONFIG_ROOT/configs/sssh/allowed_signers ~/.ssh/allowed_signers || true
-ln -sf $EWCONFIG_ROOT/configs/git/.mailmap ~/.config/git/.mailmap
+ln -sf $EWCONFIG_ROOT/configs/.gitconfig ~/.gitconfig
 
 # Configure Vim
 ln -sf $EWCONFIG_ROOT/configs/vim/.vimrc ~/.vimrc

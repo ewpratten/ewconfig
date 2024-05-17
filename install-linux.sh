@@ -32,8 +32,6 @@ mkdir -p ~/.config/termux
 mkdir -p ~/.config/logid
 mkdir -p ~/.config/systemd/user
 mkdir -p ~/.config/glab-cli
-mkdir -p ~/.config/git
-mkdir -p ~/.config/git/config-fragments
 mkdir -p ~/.config/user-tmpfiles.d
 mkdir -p ~/.config/gqrx
 mkdir -p ~/.cargo
@@ -49,29 +47,7 @@ ln -sf $EWCONFIG_ROOT/configs/.zshrc ~/.zshrc
 ln -sf $EWCONFIG_ROOT/configs/.zshrc ~/.bashrc
 
 # Configure Git
-ln -sf $EWCONFIG_ROOT/configs/git/.gitconfig ~/.gitconfig
-ln -sf $EWCONFIG_ROOT/configs/sssh/allowed_signers ~/.ssh/allowed_signers
-ln -sf $EWCONFIG_ROOT/configs/git/.mailmap ~/.config/git/.mailmap
-
-# Copy the global mailmap file once
-if [ ! -f ~/.config/git/config-fragments/global-mailmap.gitconfig ]; then
-    cp $EWCONFIG_ROOT/configs/git/config-fragments/global-mailmap.gitconfig ~/.config/git/config-fragments/global-mailmap.gitconfig
-fi
-
-# Check if GIT is installed > 2.34
-set +x
-if type -p git > /dev/null; then
-    # If sort has a -V option
-    if man sort | grep -q -- -V; then
-        # If GIT has SSH signing support, enable it
-        git_version=$(git --version | cut -d' ' -f3 | cut -d'.' -f1-2)
-        minimum_version=2.34
-        if [ "$(printf '%s\n' "$minimum_version" "$git_version" | sort -V | head -n1)" = "$minimum_version" ]; then
-            set -x
-            ln -sf $EWCONFIG_ROOT/configs/git/config-fragments/enable-signing.gitconfig ~/.config/git/config-fragments/enable-signing.gitconfig
-        fi
-    fi
-fi
+ln -sf $EWCONFIG_ROOT/configs/.gitconfig ~/.gitconfig
 
 # Configure SSH
 ln -sf $EWCONFIG_ROOT/configs/ssh/config ~/.ssh/config
@@ -138,19 +114,6 @@ if [ -d ~/.var/app/com.obsproject.Studio ]; then
 fi
 if [ -d ~/.config/obs-studio ]; then
     ln -sf $EWCONFIG_ROOT/configs/obs-studio/basic/scenes/Webcam_Controls.json ~/.config/obs-studio/basic/scenes/Webcam_Controls.json
-fi
-
-# -- Optional Configs --
-set +x
-
-# If ~/.config/git/config-fragments/personal-info.gitconfig does not exist
-if [ ! -f ~/.config/git/config-fragments/personal-info.gitconfig ]; then
-    # Ask if the user wants to install personal GIT config
-    echo -n "Do you want to install the personal GIT config? (y/n) "
-    read -r install_git_config
-    if [ "$install_git_config" = "y" ]; then
-        ln -sf $EWCONFIG_ROOT/configs/git/config-fragments/personal-info.gitconfig ~/.config/git/config-fragments/personal-info.gitconfig
-    fi
 fi
 
 # Link houdini scripts for appropriate versions

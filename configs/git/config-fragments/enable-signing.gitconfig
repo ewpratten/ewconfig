@@ -1,6 +1,0 @@
-[gpg]
-    format = ssh
-
-[gpg "ssh"]
-    allowedSignersFile = ~/.ssh/allowed_signers
-    defaultKeyCommand = ssh-add -L
