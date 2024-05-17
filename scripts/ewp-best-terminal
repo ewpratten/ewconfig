@@ -1,0 +1,11 @@
+#! /bin/bash
+set -e
+
+# Check for terminals in order of preference
+[[ $(command -v gnome-terminal) ]] && gnome-terminal -- $@; exit 0
+[[ $(command -v wt.exe) ]] && wt.exe -- $@; exit 0
+[[ $(command -v mintty) ]] && mintty -- $@; exit 0
+
+# If we get here, fail
+echo "No terminal emulator found" >&2
+exit 1
