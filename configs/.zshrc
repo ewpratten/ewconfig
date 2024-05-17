@@ -61,10 +61,9 @@ if [ -n "$ZSH_VERSION" ]; then
     # Configure the vcs_info plugin to show branch info (only if we aren't in ISH on iPadOS)
     if [ $(uname -r | grep -c "\-ish$") -eq 0 ]; then
         autoload -Uz vcs_info
-        zstyle ':vcs_info:*' actionformats '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
-        zstyle ':vcs_info:*' formats '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
-        zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
-        zstyle ':vcs_info:*' enable git cvs svn
+        zstyle ':vcs_info:*' actionformats '%F{244}[%F{2}%b%F{3}|%F{1}%a%F{244}]%f '
+        zstyle ':vcs_info:*' formats '%F{244}[%F{2}%b%F{244}]%f '
+        zstyle ':vcs_info:*' enable git
         vcs_info_wrapper() {
             vcs_info
             if [ -n "$vcs_info_msg_0_" ]; then
