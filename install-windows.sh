@@ -26,8 +26,8 @@ mkdir -p ~/.ssh
 # -- Config Linking --
 
 # Configure the shell
-ln -sf $EWCONFIG_ROOT/configs/shells/zsh/.zshrc ~/.zshrc
-ln -sf $EWCONFIG_ROOT/configs/shells/bash/.bashrc ~/.bashrc
+ln -sf $EWCONFIG_ROOT/configs/.zshrc ~/.zshrc
+ln -sf $EWCONFIG_ROOT/configs/.zshrc ~/.bashrc
 mkdir -p $LOCALAPPDATA/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState
 ln -sf $EWCONFIG_ROOT/configs/windows-terminal/settings.json $LOCALAPPDATA/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json
 
