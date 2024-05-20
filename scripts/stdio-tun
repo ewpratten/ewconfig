@@ -61,12 +61,14 @@ def main() -> int:
     def read_from_tun():
         while True:
             data = tun_interface.read(1500)
+            print("O: ", [hex(byte) for byte in data], file=sys.stderr, flush=True)
             sys.stdout.buffer.write(data)
             sys.stdout.buffer.flush()
             
     def write_to_tun():
         while True:
             data = sys.stdin.buffer.read(1500)
+            print("I: ", [hex(byte) for byte in data], file=sys.stderr, flush=True)
             tun_interface.write(data)
             
     read_thread = threading.Thread(target=read_from_tun)
