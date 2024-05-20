@@ -26,6 +26,7 @@ mkdir -p ~/.ssh
 # Configure the shell
 ln -sf $EWCONFIG_ROOT/configs/.zshrc ~/.zshrc
 ln -sf $EWCONFIG_ROOT/configs/.zshrc ~/.bashrc
+ln -sf $EWCONFIG_ROOT/configs/.inputrc ~/.inputrc
 mkdir -p $LOCALAPPDATA/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState
 ln -sf $EWCONFIG_ROOT/configs/windows-terminal/settings.json $LOCALAPPDATA/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json
 

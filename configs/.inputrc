@@ -1,0 +1,19 @@
+# Ctrl + Arrow
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+
+# Ctrl + Delete
+"\e[3;5~": kill-word
+
+# Ctrl + Backspace
+"\C-H": backward-kill-word
+
+# Ctrl + Shift + Delete
+"\e[3;6~": kill-line
+
+# Home & End
+"\e[1~": beginning-of-line  # If the home key sends \e[1~ (common)
+"\e[4~": end-of-line        # If the end key sends \e[4~ (common)
+
+# Delete
+"\e[3~": delete-char
