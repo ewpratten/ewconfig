@@ -1,0 +1,52 @@
+#! /usr/bin/env python3
+import argparse
+import sys
+import subprocess
+import time
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="minimodem-bidirectional",
+        description="Spawn a pair of minimodem instances to communicate in full duplex",
+    )
+    ap.add_argument(
+        "modem_args", nargs=argparse.REMAINDER, help="Arguments to pass to minimodem"
+    )
+    args = ap.parse_args()
+
+    # Start by spawning a listener
+    rx_process = subprocess.Popen(
+        ["minimodem", "--rx", *args.modem_args], stdout=sys.stdout
+    )
+
+    # If this process fails, we should exit
+    if rx_process.poll() is not None:
+        return rx_process.returncode
+
+    # Now spawn a sender
+    tx_process = subprocess.Popen(
+        ["minimodem", "--tx", *args.modem_args], stdin=sys.stdin
+    )
+
+    # Again, check if this process fails
+    if tx_process.poll() is not None:
+        return tx_process.returncode
+
+    # Loop, waiting for everything to finish
+    try:
+        while True:
+            time.sleep(1)
+            
+            if rx_process.poll() is not None:
+                break
+            if tx_process.poll() is not None:
+                break
+    except KeyboardInterrupt:
+        pass
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
