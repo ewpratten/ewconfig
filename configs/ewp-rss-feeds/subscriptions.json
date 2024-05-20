@@ -281,5 +281,11 @@
         "feeds": [
             "https://words.deviating.net/?feed=rss2"
         ]
+    },
+    {
+        "name": "Amy Goodchild",
+        "feeds": [
+            "https://www.amygoodchild.com/blog/rss.xml"
+        ]
     }
 ]
