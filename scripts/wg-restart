@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 # Fully restarts a wireguard link
 set -e
 

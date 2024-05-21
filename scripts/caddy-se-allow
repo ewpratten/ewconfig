@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 set -ex
 
 sudo chcon -t httpd_sys_content_t $1 -R

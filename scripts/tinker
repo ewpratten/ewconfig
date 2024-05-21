@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 # NOTE: This is a script so that we can launch it from a gnome keybind
 set -e
 

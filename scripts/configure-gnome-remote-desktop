@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 # This script will do the work needed to configure Gnome Remote Desktop headlessly.
 # Useful if you need RDP access to a remote machine and forgot to configure it before-hand
 set -e

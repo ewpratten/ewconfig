@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 set -e
 
 LAST_MODIFIED_FILE="$(git rev-parse --git-dir)"/info/web/last-modified
