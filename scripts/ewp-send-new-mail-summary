@@ -16,6 +16,9 @@ if [ -z "$new_mail" ]; then
     exit 0
 fi
 
+# Make sure to mark all new mail as "unread" so we don't get in a loop.
+echo "q" | mail -N
+
 # Otherwise, we can continue to process the new mail
 echo "Found $(echo "$new_mail" | wc -l) new peices of mail"
 echo "You have new mail waiting for you on $(hostname).\n\n${new_mail}" | mail -s "New mail on $(hostname)" "${1}"
