@@ -1,0 +1,21 @@
+#! /usr/bin/env bash
+set -e
+
+# We require one argument (destination)
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <destination>"
+    exit 1
+fi
+
+# Read a list of all new mail
+new_mail=$(mail -H | grep "^.N")
+
+# If this list is empty, exit
+if [ -z "$new_mail" ]; then
+    echo "No new mail"
+    exit 0
+fi
+
+# Otherwise, we can continue to process the new mail
+echo "Found $(echo "$new_mail" | wc -l) new peices of mail"
+echo "You have new mail waiting for you on $(hostname).\n\n${new_mail}" | mail -s "New mail on $(hostname)" "${1}"
