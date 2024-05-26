@@ -8,7 +8,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 # Read a list of all new mail
-new_mail=$(mail -H | grep "^.N")
+new_mail=$(mail -H 2> /dev/null | grep "^.N")
 new_mail_count=$(echo "$new_mail" | wc -l | tr -d ' ')
 
 # If this list is empty, exit
