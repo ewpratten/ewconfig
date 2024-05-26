@@ -13,7 +13,7 @@ new_mail_count=$(echo "$new_mail" | wc -l | tr -d ' ')
 
 # If this list is empty, exit
 if [ -z "$new_mail" ]; then
-    echo "No new mail"
+    # echo "No new mail"
     exit 0
 fi
 
@@ -21,5 +21,6 @@ fi
 echo "q" | mail -N > /dev/null
 
 # Otherwise, we can continue to process the new mail
-echo "Found ${new_mail_count} new peices of mail"
+# NOTE: This line should be commented out for crons.
+# echo "Found ${new_mail_count} new peices of mail"
 echo -e "You have new mail waiting for you on $(hostname):\r\n\r\n${new_mail}" | mail -s "New mail on $(hostname)" "${1}"
