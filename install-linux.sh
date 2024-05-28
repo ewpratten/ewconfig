@@ -53,7 +53,7 @@ ln -sf $EWCONFIG_ROOT/configs/.gitconfig ~/.gitconfig
 # Configure SSH
 ln -sf $EWCONFIG_ROOT/configs/ssh/config ~/.ssh/config
 chmod 644 "$HOME/.ssh/config"
-if type -p chown > /dev/null; then chown "$USER:$USER" "$HOME/.ssh/config"; fi 
+if type -p chown > /dev/null; then chown $USER "$HOME/.ssh/config"; fi 
 
 # Configure (neo)Vim
 ln -sf $EWCONFIG_ROOT/configs/vim/.vimrc ~/.vimrc
