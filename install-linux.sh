@@ -55,6 +55,7 @@ ln -sf $EWCONFIG_ROOT/configs/.gitconfig ~/.gitconfig
 
 # Configure SSH
 ln -sf $EWCONFIG_ROOT/configs/ssh/config ~/.ssh/config
+touch ~/.ssh/config.local
 chmod 644 "$HOME/.ssh/config"
 if type -p chown > /dev/null; then chown $USER "$HOME/.ssh/config"; fi 
 

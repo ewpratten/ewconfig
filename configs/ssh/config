@@ -93,4 +93,5 @@ Host laptop
     HostName ewpratten-laptop.home
 
 Match all
-    Include /Users/ewpratten/.ssh/cloudflare/config
+    Include %d/.ssh/config.local
+
