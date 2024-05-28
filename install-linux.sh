@@ -45,7 +45,10 @@ mkdir -p ~/.local/share/nautilus/scripts/
 # Configure the shell
 ln -sf $EWCONFIG_ROOT/configs/.zshrc ~/.zshrc
 ln -sf $EWCONFIG_ROOT/configs/.zshrc ~/.bashrc
-ln -sf $EWCONFIG_ROOT/configs/.inputrc ~/.inputrc
+
+if ! uname | grep -q "Darwin"; then
+    ln -sf $EWCONFIG_ROOT/configs/.inputrc ~/.inputrc
+fi
 
 # Configure Git
 ln -sf $EWCONFIG_ROOT/configs/.gitconfig ~/.gitconfig
