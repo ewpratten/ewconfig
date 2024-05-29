@@ -16,6 +16,7 @@ fi
 # Make sure scripts are all executable
 chmod +x $EWCONFIG_ROOT/scripts/*
 chmod +x $EWCONFIG_ROOT/configs/nautilus/scripts/*
+chmod +x $EWCONFIG_ROOT/modules/*/bin/*
 
 # -- Directory Setup --
 set -x
