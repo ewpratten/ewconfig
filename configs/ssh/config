@@ -93,5 +93,5 @@ Host laptop
     HostName ewpratten-laptop.home
 
 Match all
-    Include %d/.ssh/config.local
+    Include ~/.ssh/config.local
 
