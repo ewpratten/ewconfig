@@ -28,7 +28,11 @@ inoremap <C-Del> <Esc>lcw
 nnoremap <C-Del> cw<Esc>l
 
 " Force VIM to use system clipboard
-set clipboard=unnamedplus
+if has("macunix")
+    set clipboard=unnamed
+else
+    set clipboard=unnamedplus
+endif
 
 " Enable per-project vimrc files
 set exrc

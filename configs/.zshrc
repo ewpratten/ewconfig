@@ -105,6 +105,7 @@ alias cls=clear
 alias snvim="sudoedit"
 alias genuuid="python -c 'import uuid; print(uuid.uuid4())'"
 alias nvim-tmp="$EDITOR $(mktemp)"
+alias vim-tmp="$EDITOR $(mktemp)"
 
 # Some aliases only make sense if their parent command exists
 [[ -x "$(command -v wg)" ]] && alias wg-easykeys="wg genkey | tee >(wg pubkey)"
@@ -212,7 +213,9 @@ fi
 if [ -n "$ZSH_VERSION" ]; then
     # Ctrl + Arrow
     bindkey "\e[1;5C" forward-word
+    bindkey "^[[1;5C" forward-word
     bindkey "\e[1;5D" backward-word
+    bindkey "^[[1;5D" backward-word
     
     # Ctrl + Delete
     bindkey "\e[3;5~" kill-word
