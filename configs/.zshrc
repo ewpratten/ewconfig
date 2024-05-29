@@ -15,7 +15,8 @@
 [[ -d "$HOME/.config/ewconfig" ]] && export EWCONFIG_ROOT="$HOME/.config/ewconfig"
 
 # Configure default binary and library paths
-export PATH="$EWCONFIG_ROOT/scripts:$HOME/bin:$HOME/.local/bin:$PATH"
+export GOPATH="$HOME/go"
+export PATH="$EWCONFIG_ROOT/scripts:$HOME/bin:$GOPATH/bin:$HOME/.local/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH"
 [[ -f "$EWCONFIG_ROOT/configs/python/python_startup.py" ]] && export PYTHONSTARTUP="$EWCONFIG_ROOT/configs/python/python_startup.py"
 
