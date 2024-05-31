@@ -19,6 +19,10 @@
 	tree = log --graph --decorate --abbrev-commit --all \
 			--pretty=format:'%C(yellow)commit %h%C(auto)%d%n%C(cyan)Author:%Creset %aN %C(dim white)<%aE>%n%C(cyan)Date:%Creset %C(dim white)%ad (%ar)%n%s%n' \
 			--date=format:'%b %d %Y %H:%M:%S %z'
+
+    # A super quick overview of whats happening
+    brief = log --pretty=format:'%C(yellow)%h %C(dim white)(%cr) %Creset%s'
+    breif = brief
 	
 	# Lists all branches with their last commit
 	branches = branch -a -l -vv
