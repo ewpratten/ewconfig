@@ -16,8 +16,10 @@
 
 # Configure default binary and library paths
 export GOPATH="$HOME/go"
-export PATH="$EWCONFIG_ROOT/scripts:$HOME/bin:$GOPATH/bin:$HOME/.local/bin:$PATH"
+export PATH="$EWCONFIG_ROOT/scripts:$HOME/bin:$HOME/.local/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH"
+[[ -s "$GOPATH/bin" ]] && export PATH="$GOPATH/bin:$PATH"
+[[ -s "$HOME/.docker/bin" ]] && export PATH="$HOME/.docker/bin"
 [[ -f "$EWCONFIG_ROOT/configs/python/python_startup.py" ]] && export PYTHONSTARTUP="$EWCONFIG_ROOT/configs/python/python_startup.py"
 
 # Display operating system and architecture information
@@ -250,3 +252,4 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/pkg/flutter/bin" ]] && export PATH="$HOME/pkg/flutter/bin:$PATH"
 [[ -s "$HOME/.rye/env" ]] && source "$HOME/.rye/env"
 [[ -s "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+. "$HOME/.cargo/env"
