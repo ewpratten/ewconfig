@@ -38,6 +38,11 @@ mkdir -p ~/.config/gqrx
 mkdir -p ~/.cargo
 mkdir -p ~/.ssh
 
+# Mac-specific dirs
+if [ "$(uname)" == "Darwin" ]; then
+    mkdir -p ~/Library/Preferences
+fi
+
 # Build directory structure for program plugins
 mkdir -p ~/.local/share/nautilus/scripts/
 
@@ -99,6 +104,11 @@ ln -nsf $EWCONFIG_ROOT/configs/systemd/scripts ~/.config/systemd/scripts
 
 # GitLab CLI
 ln -sf $EWCONFIG_ROOT/configs/glab-cli/aliases.yml ~/.config/glab-cli/aliases.yml
+
+# iTerm2
+if [ "$(uname)" == "Darwin" ]; then
+    ln -sf $EWCONFIG_ROOT/configs/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
+fi
 
 # Launchpad Scripts
 chmod +x $EWCONFIG_ROOT/configs/launchpad-scripts/*
