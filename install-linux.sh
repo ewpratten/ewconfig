@@ -106,9 +106,10 @@ ln -nsf $EWCONFIG_ROOT/configs/systemd/scripts ~/.config/systemd/scripts
 ln -sf $EWCONFIG_ROOT/configs/glab-cli/aliases.yml ~/.config/glab-cli/aliases.yml
 
 # iTerm2
-if [ "$(uname)" == "Darwin" ]; then
-    ln -sf $EWCONFIG_ROOT/configs/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
-fi
+# NOTE: Manually set the settings dir.
+# if [ "$(uname)" == "Darwin" ]; then
+#     ln -sf $EWCONFIG_ROOT/configs/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
+# fi
 
 # Launchpad Scripts
 chmod +x $EWCONFIG_ROOT/configs/launchpad-scripts/*
