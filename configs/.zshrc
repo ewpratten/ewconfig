@@ -252,4 +252,5 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/pkg/flutter/bin" ]] && export PATH="$HOME/pkg/flutter/bin:$PATH"
 [[ -s "$HOME/.rye/env" ]] && source "$HOME/.rye/env"
 [[ -s "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
-. "$HOME/.cargo/env"
+[[ -s "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
+
