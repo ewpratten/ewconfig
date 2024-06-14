@@ -18,6 +18,12 @@ Host github.com gist.github.com
 Host ewpratten-*
     User ewpratten
 
+# VPN
+Host *.pratten.ca
+    User evan
+Host *.vpn
+    ProxyJump vpn.pratten.ca
+
 # Home network
 Host unifi
     HostName unifi.home
