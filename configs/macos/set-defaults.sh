@@ -13,6 +13,9 @@ defaults write com.apple.Accessibility ReduceMotionEnabled -bool true
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 
+# Make my mice linear again!
+defaults write -g com.apple.mouse.linear -bool true
+
 # Gestures
 defaults write com.apple.dock showAppExposeGestureEnabled -bool true
 
