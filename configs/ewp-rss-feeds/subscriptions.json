@@ -287,5 +287,11 @@
         "feeds": [
             "https://www.amygoodchild.com/blog/rss.xml"
         ]
+    },
+    {
+        "name": "Michael Wolf",
+        "feeds": [
+            "https://wolfmd.me/feed.xml"
+        ]
     }
 ]
