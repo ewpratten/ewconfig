@@ -1,0 +1,4 @@
+#! /bin/bash
+set -e
+
+http get "http://prometheus.vpn:9090/api/v1/query?query=home_controller_sensor_temperature_None" | jq -r '.data.result.[] | "\(.metric.friendly_name): \(.value.[1])°C"'

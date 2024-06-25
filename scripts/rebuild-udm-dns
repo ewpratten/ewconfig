@@ -1,0 +1,11 @@
+#! /bin/bash
+# Home router gives up on custom DNS configs sometimes. This script rebuilds them
+set -e
+
+echo "SSH-ing into the router to make changes.."
+ssh root@10.80.0.1 <<EOF
+echo "server=/vpn/10.10.0.1" > /run/dnsmasq.conf.d/local_custom_dns.conf;
+echo "server=/0.10.10.in-addr.arpa/10.10.0.1" >> /run/dnsmasq.conf.d/local_custom_dns.conf;
+kill \$(cat /run/dnsmasq.pid)
+dig gateway.vpn
+EOF
