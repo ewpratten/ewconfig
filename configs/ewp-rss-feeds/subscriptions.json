@@ -255,6 +255,7 @@
         "name": "Ben Vallack",
         "feeds": [
             "http://benvallack.com/rss/",
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UC4NNPgQ9sOkBjw6GlkgCylg",
             "https://www.youtube.com/feeds/videos.xml?channel_id=UCy7FdWkDces3W5Yb6AQtfTQ"
         ]
     },
@@ -273,13 +274,15 @@
     {
         "name": "Embark Studios",
         "feeds": [
-            "https://medium.com/feed/embarkstudios"
+            "https://medium.com/feed/embarkstudios",
+            "https://www.reachthefinals.com/patchnotes/rss.xml"
         ]
     },
     {
         "name": "Deviant Ollam",
         "feeds": [
-            "https://words.deviating.net/?feed=rss2"
+            "https://words.deviating.net/?feed=rss2",
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UC4dxXZQq-ofAadUWbqhoceQ"
         ]
     },
     {
@@ -292,6 +295,55 @@
         "name": "Michael Wolf",
         "feeds": [
             "https://wolfmd.me/feed.xml"
+        ]
+    },
+    {
+        "name": "Marques Brownlee",
+        "feeds": [
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UCBJycsmduvYEL83R_U4JriQ"
+        ]
+    },
+    {
+        "name": "Tom Scott",
+        "feeds": [
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UCBa659QWEk1AI4Tg--mrJ2A",
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UCHC4G4X-OR5WkY-IquRGa3Q"
+        ]
+    },
+    {
+        "name": "Matt Gray",
+        "feeds": [
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UClgXF_jwWAwPRu8nT1g90xQ"
+        ]
+    },
+    {
+        "name": "The Technical Difficulties",
+        "feeds": [
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UCO-zhhas4n_kAPHaeLe1qnQ"
+        ]
+    },
+    {
+        "name": "Jerry Rig Everything",
+        "feeds": [
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UCWFKCr40YwOZQx8FHU_ZqqQ"
+        ]
+    },
+    {
+        "name": "Sebastian Lague",
+        "feeds": [
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UCmtyQOKKmrMVaKuRXz02jbQ"
+        ]
+    },
+    {
+        "name": "Defcon",
+        "feeds": [
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UC6Om9kAkl32dWlDSNlDS9Iw"
+        ]
+    },
+    {
+        "name": "Jeff Geerling",
+        "feeds": [
+            "https://www.jeffgeerling.com/blog.xml"
         ]
     }
 ]
