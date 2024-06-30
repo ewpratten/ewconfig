@@ -35,6 +35,7 @@ mkdir -p ~/.config/systemd/user
 mkdir -p ~/.config/glab-cli
 mkdir -p ~/.config/user-tmpfiles.d
 mkdir -p ~/.config/gqrx
+mkdir -p ~/.config/pip
 mkdir -p ~/.cargo
 mkdir -p ~/.ssh
 
@@ -94,6 +95,9 @@ ln -sf $EWCONFIG_ROOT/configs/user-tmpfiles.d/* ~/.config/user-tmpfiles.d/
 
 # Logid config
 ln -sf $EWCONFIG_ROOT/configs/logid/logid.cfg ~/.config/logid/logid.cfg
+
+# Pip config
+ln -sf $EWCONFIG_ROOT/configs/pip/pip.conf ~/.config/pip/pip.conf
 
 # GQRX
 ln -sf $EWCONFIG_ROOT/configs/gqrx/bookmarks.csv ~/.config/gqrx/bookmarks.csv

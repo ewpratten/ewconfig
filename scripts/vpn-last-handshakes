@@ -1,0 +1,63 @@
+#! /usr/bin/env python3
+import argparse
+import sys
+import logging
+import requests
+import subprocess
+from datetime import datetime
+
+logger = logging.getLogger(__name__)
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(prog="", description="")
+
+    ap.add_argument(
+        "-v", "--verbose", help="Enable verbose logging", action="store_true"
+    )
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s:	%(message)s",
+    )
+
+    # Make request
+    response = requests.get(
+        "http://gateway.vpn:9090/api/v1/query?query=wireguard_latest_handshake_seconds"
+    )
+
+    # Parse into a list of peers
+    peers = response.json()["data"]["result"]
+    logger.debug(f"Found {len(peers)} peers")
+
+    # Handle each peer
+    now = datetime.now()
+    for peer in peers:
+        allowed_ips = peer["metric"]["allowed_ips"]
+        latest_handshake = peer["value"][1]
+
+        # Figure out the friendly name
+        first_ip = allowed_ips.split(",")[0].split("/")[0]
+        name = (
+            subprocess.check_output(
+                ["dig", "+short", "-x",first_ip ]
+            )
+            .decode("utf-8")
+            .strip()
+        )
+        
+        # Construct the output
+        output = f"{first_ip}"
+        if name:
+            output += f" ({name})"
+        output += f" {(now - datetime.fromtimestamp(int(latest_handshake))).seconds}"
+        print(output)
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
