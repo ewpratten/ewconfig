@@ -345,5 +345,12 @@
         "feeds": [
             "https://www.jeffgeerling.com/blog.xml"
         ]
+    },
+    {
+        "name": "Shiey",
+        "feeds": [
+            "https://www.shiey.com/blog/rss.xml",
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UCpXwMqnXfJzazKS5fJ8nrVw"
+        ]
     }
 ]
