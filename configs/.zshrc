@@ -14,6 +14,9 @@
 # Firstly, if this machine has a copy of ewconfig, keep track of its location
 [[ -d "$HOME/.config/ewconfig" ]] && export EWCONFIG_ROOT="$HOME/.config/ewconfig"
 
+# Put ZSH into "emacs mode" to fix macos keybinds
+[[ -z "$ZSH_VERSION" ]] && bindkey -e
+
 # Configure default binary and library paths
 export GOPATH="$HOME/go"
 export PATH="$EWCONFIG_ROOT/scripts:$HOME/bin:$HOME/.local/bin:$PATH"
