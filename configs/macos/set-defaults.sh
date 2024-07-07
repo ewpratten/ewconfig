@@ -39,3 +39,6 @@ defaults write com.caldis.Mos duration -float 3.9
 defaults write com.googlecode.iterm2 FocusFollowsMouse -bool true
 defaults write com.googlecode.iterm2 HideScrollbar -bool true
 defaults write com.googlecode.iterm2 NeverBlockSystemShutdown -bool true
+
+# Don't write .DS_Store files to network drives
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE

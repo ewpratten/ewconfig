@@ -65,7 +65,7 @@ ln -sf $EWCONFIG_ROOT/configs/global.gitignore ~/.gitignore
 ln -sf $EWCONFIG_ROOT/configs/ssh/config ~/.ssh/config
 touch ~/.ssh/config.local
 chmod 644 "$HOME/.ssh/config"
-if type -p chown > /dev/null; then chown $USER "$HOME/.ssh/config"; fi 
+if type -p chown > /dev/null; then chown $(id -u) "$HOME/.ssh/config"; fi 
 
 # Configure (neo)Vim
 ln -sf $EWCONFIG_ROOT/configs/vim/.vimrc ~/.vimrc
