@@ -2,6 +2,9 @@
 	email = evan@ewpratten.com
 	name = Evan Pratten
 
+[core]
+	excludesFile = ~/.gitignore
+
 [init]
     defaultBranch = master
 

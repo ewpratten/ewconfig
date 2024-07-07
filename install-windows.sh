@@ -32,6 +32,7 @@ ln -sf $EWCONFIG_ROOT/configs/windows-terminal/settings.json $LOCALAPPDATA/Packa
 
 # Configure Git
 ln -sf $EWCONFIG_ROOT/configs/.gitconfig ~/.gitconfig
+ln -sf $EWCONFIG_ROOT/configs/global.gitignore ~/.gitignore
 
 # Configure Vim
 ln -sf $EWCONFIG_ROOT/configs/vim/.vimrc ~/.vimrc

@@ -59,6 +59,7 @@ fi
 
 # Configure Git
 ln -sf $EWCONFIG_ROOT/configs/.gitconfig ~/.gitconfig
+ln -sf $EWCONFIG_ROOT/configs/global.gitignore ~/.gitignore
 
 # Configure SSH
 ln -sf $EWCONFIG_ROOT/configs/ssh/config ~/.ssh/config
