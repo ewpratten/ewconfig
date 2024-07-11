@@ -352,5 +352,11 @@
             "https://www.shiey.com/blog/rss.xml",
             "https://www.youtube.com/feeds/videos.xml?channel_id=UCpXwMqnXfJzazKS5fJ8nrVw"
         ]
+    },
+    {
+        "name": "This Week in Rust",
+        "feeds": [
+            "https://this-week-in-rust.org/rss.xml"
+        ]
     }
 ]
