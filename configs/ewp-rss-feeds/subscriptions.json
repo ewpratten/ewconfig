@@ -358,5 +358,11 @@
         "feeds": [
             "https://this-week-in-rust.org/rss.xml"
         ]
+    },
+    {
+        "name": "Gabriel Simmer",
+        "feeds": [
+            "https://gabrielsimmer.com/rss"
+        ]
     }
 ]
