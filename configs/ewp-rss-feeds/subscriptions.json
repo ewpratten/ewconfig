@@ -364,5 +364,23 @@
         "feeds": [
             "https://gabrielsimmer.com/rss"
         ]
+    },
+    {
+        "name": "WB3GCK",
+        "feeds": [
+            "https://wb3gck.com/feed"
+        ]
+    },
+    {
+        "name": "KM1NDY",
+        "feeds": [
+            "https://km1ndy.com/feed"
+        ]
+    },
+    {
+        "name": "Dave Casler",
+        "feeds": [
+            "https://dcasler.com/feed"
+        ]
     }
 ]
