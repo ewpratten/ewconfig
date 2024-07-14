@@ -382,5 +382,11 @@
         "feeds": [
             "https://dcasler.com/feed"
         ]
+    },
+    {
+        "name": "Stephen Smith",
+        "feeds": [
+            "https://smist08.wordpress.com/feed"
+        ]
     }
 ]
