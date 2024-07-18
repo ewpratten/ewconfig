@@ -150,9 +150,11 @@ if [ -d ~/.config/blender/3.6 ]; then ln -sf $EWCONFIG_ROOT/configs/blender/3.x/
 sh ./configs/gnome/gnome-terminal-settings.sh || true
 sh ./configs/gnome/desktop-settings.sh || true
 
-# On MacOS, write default settings
+# On MacOS, write default settings and link plists
 if [ "$(uname)" == "Darwin" ]; then
     sh ./configs/macos/set-defaults.sh
+
+    ln -sf $EWCONFIG_ROOT/configs/macos/Preferences/* ~/Library/Preferences/
 fi
 
 # Attempt to force a termux settings reload on Android devices
