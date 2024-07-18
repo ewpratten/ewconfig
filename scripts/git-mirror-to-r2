@@ -1,0 +1,21 @@
+#! /bin/bash
+set -e
+
+# Require a git URL as the first argument and a name as the second
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
+    echo "Usage: $0 <bucket> <git-url> <archive-basename>"
+    exit 1
+fi
+
+# Do a mirror clone of the repository to /tmp
+tmpdir=$(mktemp -d)
+git clone --mirror "$2" "$tmpdir"
+
+# Create a tarball of the repository
+tar -C "$tmpdir" -czf "/tmp/$3.tar.gz" .
+
+# Upload to R2
+wrangler r2 object put "$1/$3.tar.gz" --file "/tmp/$3.tar.gz"
+
+# Clean up
+rm -rf "$tmpdir" "/tmp/$3.tar.gz"
