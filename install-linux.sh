@@ -154,7 +154,7 @@ sh ./configs/gnome/desktop-settings.sh || true
 if [ "$(uname)" == "Darwin" ]; then
     sh ./configs/macos/set-defaults.sh
 
-    ln -sf $EWCONFIG_ROOT/configs/macos/Preferences/* ~/Library/Preferences/
+    cp $EWCONFIG_ROOT/configs/macos/Preferences/com.knollsoft.Rectangle.plist ~/Library/Preferences/com.knollsoft.Rectangle.plist
 fi
 
 # Attempt to force a termux settings reload on Android devices
