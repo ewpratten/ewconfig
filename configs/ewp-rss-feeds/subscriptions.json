@@ -240,7 +240,7 @@
         ]
     },
     {
-        "name": "Discord Engineering & Developers",
+        "name": "Discord",
         "feeds": [
             "https://discord.com/blog/rss.xml"
         ]
@@ -387,6 +387,12 @@
         "name": "Stephen Smith",
         "feeds": [
             "https://smist08.wordpress.com/feed"
+        ]
+    },
+    {
+        "name": "ZR6TG",
+        "feeds": [
+            "https://www.zr6tg.co.za/feed"
         ]
     }
 ]
