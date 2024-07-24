@@ -394,5 +394,12 @@
         "feeds": [
             "https://www.zr6tg.co.za/feed"
         ]
+    },
+    {
+        "name": "Lars-Christian Simonsen",
+        "feeds": [
+            "https://lars-christian.com/feed/",
+            "https://lars-christian.com/category/notes/feed/"
+        ]
     }
 ]
