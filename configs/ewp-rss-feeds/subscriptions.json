@@ -384,12 +384,6 @@
         ]
     },
     {
-        "name": "Stephen Smith",
-        "feeds": [
-            "https://smist08.wordpress.com/feed"
-        ]
-    },
-    {
         "name": "ZR6TG",
         "feeds": [
             "https://www.zr6tg.co.za/feed"
@@ -400,6 +394,36 @@
         "feeds": [
             "https://lars-christian.com/feed/",
             "https://lars-christian.com/category/notes/feed/"
+        ]
+    },
+    {
+        "name": "Derek Kedziora",
+        "feeds": [
+            "https://derekkedziora.com/feed.xml"
+        ]
+    },
+    {
+        "name": "Brad Woods",
+        "feeds": [
+            "https://garden.bradwoods.io/rss.xml"
+        ]
+    },
+    {
+        "name": "Beardy Guy Musings",
+        "feeds": [
+            "https://beardystarstuff.net/categories/apple/feed.xml"
+        ]
+    },
+    {
+        "name": "Simone Silvestroni",
+        "feeds": [
+            "https://minutestomidnight.co.uk/feed.xml"
+        ]
+    },
+    {
+        "name": "Lazybear",
+        "feeds": [
+            "https://lazybear.io/index.xml"
         ]
     }
 ]
