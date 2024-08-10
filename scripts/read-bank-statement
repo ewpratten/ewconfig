@@ -1,0 +1,10 @@
+#! /bin/bash
+set -e
+
+# Ensure there is an argument
+if [ -z "$1" ]; then
+    echo "Usage: $(basename $0) <file.csv>"
+    exit 1
+fi
+
+cat "$1" | jq -cRr 'split(",") | "\(.[2])\t\(.[6])\t\(.[4])"' | tr -d '"' | tail -n +2 | grep -v "PAYMENT - THANK YOU" | column -ts $'\t'
