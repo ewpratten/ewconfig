@@ -20,7 +20,7 @@ mkdir -p ~/.config && cd ~/.config
 git clone https://github.com/ewpratten/ewconfig
 cd ewconfig
 
-# Linux & BSD & probably MacOS (untested)
+# Linux & BSD & MacOS
 sh ./install-linux.sh
 
 # Windows, with GIT BASH
