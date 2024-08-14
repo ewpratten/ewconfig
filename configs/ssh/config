@@ -1,7 +1,7 @@
 # vim: nospell
 # Global Rules
 Host * !*.github.com !github.com
-    IdentityFile %d/.ssh/id_ed25519_sk_rk_yk20572395
+    # IdentityFile %d/.ssh/id_ed25519_sk_rk_yk20572395
     IdentityFile %d/.ssh/id_ed25519
     IdentityFile %d/.ssh/id_rsa
 
