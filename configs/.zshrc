@@ -19,7 +19,7 @@
 
 # Configure default binary and library paths
 export GOPATH="$HOME/go"
-export PATH="$EWCONFIG_ROOT/scripts:$HOME/bin:$HOME/.local/bin:$PATH"
+export PATH="$EWCONFIG_ROOT/scripts:$EWCONFIG_ROOT/rust-bin:$HOME/bin:$HOME/.local/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH"
 [[ -s "$GOPATH/bin" ]] && export PATH="$GOPATH/bin:$PATH"
 [[ -s "$HOME/.docker/bin" ]] && export PATH="$HOME/.docker/bin"

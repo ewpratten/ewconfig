@@ -62,6 +62,7 @@
     c = commit
     aa = add .
     s = status
+    p = pull
     rebase-ch-i = rebase --reapply-cherry-picks -i
 
 [filter "lfs"]
