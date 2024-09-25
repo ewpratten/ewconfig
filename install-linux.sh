@@ -165,5 +165,12 @@ if [ "$(uname)" == "Darwin" ]; then
     cp $EWCONFIG_ROOT/configs/macos/Preferences/com.knollsoft.Rectangle.plist ~/Library/Preferences/com.knollsoft.Rectangle.plist
 fi
 
+# On MacOS, if possible, link iCloud drive to ~/iCloud Drive
+if [ "$(uname)" == "Darwin" ]; then
+    if [ -d ~/Library/Mobile\ Documents/com~apple~CloudDocs ]; then
+        ln -sf ~/Library/Mobile\ Documents/com~apple~CloudDocs ~/iCloud\ Drive
+    fi
+fi
+
 # Attempt to force a termux settings reload on Android devices
 termux-reload-settings || true
