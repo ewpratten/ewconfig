@@ -1,0 +1,20 @@
+#! /bin/bash
+# A really hacky way of exposing the list of configured records on a ampr.org zone
+set -e
+
+# Require a subdomain ID and page number
+if [[ -z "$1" || -z "$2" ]]; then
+  echo "Usage: $0 <subdomain_id> <page>"
+  echo "  subdomain_id: The numeric ID of your subdomain (probably 39)"
+  echo "  page:         The page number to fetch"
+  exit 1
+fi
+
+# Ask for the session cookie
+if [[ -z "$COOKIE" ]]; then
+    echo -n "Enter your session cookie: "
+    read -s COOKIE
+fi
+
+# Fetch the records
+curl -X GET "https://portal.ampr.org/subdomain-records/$1" -H "Cookie: $COOKIE" -H "Accept: application/json" 2>/dev/null | tr -d " " | grep -E "^action|^onsubmit" | tr -d "\n" | tr ">" "\n" | cut -d '"' -f 2,4 | tr '"' "|" | tr "'" "|" | tr "/" "|" | cut -d "|" -f 3,5,7 | column -t -s "|"

@@ -1,0 +1,28 @@
+#! /bin/bash
+# A really hacky way of programatically deleting a record from an ampr.org zone
+set -e
+
+# Require a subdomain ID and record ID
+if [[ -z "$1" || -z "$2" ]]; then
+  echo "Usage: $0 <subdomain_id> <record_id>"
+  echo "  subdomain_id: The numeric ID of your subdomain (probably 39)"
+  echo "  record_id:    The numeric ID of the record to delete"
+  exit 1
+fi
+
+# Ask for the session cookie
+if [[ -z "$COOKIE" ]]; then
+    echo -n "Enter your session cookie: "
+    read -s COOKIE
+fi
+
+# Ask for a token
+if [[ -z "$TOKEN" ]]; then
+    echo -n "Enter your CSRF token: "
+    read -s TOKEN
+fi
+
+# Delete the record
+echo "Deleting record $2 from subdomain $1"
+curl -X POST "https://portal.ampr.org/subdomain-records/$2" -H "Cookie: $COOKIE" -H "Accept: application/json" --data "_method=DELETE&_token=$TOKEN" 2>/dev/null
+echo
