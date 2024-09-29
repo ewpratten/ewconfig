@@ -1,17 +1,16 @@
 #
-#waypoint:name:initials:x:y:z:color:disabled:type:set:rotate_on_tp:tp_yaw:global
+#waypoint:name:initials:x:y:z:color:disabled:type:set:rotate_on_tp:tp_yaw:visibility_type:destination
 #
-waypoint:Anarchy:A:79:128:328:13:false:0:gui.xaero_default:false:0:false
-waypoint:Other roof hole:O:147:128:296:1:false:0:gui.xaero_default:false:0:false
-waypoint:Carter:C:-125:128:-164:2:false:0:gui.xaero_default:false:0:false
-waypoint:Percy:P:-42:132:223:10:false:0:gui.xaero_default:false:0:false
-waypoint:cat:C:-51:128:536:5:false:0:gui.xaero_default:false:0:false
-waypoint:Mountain Base:M:-172:131:6:2:false:0:gui.xaero_default:false:0:false
-waypoint:james:J:-63:131:-64:2:false:0:gui.xaero_default:false:0:false
-waypoint:Ladder to Top:L:-92:89:-30:2:false:0:gui.xaero_default:false:0:false
-waypoint:te:T:6:38:251:4:false:0:gui.xaero_default:false:0:false
-waypoint:ice portal:I:-650:128:-250:3:false:0:gui.xaero_default:false:0:false
-waypoint:End:E:-213:131:-78:12:false:0:gui.xaero_default:false:0:false
-waypoint:Home:H:-24:132:128:0:false:0:gui.xaero_default:false:0:false
-waypoint:Spawn Portal:S:-74:83:2:0:false:0:gui.xaero_default:false:0:false
-
+waypoint:Anarchy:A:79:128:328:13:false:0:gui.xaero_default:false:0:0:false
+waypoint:Other roof hole:O:147:128:296:1:false:0:gui.xaero_default:false:0:0:false
+waypoint:Carter:C:-125:128:-164:2:false:0:gui.xaero_default:false:0:0:false
+waypoint:Percy:P:-42:132:223:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:cat:C:-51:128:536:5:false:0:gui.xaero_default:false:0:0:false
+waypoint:Mountain Base:M:-172:131:6:2:false:0:gui.xaero_default:false:0:0:false
+waypoint:james:J:-63:131:-64:2:false:0:gui.xaero_default:false:0:0:false
+waypoint:Ladder to Top:L:-92:89:-30:2:false:0:gui.xaero_default:false:0:0:false
+waypoint:te:T:6:38:251:4:false:0:gui.xaero_default:false:0:0:false
+waypoint:ice portal:I:-650:128:-250:3:false:0:gui.xaero_default:false:0:0:false
+waypoint:End:E:-213:131:-78:12:false:0:gui.xaero_default:false:0:0:false
+waypoint:Home:H:-24:132:128:0:false:0:gui.xaero_default:false:0:0:false
+waypoint:Spawn Portal:S:-74:83:2:0:false:0:gui.xaero_default:false:0:0:false

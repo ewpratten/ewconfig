@@ -1,39 +1,38 @@
 sets:gui.xaero_default:RemotePlayers_Temp:Bases
 #
-#waypoint:name:initials:x:y:z:color:disabled:type:set:rotate_on_tp:tp_yaw:global
+#waypoint:name:initials:x:y:z:color:disabled:type:set:rotate_on_tp:tp_yaw:visibility_type:destination
 #
-waypoint:Anarchy:A:687:32:2547:13:false:0:gui.xaero_default:false:0:false
-waypoint:Nice spot:N:257:81:319:14:false:0:gui.xaero_default:false:0:false
-waypoint:Carter:C:-994:65:-1305:10:false:0:gui.xaero_default:false:0:false
-waypoint:Ice portal:I:-5201:86:-1988:2:false:0:gui.xaero_default:false:0:false
-waypoint:Percy:P:-327:71:1801:10:false:0:gui.xaero_default:false:0:false
-waypoint:Cat's Secret Base:C:-450:64:4368:12:false:0:gui.xaero_default:false:0:false
-waypoint:Squid Farm:S:1140:64:-1625:0:false:0:gui.xaero_default:false:0:false
-waypoint:Chicken Farm:C:-267:55:150:0:false:0:gui.xaero_default:false:0:false
-waypoint:t:T:-2391:80:1305:0:false:0:gui.xaero_default:false:0:false
-waypoint:Sally:S:-1439:64:-59:10:false:0:gui.xaero_default:false:0:false
-waypoint:Skeleton Farm:S:1718:70:384:0:false:0:gui.xaero_default:false:0:false
-waypoint:CommonOctopus:C:1662:68:306:10:false:0:gui.xaero_default:false:0:false
-waypoint:Totem farm:T:-38:71:1656:0:false:0:gui.xaero_default:false:0:false
-waypoint:Wills monument:W:-1909:56:798:3:false:0:gui.xaero_default:false:0:false
-waypoint:Monument:M:2799:52:1376:3:false:0:gui.xaero_default:false:0:false
-waypoint:Will:W:-483:62:338:10:false:0:gui.xaero_default:false:0:false
-waypoint:Tyson:T:3298:178:-2820:10:false:0:gui.xaero_default:false:0:false
-waypoint:Sydney:S:-1748:110:320:10:false:0:gui.xaero_default:false:0:false
-waypoint:Ethan:E:-1447:67:-830:10:false:0:gui.xaero_default:false:0:false
-waypoint:Ian:I:162:105:-125:10:false:0:gui.xaero_default:false:0:false
-waypoint:Cat:C:-278:70:-290:10:false:0:gui.xaero_default:false:0:false
-waypoint:Turtles:T:-1761:65:40:15:false:0:gui.xaero_default:false:0:false
-waypoint:Trident Farm:T:97:200:-2280:0:false:0:gui.xaero_default:false:0:false
-waypoint:Test Site:T:-841:65:1421:15:false:0:gui.xaero_default:false:0:false
-waypoint:Zombie Farm:Z:-475:26:1021:0:false:0:gui.xaero_default:false:0:false
-waypoint:Mountain Base:M:-1304:79:-7:10:false:0:gui.xaero_default:false:0:false
-waypoint:Jake:J:-435:69:-851:10:false:0:gui.xaero_default:false:0:false
-waypoint:James:J:-501:66:-514:10:false:0:gui.xaero_default:false:0:false
-waypoint:Nether Fortress:G:307:83:1452:6:false:0:gui.xaero_default:false:0:false
-waypoint:End Portal:E:-1712:31:-622:6:false:0:gui.xaero_default:false:0:false
-waypoint:Large Village:V:331:63:1396:4:false:0:gui.xaero_default:false:0:false
-waypoint:Evan:H:-170:63:1038:10:false:0:gui.xaero_default:false:0:false
-waypoint:Community Centre:C:-499:67:79:12:false:0:gui.xaero_default:false:0:false
-waypoint:test:T:-144:68:1024:5:false:0:Bases:false:0:false
-
+waypoint:Anarchy:A:687:32:2547:13:false:0:gui.xaero_default:false:0:0:false
+waypoint:Nice spot:N:257:81:319:14:false:0:gui.xaero_default:false:0:0:false
+waypoint:Carter:C:-994:65:-1305:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:Ice portal:I:-5201:86:-1988:2:false:0:gui.xaero_default:false:0:0:false
+waypoint:Percy:P:-327:71:1801:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:Cat's Secret Base:C:-450:64:4368:12:false:0:gui.xaero_default:false:0:0:false
+waypoint:Squid Farm:S:1140:64:-1625:0:false:0:gui.xaero_default:false:0:0:false
+waypoint:Chicken Farm:C:-267:55:150:0:false:0:gui.xaero_default:false:0:0:false
+waypoint:t:T:-2391:80:1305:0:false:0:gui.xaero_default:false:0:0:false
+waypoint:Sally:S:-1439:64:-59:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:Skeleton Farm:S:1718:70:384:0:false:0:gui.xaero_default:false:0:0:false
+waypoint:CommonOctopus:C:1662:68:306:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:Totem farm:T:-38:71:1656:0:false:0:gui.xaero_default:false:0:0:false
+waypoint:Wills monument:W:-1909:56:798:3:false:0:gui.xaero_default:false:0:0:false
+waypoint:Monument:M:2799:52:1376:3:false:0:gui.xaero_default:false:0:0:false
+waypoint:Will:W:-483:62:338:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:Tyson:T:3298:178:-2820:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:Sydney:S:-1748:110:320:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:Ethan:E:-1447:67:-830:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:Ian:I:162:105:-125:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:Cat:C:-278:70:-290:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:Turtles:T:-1761:65:40:15:false:0:gui.xaero_default:false:0:0:false
+waypoint:Trident Farm:T:97:200:-2280:0:false:0:gui.xaero_default:false:0:0:false
+waypoint:Test Site:T:-841:65:1421:15:false:0:gui.xaero_default:false:0:0:false
+waypoint:Zombie Farm:Z:-475:26:1021:0:false:0:gui.xaero_default:false:0:0:false
+waypoint:Mountain Base:M:-1304:79:-7:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:Jake:J:-435:69:-851:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:James:J:-501:66:-514:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:Nether Fortress:G:307:83:1452:6:false:0:gui.xaero_default:false:0:0:false
+waypoint:End Portal:E:-1712:31:-622:6:false:0:gui.xaero_default:false:0:0:false
+waypoint:Large Village:V:331:63:1396:4:false:0:gui.xaero_default:false:0:0:false
+waypoint:Evan:H:-170:63:1038:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:Community Centre:C:-499:67:79:12:false:0:gui.xaero_default:false:0:0:false
+waypoint:test:T:-144:68:1024:5:false:0:Bases:false:0:0:false

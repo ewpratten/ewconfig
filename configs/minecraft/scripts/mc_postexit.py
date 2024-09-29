@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 
 MINECRAFT_DIR = Path(os.environ["INST_MC_DIR"])
-WAYPOINT_BASE_DIR = MINECRAFT_DIR / "XaeroWaypoints"
+WAYPOINT_BASE_DIR = MINECRAFT_DIR / "xaero" / "minimap"
 GLOBAL_WAYPOINT_DIR = (
     Path(os.path.expanduser("~")) / ".config" / "minecraft" / "XaeroWaypoints"
 )

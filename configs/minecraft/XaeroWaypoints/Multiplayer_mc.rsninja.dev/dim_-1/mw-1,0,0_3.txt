@@ -1,6 +1,5 @@
 #
-#waypoint:name:initials:x:y:z:color:disabled:type:set:rotate_on_tp:tp_yaw:global
+#waypoint:name:initials:x:y:z:color:disabled:type:set:rotate_on_tp:tp_yaw:visibility_type:destination
 #
-waypoint:jake:J:-32:131:-110:9:false:0:gui.xaero_default:false:0:false
-waypoint:Home:H:-10:132:129:5:false:0:gui.xaero_default:false:0:false
-
+waypoint:jake:J:-32:131:-110:9:false:0:gui.xaero_default:false:0:0:false
+waypoint:Home:H:-10:132:129:5:false:0:gui.xaero_default:false:0:0:false
