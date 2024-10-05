@@ -2,7 +2,8 @@ sets:gui.xaero_default:Buildings:Subway Stations
 #
 #waypoint:name:initials:x:y:z:color:disabled:type:set:rotate_on_tp:tp_yaw:visibility_type:destination
 #
-waypoint:Carter Base:C:-1069:70:-710:7:false:0:gui.xaero_default:false:0:0:false
+waypoint:Tavern:T:-459:70:-234:8:false:0:gui.xaero_default:false:0:0:false
+waypoint:Carter Base:C:-1063:70:-709:7:false:0:gui.xaero_default:false:0:0:false
 waypoint:Slime Farm:S:4975:4:5854:1:false:0:gui.xaero_default:false:0:0:false
 waypoint:Northern Village:N:37:74:-10056:8:false:0:gui.xaero_default:false:0:0:false
 waypoint:Creeper Farm:C:5092:5:5481:9:false:0:gui.xaero_default:false:0:0:false
