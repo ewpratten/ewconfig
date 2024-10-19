@@ -146,11 +146,11 @@ if [ -d ~/houdini19.5 ]; then mkdir -p ~/houdini19.5/scripts; ln -sf $EWCONFIG_R
 if [ -d ~/.config/blender/3.6 ]; then ln -sf $EWCONFIG_ROOT/configs/blender/3.x/scripts/addons/* ~/.config/blender/3.6/scripts/addons/; fi
 
 # If we have `cargo` and $NO_RUST is not set, build and install rust tooling
-if type -p cargo > /dev/null && [ -z "$NO_RUST" ]; then
-    mkdir -p $EWCONFIG_ROOT/rust-bin
-    cargo build --all --release || true
-    cp $EWCONFIG_ROOT/target/release/* $EWCONFIG_ROOT/rust-bin
-fi
+# if type -p cargo > /dev/null && [ -z "$NO_RUST" ]; then
+#     mkdir -p $EWCONFIG_ROOT/rust-bin
+#     cargo build --all --release || true
+#     cp $EWCONFIG_ROOT/target/release/* $EWCONFIG_ROOT/rust-bin
+# fi
 
 # -- Finalization --
 

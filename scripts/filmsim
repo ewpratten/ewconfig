@@ -1,0 +1,140 @@
+#! /usr/bin/env python3
+
+import argparse
+import sys
+import logging
+import cv2
+import numpy as np
+from pathlib import Path
+from inspect import getmembers, isfunction
+
+logger = logging.getLogger(__name__)
+
+
+def apply_filter_bw(image):
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+    return image
+
+
+def apply_filter_grain(image):
+    noise = np.random.randint(0, 256, image.shape, dtype="uint8")
+    noise = cv2.cvtColor(noise, cv2.COLOR_BGR2GRAY)
+    noise = cv2.cvtColor(noise, cv2.COLOR_GRAY2BGR)
+    scale = 0.8
+    image = cv2.addWeighted(image, scale, noise, 1 - scale, 0)
+    return image
+
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(
+        prog="filmsim", description="Experimental film effect simulator"
+    )
+    ap.add_argument(
+        "--mode",
+        help="Mode to operate in (image or video)",
+        default="video",
+        choices=["image", "video"],
+    )
+    ap.add_argument(
+        "--input",
+        help="Path to the input image or video (uses webcam if unset)",
+        type=Path,
+    )
+    ap.add_argument(
+        "--output",
+        help="Path to the output image or video (displays output if unset)",
+        type=Path,
+    )
+    ap.add_argument(
+        "--filters", help="Comma-separated list of filters to apply", default="bw,grain"
+    )
+    ap.add_argument(
+        "-v", "--verbose", help="Enable verbose logging", action="store_true"
+    )
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s:	%(message)s",
+    )
+
+    # Build filter chain
+    filter_functions = getmembers(
+        sys.modules[__name__],
+        lambda member: isfunction(member)
+        and member.__name__.startswith("apply_filter_"),
+    )
+    enabled_filters = args.filters.split(",")
+    filters = [
+        filter_function
+        for filter_name, filter_function in filter_functions
+        if filter_name.replace("apply_filter_", "") in enabled_filters
+    ]
+
+    # Read input image or video
+    if args.mode == "image":
+        if args.input is None:
+            webcam = cv2.VideoCapture(0)
+            ret, image = webcam.read()
+            if not ret:
+                logger.error("Failed to capture image from webcam")
+                return 1
+        else:
+            image = cv2.imread(str(args.input))
+            if image is None:
+                logger.error("Failed to read input image")
+                return 1
+
+        # Apply filters
+        for filter_function in filters:
+            image = filter_function(image)
+
+        # Write output image
+        if args.output is None:
+            cv2.imshow("Output", image)
+            cv2.waitKey(0)
+        else:
+            cv2.imwrite(str(args.output), image)
+
+    elif args.mode == "video":
+        if args.input is None:
+            webcam = cv2.VideoCapture(0)
+        else:
+            webcam = cv2.VideoCapture(str(args.input))
+        if not webcam.isOpened():
+            logger.error("Failed to open input video")
+            return 1
+
+        # Read video frame by frame
+        while True:
+            ret, frame = webcam.read()
+            if not ret:
+                logger.error("Failed to read frame from video")
+                return 1
+
+            # Apply filters
+            for filter_function in filters:
+                frame = filter_function(frame)
+
+            # Write output frame
+            if args.output is None:
+                # Flip frame if using webcam
+                if args.input is None:
+                    frame = cv2.flip(frame, 1)
+                cv2.imshow("Output", frame)
+                if cv2.waitKey(1) & 0xFF == ord("q"):
+                    break
+            # else:
+            #     cv2.imwrite(str(args.output), frame)
+
+        webcam.release()
+        cv2.destroyAllWindows()
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
