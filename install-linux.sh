@@ -168,7 +168,7 @@ fi
 # On MacOS, if possible, link iCloud drive to ~/iCloud Drive
 if [ "$(uname)" == "Darwin" ]; then
     if [ -d ~/Library/Mobile\ Documents/com~apple~CloudDocs ]; then
-        ln -sf ~/Library/Mobile\ Documents/com~apple~CloudDocs ~/iCloud\ Drive
+        ln -nsf ~/Library/Mobile\ Documents/com~apple~CloudDocs ~/iCloud\ Drive
     fi
 fi
 
