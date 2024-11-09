@@ -1,4 +1,10 @@
 #! /usr/bin/env python3
+"""
+# `ableton-linux`: Ableton Wrapper for Linux
+
+This script handles the necessary setup and pre-configuration to run Ableton Live on Linux with low-latency audio.
+"""
+
 import argparse
 import os
 import sys

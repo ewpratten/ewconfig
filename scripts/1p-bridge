@@ -1,15 +1,20 @@
 #! /usr/bin/env python3
-"""1password bridge
+"""
+# `1p-bridge`: 1password bridge
 
 This script can expose the `op` cli utility as a web service.
 Callers can then pass a 1password service token through an HTTP request,
 and are able to read secrets from 1password.
 
+This allows the use of 1password as a basic secret store for self-hosted applications.
+
+```
 HTTP routes:
     /whoami
         GET: Returns the current user's information
     /read/<path:uri>
         GET: Reads the item at the specified URI
+```
 """
 
 import argparse
