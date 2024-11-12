@@ -2,6 +2,7 @@
 set -ex
 
 # Apple Screenshots
+mkdir -p ~/Pictures/Screenshots
 defaults write com.apple.screencapture location -string '~/Pictures/Screenshots'
 defaults write com.apple.screencapture location-last -string '~/Pictures/Screenshots'
 defaults write com.apple.screencaptureui NSNavLastRootDirectory -string '~/Pictures/Screenshots'
