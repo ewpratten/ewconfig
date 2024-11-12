@@ -1,0 +1,208 @@
+hash-format = "sha256"
+
+[[files]]
+file = "config/bobby.conf"
+
+[[files]]
+file = "config/capes.json5"
+
+[[files]]
+file = "config/defaultoptions/keybindings.txt"
+
+[[files]]
+file = "config/defaultoptions/options.txt"
+
+[[files]]
+file = "config/roughlyenoughitems/config.json5"
+
+[[files]]
+file = "config/shulkerboxtooltip.json5"
+
+[[files]]
+file = "config/waila/waila.json"
+
+[[files]]
+file = "config/waila/waila_plugins.json"
+
+[[files]]
+file = "config/xaerominimap.txt"
+
+[[files]]
+file = "config/xaerominimap_entities.json"
+
+[[files]]
+file = "config/xaeropatreon.txt"
+
+[[files]]
+file = "config/xaeroworldmap.txt"
+
+[[files]]
+file = "config/zoomify.json"
+
+[[files]]
+file = "credits.txt"
+
+[[files]]
+file = "icon.png"
+
+[[files]]
+file = "mods/appleskin.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/architectury-api.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/badpackets.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/balm.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/bobby.pw.toml.disabled"
+
+[[files]]
+file = "mods/capes.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/cloth-config.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/default-options.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/dynamic-sound-filters.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/fabric-api.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/fabric-language-kotlin.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/forge-config-api-port.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/indium.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/iris.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/krypton.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/lambdabettergrass.pw.toml.disabled"
+
+[[files]]
+file = "mods/lambdynamiclights.pw.toml.disabled"
+
+[[files]]
+file = "mods/modmenu.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/mouse-wheelie.pw.toml.disabled"
+
+[[files]]
+file = "mods/nvidium.pw.toml.disabled"
+
+[[files]]
+file = "mods/open-parties-and-claims.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/presence-footsteps.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/reeses-sodium-options.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/rei.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/shulkerboxtooltip.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/sodium-extra.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/sodium.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/sound-physics-remastered.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/viafabricplus.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/worldedit-cui.pw.toml.disabled"
+
+[[files]]
+file = "mods/worldedit.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/wthit.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/xaeros-minimap.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/xaeros-world-map.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/yacl.pw.toml"
+metafile = true
+
+[[files]]
+file = "mods/zoomify.pw.toml.disabled"
+
+[[files]]
+file = "resourcepacks/VanillaTweaks_Colorful_Enchanting.zip"
+
+[[files]]
+file = "resourcepacks/VanillaTweaks_Lower_Shield.zip"
+
+[[files]]
+file = "resourcepacks/VanillaTweaks_What.zip"
+
+[[files]]
+file = "resourcepacks/illuminated-shields.pw.toml"
+metafile = true
+
+[[files]]
+file = "shaderpacks/bsl-shaders.pw.toml"
+metafile = true
+
+[[files]]
+file = "shaderpacks/rethinking-voxels.pw.toml"
+metafile = true
+
+[[files]]
+file = "shaderpacks/shrimple.pw.toml"
+metafile = true

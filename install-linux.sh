@@ -152,6 +152,11 @@ if [ -d ~/.config/blender/3.6 ]; then ln -sf $EWCONFIG_ROOT/configs/blender/3.x/
 #     cp $EWCONFIG_ROOT/target/release/* $EWCONFIG_ROOT/rust-bin
 # fi
 
+# If we have packwiz, build the Minecraft modpack
+if type -p packwiz > /dev/null; then
+    packwiz --pack-file $EWCONFIG_ROOT/configs/minecraft/modpack/pack.toml --meta-folder-base $EWCONFIG_ROOT/configs/minecraft/modpack modrinth export
+fi
+
 # -- Finalization --
 
 # On systems that need it, configure Gnome
