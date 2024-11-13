@@ -1,0 +1,11 @@
+#! /bin/bash
+set -e
+
+# Require a port
+if [ -z "$1" ]; then
+    echo "Usage: $0 <port>"
+    exit 1
+fi
+
+echo "Reflecting all TCP traffic on port $1"
+ncat --broker --listen -p "$1"
