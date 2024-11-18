@@ -98,6 +98,11 @@ Host desktop
 Host laptop
     HostName ewpratten-laptop.home
 
+Host steamdeck
+    HostName ewpratten-steamdeck.home
+    User deck
+    ForwardX11 yes
+
 Match all
     Include ~/.ssh/config.local
 
