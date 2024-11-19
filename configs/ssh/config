@@ -19,10 +19,11 @@ Host ewpratten-*
     User ewpratten
 
 # VPN
-Host *.pratten.ca
+Host vpn.pratten.ca
     User evan
-Host *.vpn
-    ProxyJump vpn.pratten.ca
+    Hostname 10.10.0.1
+# Host *.vpn
+#     ProxyJump vpn.pratten.ca
 
 # Home network
 Host unifi

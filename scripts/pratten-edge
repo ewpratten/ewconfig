@@ -1,0 +1,75 @@
+#! /bin/bash
+set -e
+
+case "$1" in
+    dns)
+        case "$2" in
+            check)
+                if [[ -z "$3" ]]; then
+                    echo "Usage: $(basename $0) dns check <domain>" >&2
+                    exit 1
+                fi
+                ssh -t vpn.pratten.ca docker exec -it services-pihole-1 pihole query "$3"
+            ;;
+            flush)
+                ssh -t vpn.pratten.ca docker exec -it services-pihole-1 pihole flush
+            ;;
+            monitor)
+                ssh -t vpn.pratten.ca docker exec -it services-pihole-1 pihole chronometer
+            ;;
+            refresh)
+                ssh -t vpn.pratten.ca docker exec -it services-pihole-1 pihole updateGravity
+            ;;
+            tail)
+                ssh -t vpn.pratten.ca docker exec -it services-pihole-1 pihole tail
+            ;;
+            *)
+                echo "Usage: $(basename $0) dns {command}" >&2
+                echo "  check:    Check if a domain is blocked" >&2
+                echo "  flush:    Flush the DNS cache" >&2
+                echo "  monitor:  Monitor the DNS server" >&2
+                echo "  refresh:  Refresh the blocklists" >&2
+                echo "  tail:     Tail the DNS server logs" >&2
+                exit 1
+            ;;
+        esac
+    ;;
+    proxy)
+        case "$2" in
+            edit)
+                if [[ -z "$3" ]]; then
+                    echo "Usage: $(basename $0) proxy edit {internal|external}" >&2
+                    exit 1
+                fi
+                ssh -t vpn.pratten.ca sudoedit "/root/services/caddy/$3/Caddyfile"
+            ;;
+            restart)
+                if [[ -z "$3" ]]; then
+                    echo "Usage: $(basename $0) proxy restart {internal|external}" >&2
+                    exit 1
+                fi
+                ssh -t vpn.pratten.ca sudo docker-compose -f /root/services/docker-compose.yml restart "caddy_$3"
+            ;;
+            tail|logs)
+                if [[ -z "$3" ]]; then
+                    echo "Usage: $(basename $0) proxy {tail|logs} {internal|external}" >&2
+                    exit 1
+                fi
+                ssh -t vpn.pratten.ca sudo docker-compose -f /root/services/docker-compose.yml logs -f "caddy_$3"
+            ;;
+            *)
+                echo "Usage: $(basename $0) proxy {command} <internal|external>" >&2
+                echo "  edit:    Edit the proxy configuration" >&2
+                echo "  restart: Restart the proxy" >&2
+                echo "  tail:    Tail the proxy logs" >&2
+                exit 1
+            ;;
+        esac
+    ;;
+    *)
+        echo "Usage: $(basename $0) {dns} [args]" >&2
+        echo "  dns:   Interact with the DNS server" >&2
+        echo "  proxy: Interact with the HTTP proxies" >&2
+        exit 1
+    ;;
+esac
