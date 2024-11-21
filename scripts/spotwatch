@@ -1,0 +1,7 @@
+#! /bin/bash
+set -e
+
+# Allow an optional callsign to be specified (default to VA3ZZA)
+CALLSIGN="${1:-VA3ZZA}"
+
+mqtt sub -h gateway.vpn -t "radio/spots/+/+/$CALLSIGN" | jq -r '. | "\(.spotter) -> \(.spotted) (\(.mode) \(.frequency_khz)kHz)"'
