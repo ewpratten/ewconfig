@@ -6,7 +6,7 @@ import socket
 import re
 import json
 import paho.mqtt.client as mqtt # pip install paho-mqtt
-from datetime import datetime
+from datetime import datetime, UTC
 
 logger = logging.getLogger(__name__)
 RBN_SPOT_RE = re.compile(r"DX de (?P<spotter>[A-Z\d]+(?:-\d+)?)[^\d]+(?P<frequency>[\d\.]+)\s+(?P<spotted>[A-Z\d\/]+)\s+(?P<mode>[A-Z\d]+)\s+(?P<db>[a-zA-Z\d\-]+) dB\s+(?P<notes>(?:[A-Z]+\d+)|(?:\d+ WPM))?[^\d]+(?P<time>\d+Z)")
@@ -58,7 +58,7 @@ def main() -> int:
             values = match.groupdict()
             
             # Parse the timestamp into something more useful
-            utc_now = datetime.utcnow()
+            utc_now = datetime.now(UTC)
             timestamp = datetime(utc_now.year, utc_now.month, utc_now.day, int(values["time"][:2]), int(values["time"][2:4]), 0)
             
             # Sanitize into a new dict
