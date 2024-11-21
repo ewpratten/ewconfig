@@ -8,7 +8,7 @@ ENV MQTT_HOST=
 RUN pip install paho-mqtt
 
 # The script itself
-COPY ./scripts/rbn-to-mqtt /rbn-to-mqtt
+COPY ./scripts/rbn-to-mqtt /rbn-to-mqtt.py
 
 # Run config
-CMD ["python", "/rbn-to-mqtt", "${MODE}", "${MQTT_HOST}"]
+CMD ["sh", "-c", "python /rbn-to-mqtt.py $MODE $MQTT_HOST"]
