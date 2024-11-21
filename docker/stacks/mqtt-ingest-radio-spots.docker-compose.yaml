@@ -18,3 +18,12 @@ services:
     environment:
       - MODE=ft8
       - MQTT_HOST=${MQTT_HOST}
+
+  pskreporter_to_mqtt:
+    build:
+      context: ../..
+      dockerfile: docker/containers/pskreporter-to-mqtt.dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MQTT_HOST=${MQTT_HOST}
