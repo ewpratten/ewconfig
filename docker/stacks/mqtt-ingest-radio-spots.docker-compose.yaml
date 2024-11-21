@@ -1,0 +1,20 @@
+services:
+  rbn_cw_to_mqtt:
+    build:
+      context: ../..
+      dockerfile: docker/containers/rbn-to-mqtt.dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - Mode=cw
+      - MQTT_HOST=${MQTT_HOST}
+  
+  rbn_ft8_to_mqtt:
+    build:
+      context: ../..
+      dockerfile: docker/containers/rbn-to-mqtt.dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - Mode=ft8
+      - MQTT_HOST=${MQTT_HOST}
