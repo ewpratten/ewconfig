@@ -1,0 +1,83 @@
+#! /usr/bin/env python3
+import argparse
+import sys
+import logging
+import socket
+import re
+import json
+import paho.mqtt.client as mqtt # pip install paho-mqtt
+from datetime import datetime
+
+logger = logging.getLogger(__name__)
+RBN_SPOT_RE = re.compile(r"DX de (?P<spotter>[A-Z\d]+(?:-\d+)?)[^\d]+(?P<frequency>[\d\.]+)\s+(?P<spotted>[A-Z\d\/]+)\s+(?P<mode>[A-Z\d]+)\s+(?P<db>[a-zA-Z\d\-]+) dB\s+(?P<notes>(?:[A-Z]+\d+)|(?:\d+ WPM))?[^\d]+(?P<time>\d+Z)")
+
+def main() -> int:
+    # Handle program arguments
+    ap = argparse.ArgumentParser(prog='rbn-to-mqtt', description='Reflects RBN spots to an MQTT broker')
+    ap.add_argument("rbn_mode", help="RBN mode to use", choices=['cw', 'ft8'])
+    ap.add_argument("mqtt_broker", help="MQTT broker to connect to")
+    ap.add_argument('-v', '--verbose', help='Enable verbose logging', action='store_true')
+    args = ap.parse_args()
+
+    # Configure logging
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format='%(levelname)s:	%(message)s',
+    )
+    
+    # Connect to the MQTT broker
+    mqtt_client = mqtt.Client()
+    mqtt_client.connect(args.mqtt_broker)
+    
+    # Connect to the reverse beacon network
+    rbn_socket = socket.create_connection(('telnet.reversebeacon.net', 7000 if args.rbn_mode == 'cw' else 7001))
+    
+    # Authenticate with the RBN
+    rbn_socket.sendall(b'va3ujf\r\n')
+    
+    # Handle incoming RBN spots
+    while True:
+        
+        # Read incoming packet (may contain multiple spots)
+        data = rbn_socket.recv(1024)
+        if not data:
+            break
+        
+        # Split the packet into spots
+        for spot in data.splitlines():
+            # Some lines aren't spots
+            if not spot.startswith(b'DX'):
+                continue
+            
+            # Parse the spot
+            match = RBN_SPOT_RE.match(spot.decode('utf-8'))
+            if not match:
+                logger.warning("Failed to parse spot: %s", spot)
+                continue
+            
+            values = match.groupdict()
+            
+            # Parse the timestamp into something more useful
+            utc_now = datetime.utcnow()
+            timestamp = datetime(utc_now.year, utc_now.month, utc_now.day, int(values["time"][:2]), int(values["time"][2:4]), 0)
+            
+            # Sanitize into a new dict
+            sanitized = {
+                "spotter": values["spotter"].upper(),
+                "frequency_khz": float(values["frequency"]),
+                "spotted": values["spotted"].upper(),
+                "mode": values["mode"].upper(),
+                "db": int(values["db"]),
+                "speed": values["notes"] if values["notes"] and values["notes"].endswith("WPM") else None,
+                "grid": values["notes"] if values["notes"] and (not values.get("notes", "WPM").endswith("WPM")) else None,
+                "timestamp": timestamp.timestamp(),
+            }
+            
+            # Publish the spot to the MQTT broker
+            logger.debug("Writing spot: %s", sanitized)
+            mqtt_client.publish(f"radio/spots/rbn/{args.rbn_mode}/{sanitized['spotted']}", payload=json.dumps(sanitized))
+            
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())
