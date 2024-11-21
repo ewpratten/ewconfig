@@ -1,0 +1,10 @@
+#! /bin/bash
+set -e
+
+# Require a path to a file
+if [ $# != 1 ]; then
+    echo "Usage: apple-allow-binary <path>"
+    exit 1
+fi
+
+xattr -d com.apple.quarantine "$1"
