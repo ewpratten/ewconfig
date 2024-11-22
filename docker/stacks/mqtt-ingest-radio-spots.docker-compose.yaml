@@ -27,3 +27,12 @@ services:
     env_file: .env
     environment:
       - MQTT_HOST=${MQTT_HOST}
+
+  aprs_to_mqtt:
+    build:
+      context: ../..
+      dockerfile: docker/containers/aprs-to-mqtt.dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MQTT_HOST=${MQTT_HOST}
