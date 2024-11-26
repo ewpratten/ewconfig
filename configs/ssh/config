@@ -92,6 +92,10 @@ Host oci-arm
     HostName oci-arm.vpn.ewp.fyi
     User ubuntu
 
+Host git git.home
+    HostName git.home
+    User root
+
 # Various Aliases
 Host desktop
     HostName ewpratten-desktop.home
