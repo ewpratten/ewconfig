@@ -1,6 +1,7 @@
 [user]
 	email = evan@ewpratten.com
 	name = Evan Pratten
+	signingkey = ~/.ssh/id_ed25519.pub
 
 [core]
 	excludesFile = ~/.gitignore
@@ -92,6 +93,10 @@
 
 [push]
 	autoSetupRemote = true
+
+# Commit signing
+[gpg]
+	format = ssh
 
 # Allow machines to individually override settings
 # NOTE: THIS MUST BE AT THE BOTTOM
