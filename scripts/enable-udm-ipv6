@@ -1,0 +1,10 @@
+#! /bin/bash
+# Hacky, yet gets the vlans to start talking over IPv6
+set -e
+
+ssh root@10.80.0.1 << EOF
+wg set wgclt2 peer "H/oUmEPXF2fketE7Z0moKOi+ADgHYN87Jo0JPnQgLBM=" allowed-ips "0.0.0.0/0,fd43:43:43::/64,2000::/3"
+ip addr add fd43:43:43::2/64 dev wgclt2
+ip -6 route add default dev wgclt2
+ip6tables -t nat -A POSTROUTING -o wgclt2 -j SNAT --to fd43:43:43::2
+EOF
