@@ -61,6 +61,8 @@
     fa = fetch --all
     pa = pull --all
     c = commit
+	cs = commit --gpg-sign
+	cas = commit --amend --gpg-sign
     d = diff
     aa = add .
     s = status
