@@ -252,6 +252,9 @@ if [ -n "$ZSH_VERSION" ]; then
     bindkey "^[OB" down-line-or-beginning-search # Down over SSH connection
 fi
 
+# hledger
+export LEDGER_FILE="$HOME/Documents/finances/finances.journal"
+
 # Various tools think they need to live here too. I shall appease them..
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
