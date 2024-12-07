@@ -1,0 +1,47 @@
+#! /usr/bin/env python3
+# Source: https://ewpratten.com/blog/better-dates-for-gitea-imports
+
+import argparse
+import sqlite3 
+import subprocess
+from pathlib import Path
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("database", help="Path to the Gitea SQLite database", type=Path)
+    ap.add_argument("repo_root", help="Path to Gitea's repository directory", type=Path)
+    ap.add_argument("--rewrite-archives", help="Update the archive timestamp to match the last commit", action="store_true")
+    args = ap.parse_args()
+
+    # Attempt to open the database
+    db_connection = sqlite3.connect(args.database)
+    db_cursor = db_connection.cursor()
+
+    # Process all know repositories
+    for repo in db_cursor.execute("SELECT owner_name, lower_name, archived_unix FROM repository").fetchall():
+        repo_path = args.repo_root / repo[0] / f"{repo[1]}.git"
+
+        if not repo_path.exists():
+            print(f"Skipping {repo_path} as it does not exist")
+            continue
+
+        # Obtain the first commit timestamp
+        # Some versions of git 
+        first_commit = subprocess.run(["git", "-C", repo_path.as_posix(), "log", "--reverse", "--pretty=format:%ct"], capture_output=True, text=True).stdout.splitlines()[0]
+        first_commit_timestamp = int(first_commit)
+
+        # Obtain the last commit timestamp
+        last_commit = subprocess.run(["git", "-C", repo_path.as_posix(), "for-each-ref", "--sort=-authordate", "--count=1", "--format=%(authordate:unix)"], capture_output=True, text=True)
+        last_commit_timestamp = int(last_commit.stdout.strip())
+
+        # Update the database with the new timestamps
+        db_cursor.execute("UPDATE repository SET created_unix = ?, updated_unix = ? WHERE owner_name = ? AND lower_name = ?", (first_commit_timestamp, last_commit_timestamp, repo[0], repo[1]))
+
+        # If we are rewriting the archive timestamp, copy the "updated" timestamp to the "archived" timestamp
+        # Note: 0 means "not archived"
+        if args.rewrite_archives and repo[2] > 0:
+            db_cursor.execute("UPDATE repository SET archived_unix = ? WHERE owner_name = ? AND lower_name = ?", (last_commit_timestamp, repo[0], repo[1]))
+
+    # Commit the changes to the database
+    db_connection.commit()
+    db_connection.close()
