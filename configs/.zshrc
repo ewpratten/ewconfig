@@ -23,7 +23,7 @@ export PATH="$EWCONFIG_ROOT/scripts:$EWCONFIG_ROOT/rust-bin:$HOME/bin:$HOME/.loc
 export LD_LIBRARY_PATH="/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH"
 [[ -s "$GOPATH/bin" ]] && export PATH="$GOPATH/bin:$PATH"
 [[ -s "$HOME/.docker/bin" ]] && export PATH="$HOME/.docker/bin"
-[[ -f "$EWCONFIG_ROOT/configs/python/python_startup.py" ]] && export PYTHONSTARTUP="$EWCONFIG_ROOT/configs/python/python_startup.py"
+# [[ -f "$EWCONFIG_ROOT/configs/python/python_startup.py" ]] && export PYTHONSTARTUP="$EWCONFIG_ROOT/configs/python/python_startup.py"
 
 # Display operating system and architecture information
 echo -e "\033[0;32mPlatform:\033[0m $(uname -s) $(uname -r) $(uname -p)"
