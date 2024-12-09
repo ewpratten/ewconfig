@@ -112,9 +112,6 @@ alias genuuid="python -c 'import uuid; print(uuid.uuid4())'"
 alias nvim-tmp="$EDITOR $(mktemp)"
 alias vim-tmp="$EDITOR $(mktemp)"
 
-# If this is macos, alias `mtr` to `sudo mtr` (if mtr exists)
-[[ $(uname -s) == "Darwin" ]] && [[ -x "$(command -v mtr)" ]] && alias mtr="sudo mtr"
-
 # Some aliases only make sense if their parent command exists
 [[ -x "$(command -v wg)" ]] && alias wg-easykeys="wg genkey | tee >(wg pubkey)"
 [[ -x "$(command -v systemd-resolve)" ]] && alias flush-dns="sudo systemd-resolve --flush-caches"
@@ -255,11 +252,19 @@ fi
 # hledger
 export LEDGER_FILE="$HOME/Documents/finances/finances.journal"
 
+# Homebrew needs to be initialized now
+[[ -s "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# If this is macos, alias `mtr` to `sudo mtr` (if mtr exists)
+[[ $(uname -s) == "Darwin"  &&  -x "$(command -v mtr)" ]] && alias mtr="sudo mtr"
+
+# If the Tailscale CLI exists, alias it
+[[ -s "/Applications/Tailscale.app/Contents/MacOS/Tailscale" ]] && alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+
 # Various tools think they need to live here too. I shall appease them..
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
 [[ -s "$HOME/pkg/flutter/bin" ]] && export PATH="$HOME/pkg/flutter/bin:$PATH"
 [[ -s "$HOME/.rye/env" ]] && source "$HOME/.rye/env"
-[[ -s "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
 [[ -s "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 
