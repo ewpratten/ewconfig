@@ -43,3 +43,6 @@ defaults write com.googlecode.iterm2 NeverBlockSystemShutdown -bool true
 
 # Don't write .DS_Store files to network drives
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
+
+# Disable Press&Hold for keys
+defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
