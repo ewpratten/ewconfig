@@ -38,6 +38,8 @@ mkdir -p ~/.config/gqrx
 mkdir -p ~/.config/pip
 mkdir -p ~/.cargo
 mkdir -p ~/.ssh
+mkdir -p ~/.proxmark3
+mkdir -p ~/.vim
 
 # Mac-specific dirs
 if [ "$(uname)" == "Darwin" ]; then
@@ -67,8 +69,11 @@ touch ~/.ssh/config.local
 chmod 644 "$HOME/.ssh/config"
 if type -p chown > /dev/null; then chown $(id -u) "$HOME/.ssh/config"; fi 
 
-# Configure (neo)Vim
+# Configure vim
 ln -sf $EWCONFIG_ROOT/configs/vim/.vimrc ~/.vimrc
+ln -snf $EWCONFIG_ROOT/configs/vim/pack ~/.vim/pack
+
+# Configure neovim
 ln -sf $EWCONFIG_ROOT/configs/nvim/init.vim ~/.config/nvim/init.vim
 ln -snf $EWCONFIG_ROOT/configs/nvim/pack ~/.config/nvim/pack
 ln -snf $EWCONFIG_ROOT/configs/nvim/third_party ~/.config/nvim/third_party
@@ -90,6 +95,9 @@ ln -sf $EWCONFIG_ROOT/configs/cargo/config.toml ~/.cargo/config.toml
 
 # Termux
 ln -sf $EWCONFIG_ROOT/configs/termux/termux.properties ~/.config/termux/termux.properties
+
+# Proxmark3
+ln -sf $EWCONFIG_ROOT/configs/proxmark3/preferences.json ~/.proxmark3/preferences.json
 
 # Set up user-tempfiles configs
 ln -sf $EWCONFIG_ROOT/configs/user-tmpfiles.d/* ~/.config/user-tmpfiles.d/
