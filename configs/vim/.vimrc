@@ -80,9 +80,6 @@ if !exists('g:vscode')
 endif
 
 
-" Enable Leap
-lua require('leap').add_default_mappings()
-
 " Configure Diff rendering
 hi DiffText         ctermfg=White       ctermbg=none
 hi DiffFile         ctermfg=White       ctermbg=none cterm=bold
