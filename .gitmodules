@@ -33,3 +33,6 @@
 [submodule "configs/nvim/pack/neovim/start/nvim-lspconfig"]
 	path = configs/nvim/pack/neovim/start/nvim-lspconfig
 	url = https://github.com/neovim/nvim-lspconfig
+[submodule "configs/vim/pack/ggandor/start/leap.nvim"]
+	path = configs/vim/pack/ggandor/start/leap.nvim
+	url = https://github.com/ggandor/leap.nvim
