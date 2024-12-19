@@ -70,6 +70,7 @@ chmod 644 "$HOME/.ssh/config"
 if type -p chown > /dev/null; then chown $(id -u) "$HOME/.ssh/config"; fi 
 
 # Configure vim
+mkdir -p $EWCONFIG_ROOT/configs/vim/pack
 ln -sf $EWCONFIG_ROOT/configs/vim/.vimrc ~/.vimrc
 ln -snf $EWCONFIG_ROOT/configs/vim/pack ~/.vim/pack
 
