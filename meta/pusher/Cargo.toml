@@ -1,0 +1,11 @@
+[package]
+name = "ewconfig-pusher"
+publish = false
+edition = "2021"
+
+[dependencies]
+ewconfig-meta-common = { path = "../common" }
+serde = { version = "^1.0", features = ["derive"] }
+
+[[bin]]
+name = "ewconfig-pusher"

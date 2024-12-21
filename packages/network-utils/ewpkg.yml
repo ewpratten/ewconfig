@@ -1,0 +1,21 @@
+name: Network Utils
+bin:
+  - path: pkg://bin/aspath
+  - path: pkg://bin/dig-authoritative
+  - path: pkg://bin/ifpi
+  - path: pkg://bin/legacy-ssh
+  - path: pkg://bin/localexpose
+  - path: pkg://bin/mtr-graph
+  - path: pkg://bin/tcp-reflect
+  - path: pkg://bin/udp-reflect
+  - path: pkg://bin/watch-ports
+  - path: pkg://bin/wg-cat
+  - path: pkg://bin/wg-edit
+  - path: pkg://bin/wg-genzone
+  - path: pkg://bin/wg-get-client-ip
+  - path: pkg://bin/wg-handshakes
+  - path: pkg://bin/wg-list-interfaces
+  - path: pkg://bin/wg-peer-to-ipv6
+  - path: pkg://bin/wg-reload
+  - path: pkg://bin/wg-restart
+  - path: pkg://bin/whois-util

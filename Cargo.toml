@@ -1,0 +1,8 @@
+[workspace]
+resolver = "2"
+members = ["./meta/agent", "./meta/common", "./meta/pusher"]
+
+[profile.release]
+strip = true
+lto = true
+opt-level = "s"

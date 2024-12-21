@@ -1,0 +1,10 @@
+name: "Evan's Laptop"
+keys:
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFxw4Tk29wqUIqR8YrESeqrlCZ2cZoiKt5OVBv6zGqQI
+
+selector:
+  os: macos
+  serial: 
+
+packages:
+  - network-utils

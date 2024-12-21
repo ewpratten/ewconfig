@@ -1,0 +1,4 @@
+name: 1Password Extras
+bin:
+  - path: pkg://bin/1p-bridge
+    os: [linux, macos]

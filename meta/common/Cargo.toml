@@ -1,0 +1,9 @@
+[package]
+name = "ewconfig-meta-common"
+publish = false
+edition = "2021"
+
+[dependencies]
+age = { version = "0.11.1", features = ["ssh"] }
+serde = { version = "^1.0", features = ["derive"] }
+serde_json = "^1.0"
