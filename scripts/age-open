@@ -1,0 +1,18 @@
+#! /bin/bash
+set -e
+
+# Require an AGE-encrypted file
+if [ $# != 1 ]; then
+    echo "Usage: $(basename $0) <file>"
+    exit 1
+fi
+
+# Decrypt the file to temp
+age -d "$1" > /tmp/$(echo "$1" | sed 's/\.age$//')
+
+# Open the decrypted file
+open /tmp/$(echo "$1" | sed 's/\.age$//') &
+
+# Remove the decrypted file
+sleep 10
+rm /tmp/$(echo "$1" | sed 's/\.age$//')

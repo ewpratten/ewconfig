@@ -1,0 +1,10 @@
+#! /bin/bash
+set -e
+
+# Require an output path and a URL
+if [ $# != 2 ]; then
+    echo "Usage: $(basename $0) <output> <url>"
+    exit 1
+fi
+
+age -p <(curl -sSL "$2") > "$1"

@@ -79,6 +79,7 @@ if !exists('g:vscode')
     autocmd FileType usda setlocal nospell
 endif
 
+
 " Configure Diff rendering
 hi DiffText         ctermfg=White       ctermbg=none
 hi DiffFile         ctermfg=White       ctermbg=none cterm=bold

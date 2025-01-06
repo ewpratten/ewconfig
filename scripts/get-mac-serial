@@ -1,0 +1,4 @@
+#! /bin/bash
+set -e
+
+ioreg -l | grep IOPlatformSerialNumber | grep -oE '"([^"]+)"$' | tr -d '"'

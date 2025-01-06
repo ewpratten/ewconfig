@@ -111,9 +111,9 @@ alias snvim="sudoedit"
 alias genuuid="python -c 'import uuid; print(uuid.uuid4())'"
 alias nvim-tmp="$EDITOR $(mktemp)"
 alias vim-tmp="$EDITOR $(mktemp)"
+alias wg-easykeys="wg genkey | tee >(wg pubkey)"
 
 # Some aliases only make sense if their parent command exists
-[[ -x "$(command -v wg)" ]] && alias wg-easykeys="wg genkey | tee >(wg pubkey)"
 [[ -x "$(command -v systemd-resolve)" ]] && alias flush-dns="sudo systemd-resolve --flush-caches"
 [[ -x "$(command -v ykman)" ]] && alias yk-totp="ykman oath accounts code"
 [[ -x "$(command -v ufw)" ]] && alias ufw-status="sudo ufw status numbered"
