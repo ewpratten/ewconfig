@@ -1,3 +1,4 @@
 requests
 spotipy
 git+https://github.com/1Password/onepassword-sdk-python.git@2a3c1eb82a6e0d7fbfa32f29dc0fe344f18a054a
+requests_jwt

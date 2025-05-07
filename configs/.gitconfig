@@ -48,6 +48,7 @@
 
 	# Un-fuck a branch that had a bit too much tinkering
     fix-recreated-branch = reset --hard @{u}
+	undo-amend = ! git reset --soft HEAD@{1} && git commit -C HEAD@{1}
 
 	# For working with dates
 	author-date = log -1 --pretty="%aD" 
